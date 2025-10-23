@@ -1,59 +1,287 @@
-# ReactiveForms
+# תרגיל: מערכת ניהול ספרייה - טפסים ריאקטיביים ב-Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+## תיאור כללי
 
-## Development server
+תרגיל זה נועד לבחון את הידע שלך בנושא Reactive Forms ב-Angular באמצעות בניית מערכת לניהול ספרייה. זהו תרגיל ברמת ביניים שמכסה את המושגים המרכזיים של טפסים ריאקטיביים, כולל FormControl, FormGroup, FormArray, ולידציה.
 
-To start a local development server, run:
+**תרחיש:** אתם בונים מערכת לספרייה ציבורית שמאפשרת להוסיף ספרים חדשים למערכת. כל ספר מכיל פרטים בסיסיים, מידע על המו"ל, ורשימה דינמית של מחברים.
 
-```bash
-ng serve
+**משך זמן משוער:** 2-3 שעות
+**רמת קושי:** בינונית
+
+## מטרות הלמידה
+
+בסיום התרגיל תוכיח/י שאת/ה יודע/ת:
+
+- ✅ ליצור ולנהל טפסים ריאקטיביים ב-Angular
+- ✅ להשתמש ב-FormControl, FormGroup ו-FormArray
+- ✅ להטמיע קבוצות טפסים מקוננות (nested form groups)
+- ✅ ליצור שדות דינמיים שניתן להוסיף ולהסיר
+- ✅ להוסיף ולידציה לשדות הטופס
+- ✅ לעבוד עם FormBuilder service
+- ✅ לחבר בין מודל הטופס לתבנית (template)
+- ✅ לטפל בשליחת טופס (form submission)
+
+## דרישות התרגיל
+
+### חלק א': בניית הטופס הבסיסי
+
+צור/י קומפוננטה בשם `BookFormComponent` שמכילה טופס להוספת ספר חדש לספרייה עם השדות הבאים:
+
+#### 1. פרטי הספר (Book Details)
+- **שם הספר** (title) - שדה טקסט חובה (לפחות 2 תווים)
+- **ISBN** (isbn) - שדה טקסט חובה (בדיוק 13 ספרות)
+- **שנת הוצאה** (publicationYear) - שדה מספר חובה (בין 1800 ל-2025)
+- **מספר עמודים** (pageCount) - שדה מספר חובה (לפחות 1)
+- **ז'אנר** (genre) - רשימה נפתחת (dropdown) חובה עם האפשרויות:
+  - בדיה (Fiction)
+  - עיון (Non-Fiction)
+  - מדע (Science)
+  - היסטוריה (History)
+  - ביוגרפיה (Biography)
+  - ילדים (Children)
+
+#### 2. פרטי המו"ל (Publisher Info) - קבוצה מקוננת
+צור/י FormGroup מקונן בשם `publisher` שמכיל:
+- **שם המו"ל** (name) - שדה טקסט חובה
+- **עיר** (city) - שדה טקסט חובה
+- **מדינה** (country) - שדה טקסט חובה
+
+#### 3. מחברים (Authors) - מערך דינמי
+צור/י FormArray בשם `authors` שמאפשר:
+- הוספת מחברים חדשים באמצעות כפתור "הוסף מחבר/ת"
+- הסרת מחברים קיימים (עם כפתור X ליד כל מחבר)
+- כל מחבר הוא FormGroup שמכיל:
+  - **שם מלא** (fullName) - שדה טקסט חובה
+  - **דוא"ל** (email) - שדה טקסט חובה עם ולידציה לפורמט אימייל תקין
+- הטופס יתחיל עם מחבר אחד ריק
+- חייב להיות לפחות מחבר אחד בספר (לא ניתן למחוק את האחרון)
+
+### חלק ב': תצוגה ואינטראקציה
+
+1. **תצוגת ערכי הטופס:**
+   - הצג/י את כל ערכי הטופס בזמן אמת בפורמט JSON מתחת לטופס
+   - השתמש/י ב-JsonPipe להצגה
+   - הוסף/י כותרת "מידע על הספר (JSON)"
+
+2. **תצוגת סטטוס הטופס:**
+   - הצג/י את סטטוס הטופס (VALID/INVALID)
+   - הצג/י את מספר המחברים הרשומים
+   - הצג/י האם הטופס נגע (touched) או לא
+
+3. **הודעות שגיאה:**
+   - הצג/י הודעות שגיאה מתאימות מתחת לכל שדה שנכשל בולידציה
+   - הצג/י הודעות רק אחרי שהמשתמש נגע בשדה (touched)
+   - דוגמאות להודעות:
+     - "שדה חובה"
+     - "כתובת דוא\"ל לא תקינה"
+     - "ISBN חייב להכיל בדיוק 13 ספרות"
+     - "שנת הוצאה חייבת להיות בין 1800 ל-2025"
+     - "שם הספר חייב להכיל לפחות 2 תווים"
+     - "מספר עמודים חייב להיות לפחות 1"
+
+4. **כפתור שליחה:**
+   - הוסף/י כפתור "הוסף ספר לספרייה"
+   - הכפתור יהיה מושבת כל עוד הטופס לא תקין
+   - בלחיצה על הכפתור, הדפס/י את ערכי הטופס ל-console עם הודעה "ספר חדש נוסף לספרייה:"
+   - אחרי שליחה, אפס/י את הטופס למצב התחלתי (עם מחבר אחד ריק)
+
+### חלק ג': דרישות טכניות
+
+עליך לעמוד בדרישות הטכניות הבאות:
+
+1. **Standalone Component:**
+   - הקומפוננטה חייבת להיות standalone
+   - אל תגדיר/י `standalone: true` - זה ברירת המחדל
+
+2. **FormBuilder:**
+   - השתמש/י ב-FormBuilder service ליצירת הטופס
+   - השתמש/י בפונקציה `inject()` להזרקת ה-service (לא constructor injection)
+
+3. **Validators:**
+   - השתמש/י ב-Validators מובנים של Angular
+   - ליישם לפחות: `required`, `email`, `minLength`, `min`, `max`
+   - ליצור ולידטור מותאם אישית ל-ISBN (בדיוק 13 ספרות)
+
+4. **Template:**
+   - חבר/י את הטופס לתבנית באמצעות `[formGroup]`
+   - השתמש/י ב-`formControlName` לשדות בודדים
+   - השתמש/י ב-`formGroupName` לקבוצת המו"ל
+   - השתמש/י ב-`formArrayName` למערך המחברים
+   - השתמש/י ב-`@for` (לא `*ngFor`) לרינדור המערך הדינמי
+   - השתמש/י ב-`<select>` עבור בחירת הז'אנר
+
+5. **No RxJS:**
+   - אל תשתמש/י ב-RxJS בתרגיל זה
+   - השתמש/י בגישה סינכרונית (`.value`, `.valid`, `.touched` וכו')
+
+## קריטריונים לבדיקה
+
+התרגיל שלך יבדק לפי הקריטריונים הבאים:
+
+### תקינות טכנית (40%)
+- ✓ הטופס נוצר באמצעות FormBuilder
+- ✓ שימוש נכון ב-FormGroup, FormControl ו-FormArray
+- ✓ קבוצה מקוננת (publisher) מוטמעת נכון
+- ✓ FormArray (authors) עובד עם הוספה והסרה דינמית
+- ✓ הקומפוננטה standalone וללא NgModule
+- ✓ כל מחבר ב-FormArray הוא FormGroup עם שני שדות
+
+### ולידציה (25%)
+- ✓ כל הולידציות הנדרשות מוטמעות
+- ✓ הודעות שגיאה מוצגות נכון ורק אחרי touch
+- ✓ כפתור השליחה מושבת כשהטופס לא תקין
+- ✓ ולידציה מותאמת אישית ל-ISBN (13 ספרות)
+- ✓ לא ניתן למחוק את המחבר האחרון
+- ✓ ולידציית אימייל עובדת עבור כל מחבר
+
+### חיבור Template-Model (20%)
+- ✓ כל השדות מחוברים נכון לטופס
+- ✓ שימוש נכון ב-formControlName, formGroupName, formArrayName
+- ✓ תצוגת ערכים בזמן אמת עובדת
+- ✓ שימוש ב-`@for` במקום `*ngFor`
+- ✓ רשימת הז'אנרים מוצגת ב-dropdown
+
+### פונקציונליות (15%)
+- ✓ ניתן להוסיף ולהסיר מחברים
+- ✓ שליחת הטופס מדפיסה את הערכים עם הודעה מתאימה
+- ✓ איפוס הטופס אחרי שליחה (עם מחבר אחד ריק)
+- ✓ מונה המחברים מוצג נכון
+
+## משימות בונוס (אופציונלי)
+
+רוצה אתגר נוסף? נסה/י ליישם:
+
+### בונוס 1: תיאור הספר (Description Field)
+הוסף/י שדה `description` (תיאור הספר):
+- שדה textarea (לא חובה)
+- מקסימום 500 תווים
+- הצג/י מונה תווים "X/500" מתחת לשדה
+
+### בונוס 2: עדכון חלקי של הטופס - "מלא דוגמה"
+הוסף/י כפתור "מלא דוגמה" שממלא את הטופס בספר לדוגמה באמצעות `patchValue()`:
+- כותרת: "הארי פוטר ואבן החכמים"
+- ISBN: "9780439708180"
+- שנה: 1997
+- ז'אנר: Children
+- מו"ל: Bloomsbury Publishing, לונדון, בריטניה
+- 2 מחברים: J.K. Rowling ומחבר נוסף לבחירתך
+
+### בונוס 3: סטיילינג מקצועי
+הוסף/י סטיילינג לטופס:
+- שדות עם שגיאות יסומנו בגבול אדום
+- שדות תקינים שנגעו בהם יסומנו בגבול ירוק
+- הודעות שגיאה בצבע אדום עם אייקון ⚠️
+- עיצוב כרטיסיות (cards) למחברים
+- כפתור "הוסף מחבר" בצבע ירוק
+- כפתור "הסר" בצבע אדום
+- עיצוב מקצועי ונקי בסגנון material design
+
+### בונוס 4: Getters לגישה נוחה
+צור/י getters לגישה נוחה לשדות הטופס:
+```typescript
+get title() { return this.bookForm.get('title'); }
+get authors() { return this.bookForm.get('authors') as FormArray; }
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### בונוס 5: ספירת מילים בכותרת
+הוסף/י אינדיקטור שמציג את מספר המילים בכותרת הספר בזמן אמת
+- "מספר מילים: X"
+- התראה אם הכותרת ארוכה מדי (יותר מ-10 מילים)
 
-## Code scaffolding
+### בונוס 6: רשימת ספרים
+צור/י רשימה שמציגה את כל הספרים שנוספו:
+- לאחר שליחת טופס, הוסף/י את הספר למערך
+- הצג/י את הרשימה מתחת לטופס
+- כל ספר יוצג עם כותרת, מחברים וז'אנר
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## הגשה
 
-```bash
-ng generate component component-name
+1. **הרצת הפרויקט:**
+   ```bash
+   ng serve
+   ```
+   האפליקציה צריכה לרוץ בכתובת: `http://localhost:4200/`
+
+2. **בדיקה עצמית:**
+   - ✅ ודא/י שהטופס מוצג נכון עם כל השדות
+   - ✅ בדוק/י שכל הולידציות עובדות (נסה/י להשאיר שדות ריקים, להזין ISBN לא תקין, וכו')
+   - ✅ נסה/י להוסיף ולהסיר מחברים
+   - ✅ ודא/י שלא ניתן למחוק את המחבר האחרון
+   - ✅ שלח/י טופס תקין וודא/י שהוא מודפס ל-console עם ההודעה הנכונה
+   - ✅ ודא/י שהטופס מתאפס אחרי שליחה
+   - ✅ בדוק/י שכפתור "הוסף ספר" מושבת כשהטופס לא תקין
+
+3. **איכות קוד:**
+   - ✅ ודא/י שהקוד נקי וקריא
+   - ✅ הוסף/י הערות במידת הצורך
+   - ✅ עקוב/י אחר השיטות המומלצות של Angular
+   - ✅ השתמש/י בשמות משתנים משמעותיים
+   - ✅ הימנע/י מקוד כפול (DRY - Don't Repeat Yourself)
+
+## דוגמה לפלט צפוי
+
+כשהטופס שלך יעבוד נכון, בלחיצה על "הוסף ספר לספרייה" תראה/י ב-console:
+
+```
+ספר חדש נוסף לספרייה:
+{
+  title: "1984",
+  isbn: "9780451524935",
+  publicationYear: 1949,
+  pageCount: 328,
+  genre: "Fiction",
+  publisher: {
+    name: "Secker & Warburg",
+    city: "London",
+    country: "United Kingdom"
+  },
+  authors: [
+    {
+      fullName: "George Orwell",
+      email: "george@orwell.com"
+    }
+  ]
+}
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## משאבים
 
+### תיעוד Angular
+- 📘 [תיעוד Angular Reactive Forms](https://angular.dev/guide/forms/reactive-forms)
+- 📘 [Angular CLI Documentation](https://angular.dev/tools/cli)
+- 📘 [FormBuilder API](https://angular.dev/api/forms/FormBuilder)
+- 📘 [Validators API](https://angular.dev/api/forms/Validators)
+- 📘 [FormArray API](https://angular.dev/api/forms/FormArray)
+- 📘 [FormGroup API](https://angular.dev/api/forms/FormGroup)
+
+### טיפים שימושיים
+- 💡 השתמש/י ב-`console.log()` כדי לבדוק את מבנה הטופס בזמן פיתוח
+- 💡 השתמש/י ב-Angular DevTools (Chrome Extension) לדיבאג
+- 💡 תתחיל/י משדות פשוטים ואז תוסיף/י את הפיצ'רים המורכבים
+- 💡 בדוק/י את התיעוד הרשמי אם נתקעת
+
+---
+
+## הערות חשובות
+
+⚠️ **שימו לב:**
+- זה תרגיל אישי - נסו לפתור בעצמכם לפני שאתם מחפשים פתרונות באינטרנט
+- אם נתקעתם, חזרו על החומר התיאורטי של Reactive Forms
+- התרגיל מתאים לסטודנטים שכבר למדו את היסודות של Angular ו-Reactive Forms
+
+🎯 **מטרת התרגיל:**
+התרגיל מדמה מצב אמיתי של פיתוח טפסים מורכבים באפליקציות Angular. ספריות, חנויות מקוונות, מערכות ניהול - כולן משתמשות בטפסים דומים.
+
+---
+
+**בהצלחה! 📚🚀**
+
+### התחלה מהירה
+
+מוכנים להתחיל? צרו את הקומפוננטה הראשונה שלכם:
 ```bash
-ng generate --help
+ng generate component book-form
 ```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+אחר כך, אל תשכחו לייבא את `ReactiveFormsModule` בקומפוננטה שלכם!
