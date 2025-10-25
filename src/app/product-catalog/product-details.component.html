@@ -1,0 +1,60 @@
+<div class="product-details-container">
+  <div class="details-header">
+    <h2>{{ productName() }}</h2>
+    <span class="badge">✓ נטען בהצלחה! (Viewport Trigger)</span>
+  </div>
+
+  <!-- Full Description -->
+  <div class="description-section">
+    <h3>תיאור מלא</h3>
+    <p>{{ fullDescription() }}</p>
+  </div>
+
+  <!-- Image Gallery -->
+  <div class="gallery-section">
+    <h3>גלריית תמונות</h3>
+    <div class="image-gallery">
+      @for (image of images(); track $index) {
+        <div class="gallery-item">
+          <img [src]="image" [alt]="'תמונה ' + ($index + 1)">
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Technical Specifications -->
+  <div class="specifications-section">
+    <h3>מפרט טכני</h3>
+    <div class="specs-grid">
+      @for (spec of specifications(); track spec.name) {
+        <div class="spec-item">
+          <span class="spec-name">{{ spec.name }}</span>
+          <span class="spec-value">{{ spec.value }}</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Price Breakdown -->
+  <div class="price-section">
+    <h3>פירוט מחיר</h3>
+    <div class="price-breakdown">
+      @for (item of priceBreakdown(); track item.item) {
+        <div class="price-item">
+          <span class="price-label">{{ item.item }}</span>
+          <span class="price-amount">
+            @if (item.amount > 0) {
+              ₪{{ item.amount }}
+            } @else {
+              כלול במחיר
+            }
+          </span>
+        </div>
+      }
+      <div class="price-total">
+        <span class="price-label">סה"כ לתשלום</span>
+        <span class="price-amount">₪{{ totalPrice() }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+@if (isVisible()) {
+  <div class="banner-container">
+    <button class="close-btn" (click)="closeBanner()">✕</button>
+
+    <div class="banner-content">
+      <div class="banner-icon">🎉</div>
+      <h3>מבצע מיוחד!</h3>
+      <p class="banner-message">קבל/י {{ discountPercent() }}% הנחה על כל המוצרים</p>
+      <div class="coupon-code">
+        <span class="coupon-label">קוד קופון:</span>
+        <span class="coupon-value">{{ couponCode() }}</span>
+      </div>
+      <p class="badge-info">✓ נטען אוטומטית! (Timer Trigger - 3s)</p>
+    </div>
+  </div>
+}

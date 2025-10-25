@@ -1,0 +1,57 @@
+<div class="analytics-container">
+  <div class="analytics-header">
+    <h2>סטטיסטיקות מוצר</h2>
+    <span class="badge">✓ נטען עם תנאי! (Custom When Trigger)</span>
+  </div>
+
+  <!-- Key Metrics -->
+  <div class="metrics-grid">
+    <div class="metric-card views">
+      <div class="metric-icon">👁️</div>
+      <div class="metric-value">{{ views().toLocaleString() }}</div>
+      <div class="metric-label">צפיות</div>
+    </div>
+
+    <div class="metric-card purchases">
+      <div class="metric-icon">🛒</div>
+      <div class="metric-value">{{ purchases().toLocaleString() }}</div>
+      <div class="metric-label">רכישות</div>
+    </div>
+
+    <div class="metric-card conversion">
+      <div class="metric-icon">📈</div>
+      <div class="metric-value">{{ conversionRate() }}%</div>
+      <div class="metric-label">המרה</div>
+    </div>
+
+    <div class="metric-card stock">
+      <div class="metric-icon">📦</div>
+      <div class="metric-value">{{ stockLevel() }}</div>
+      <div class="metric-label">יחידות במלאי</div>
+    </div>
+  </div>
+
+  <!-- Monthly Sales Chart -->
+  <div class="chart-section">
+    <h3>מכירות חודשיות (6 חודשים אחרונים)</h3>
+    <div class="chart-container">
+      @for (data of monthlyData(); track data.label) {
+        <div class="chart-bar">
+          <div
+            class="bar-fill"
+            [style.height.%]="getBarHeight(data.value)"
+            [style.background]="data.color"
+          >
+            <span class="bar-value">{{ data.value }}</span>
+          </div>
+          <div class="bar-label">{{ data.label }}</div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Additional Info -->
+  <div class="info-panel">
+    <p><strong>💡 שימו לב:</strong> נתונים אלו זמינים רק למנהלים והקוד הורד מראש (prefetch when userIsAdmin)</p>
+  </div>
+</div>

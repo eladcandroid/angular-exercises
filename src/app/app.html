@@ -1,1 +1,7 @@
-<app-book-form />
+<nav class="main-nav">
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">טפסים ריאקטיביים</a>
+  <a routerLink="/products" routerLinkActive="active">קטלוג מוצרים (טעינה נדחית)</a>
+  <a routerLink="/bonus" routerLinkActive="active">משימות בונוס</a>
+</nav>
+
+<router-outlet />

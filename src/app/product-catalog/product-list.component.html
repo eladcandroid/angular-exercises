@@ -1,0 +1,145 @@
+<div class="container">
+  <h1>קטלוג מוצרים - הדגמת טעינה נדחית</h1>
+
+  <p class="intro">
+    דף זה מדגים את כל סוגי הטריגרים של טעינה נדחית: viewport, interaction, hover, timer, ו-when מותאם אישית.
+    גלול למטה כדי לראות את הקומפוננטות נטענות בהדרגה!
+  </p>
+
+  <!-- Product Grid -->
+  <div class="products-grid">
+    @for (product of products(); track product.id) {
+      <div class="product-card">
+        <img [src]="product.image" [alt]="product.name">
+        <h3>{{ product.name }}</h3>
+        <p class="price">₪{{ product.price }}</p>
+        <p class="description">{{ product.description }}</p>
+        @if (!product.inStock) {
+          <span class="out-of-stock">אזל מהמלאי</span>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Section 1: Product Details - Viewport Trigger -->
+  <section class="defer-section viewport-section">
+    <h2 class="section-title">1. פרטי מוצר מורחבים (Viewport Trigger)</h2>
+    <p class="section-description">הקומפוננטה תיטען כשתגלול והיא תיכנס לאזור הנראה</p>
+
+    @defer (on viewport) {
+      <app-product-details />
+    } @placeholder (minimum 500ms) {
+      <div class="placeholder-box">
+        <div class="placeholder-icon">👇</div>
+        <p>גלול/י למטה כדי לטעון את פרטי המוצר המלאים...</p>
+        <div class="skeleton-loader"></div>
+      </div>
+    } @loading (after 100ms; minimum 1000ms) {
+      <div class="loading-box">
+        <div class="spinner"></div>
+        <p>טוען פרטי מוצר...</p>
+      </div>
+    } @error {
+      <div class="error-box">
+        <p>⚠️ שגיאה בטעינת פרטי המוצר</p>
+      </div>
+    }
+  </section>
+
+  <!-- Section 2: Product Reviews - Interaction Trigger with Idle Prefetch -->
+  <section class="defer-section interaction-section">
+    <h2 class="section-title">2. ביקורות לקוחות (Interaction Trigger + Idle Prefetch)</h2>
+    <p class="section-description">לחץ/י על הכפתור כדי לטעון ביקורות (הקוד מורד מראש במצב idle)</p>
+
+    @defer (on interaction; prefetch on idle) {
+      <app-product-reviews />
+    } @placeholder {
+      <div class="placeholder-button-box">
+        <button class="show-reviews-btn">
+          ⭐ הצג/י 47 ביקורות לקוחות
+        </button>
+        <p class="hint">לחץ/י כדי לראות את הביקורות</p>
+      </div>
+    } @loading (minimum 800ms) {
+      <div class="loading-box">
+        <div class="spinner"></div>
+        <p>טוען ביקורות...</p>
+      </div>
+    }
+  </section>
+
+  <!-- Section 3: Related Products - Hover Trigger with Viewport Prefetch -->
+  <section class="defer-section hover-section">
+    <h2 class="section-title">3. מוצרים קשורים (Hover Trigger + Viewport Prefetch)</h2>
+    <p class="section-description">העבר/י את העכבר מעל האזור כדי לטעון מוצרים קשורים</p>
+
+    <div class="hover-area">
+      @defer (on hover; prefetch on viewport) {
+        <app-related-products [category]="products()[0].category" />
+      } @placeholder {
+        <div class="placeholder-hover">
+          <div class="hover-icon">🖱️</div>
+          <p>העבר/י את העכבר כאן כדי לראות מוצרים קשורים</p>
+        </div>
+      } @loading (after 200ms; minimum 600ms) {
+        <div class="loading-box">
+          <div class="spinner"></div>
+          <p>טוען מוצרים קשורים...</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Section 4: Product Analytics - Custom When Trigger -->
+  <section class="defer-section analytics-section">
+    <h2 class="section-title">4. סטטיסטיקות מוצר (Custom When Trigger)</h2>
+    <p class="section-description">אנליטיקס נטענת לפי תנאי מותאם אישית (רק למנהלים)</p>
+
+    @defer (when showAnalytics(); prefetch when userIsAdmin()) {
+      <app-product-analytics />
+    } @placeholder {
+      <div class="placeholder-button-box">
+        <button class="analytics-btn" (click)="toggleAnalytics()">
+          📊 הצג/י נתונים סטטיסטיים
+        </button>
+        @if (userIsAdmin()) {
+          <p class="admin-badge">🔐 מנהל - הקוד מורד מראש</p>
+        }
+      </div>
+    } @loading (after 500ms; minimum 1000ms) {
+      <div class="loading-box">
+        <div class="spinner"></div>
+        <p>טוען נתונים סטטיסטיים...</p>
+      </div>
+    }
+  </section>
+
+  <!-- Section 5: Promotional Banner - Timer Trigger -->
+  <section class="defer-section timer-section">
+    <h2 class="section-title">5. באנר פרסומי (Timer Trigger)</h2>
+    <p class="section-description">הבאנר מופיע אוטומטית אחרי 3 שניות</p>
+
+    <div class="timer-container">
+      @defer (on timer(3s)) {
+        <app-promotional-banner />
+      } @loading (minimum 500ms) {
+        <div class="loading-box small">
+          <div class="spinner small"></div>
+          <p>טוען באנר...</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Info Section -->
+  <section class="info-section">
+    <h2>💡 טיפים לבדיקה</h2>
+    <ul>
+      <li>פתח/י את DevTools → Network tab כדי לראות שה-bundles נטענים בנפרד</li>
+      <li>שים/י לב ש-placeholder נשאר גלוי לפחות את הזמן המינימלי (מונע flickering)</li>
+      <li>loading מופיע רק אחרי השהייה מסוימת</li>
+      <li>prefetch מוריד קוד מראש בלי להציג את הקומפוננטה</li>
+      <li>הרץ/י <code>ng build</code> כדי לראות את ה-bundles הנפרדים</li>
+    </ul>
+  </section>
+</div>
