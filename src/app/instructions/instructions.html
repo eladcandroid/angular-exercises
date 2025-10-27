@@ -1,0 +1,172 @@
+<div class="instructions-container">
+  <div class="header">
+    <h1>📚 תרגיל: מערכת ניהול ספרייה - טפסים ריאקטיביים ב-Angular</h1>
+  </div>
+
+  <div class="readme-content">
+    <section class="section">
+      <h2>תיאור כללי</h2>
+      <p>תרגיל זה נועד לבחון את הידע שלך בנושא Reactive Forms ב-Angular באמצעות בניית מערכת לניהול ספרייה. זהו תרגיל ברמת ביניים שמכסה את המושגים המרכזיים של טפסים ריאקטיביים, כולל FormControl, FormGroup, FormArray, ולידציה.</p>
+
+      <p><strong>תרחיש:</strong> אתם בונים מערכת לספרייה ציבורית שמאפשרת להוסיף ספרים חדשים למערכת. כל ספר מכיל פרטים בסיסיים, מידע על המו"ל, ורשימה דינמית של מחברים.</p>
+
+      <div class="meta-info">
+        <span class="badge">⏱️ משך זמן משוער: 2-3 שעות</span>
+        <span class="badge">📊 רמת קושי: בינונית</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🎯 מטרות הלמידה</h2>
+      <p>בסיום התרגיל תוכיח/י שאת/ה יודע/ת:</p>
+      <ul class="checklist">
+        <li>✅ ליצור ולנהל טפסים ריאקטיביים ב-Angular</li>
+        <li>✅ להשתמש ב-FormControl, FormGroup ו-FormArray</li>
+        <li>✅ להטמיע קבוצות טפסים מקוננות (nested form groups)</li>
+        <li>✅ ליצור שדות דינמיים שניתן להוסיף ולהסיר</li>
+        <li>✅ להוסיף ולידציה לשדות הטופס</li>
+        <li>✅ לעבוד עם FormBuilder service</li>
+        <li>✅ לחבר בין מודל הטופס לתבנית (template)</li>
+        <li>✅ לטפל בשליחת טופס (form submission)</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>📋 דרישות התרגיל</h2>
+
+      <h3>חלק א': בניית הטופס הבסיסי</h3>
+
+      <div class="subsection">
+        <h4>1. פרטי הספר (Book Details)</h4>
+        <ul>
+          <li><strong>שם הספר</strong> (title) - שדה טקסט חובה (לפחות 2 תווים)</li>
+          <li><strong>ISBN</strong> (isbn) - שדה טקסט חובה (בדיוק 13 ספרות)</li>
+          <li><strong>שנת הוצאה</strong> (publicationYear) - שדה מספר חובה (בין 1800 ל-2025)</li>
+          <li><strong>מספר עמודים</strong> (pageCount) - שדה מספר חובה (לפחות 1)</li>
+          <li><strong>ז'אנר</strong> (genre) - רשימה נפתחת (dropdown) חובה עם האפשרויות:
+            <ul>
+              <li>בדיה (Fiction)</li>
+              <li>עיון (Non-Fiction)</li>
+              <li>מדע (Science)</li>
+              <li>היסטוריה (History)</li>
+              <li>ביוגרפיה (Biography)</li>
+              <li>ילדים (Children)</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h4>2. פרטי המו"ל (Publisher Info) - קבוצה מקוננת</h4>
+        <p>צור/י FormGroup מקונן בשם <code>publisher</code> שמכיל:</p>
+        <ul>
+          <li><strong>שם המו"ל</strong> (name) - שדה טקסט חובה</li>
+          <li><strong>עיר</strong> (city) - שדה טקסט חובה</li>
+          <li><strong>מדינה</strong> (country) - שדה טקסט חובה</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h4>3. מחברים (Authors) - מערך דינמי</h4>
+        <p>צור/י FormArray בשם <code>authors</code> שמאפשר:</p>
+        <ul>
+          <li>הוספת מחברים חדשים באמצעות כפתור "הוסף מחבר/ת"</li>
+          <li>הסרת מחברים קיימים (עם כפתור X ליד כל מחבר)</li>
+          <li>כל מחבר הוא FormGroup שמכיל:
+            <ul>
+              <li><strong>שם מלא</strong> (fullName) - שדה טקסט חובה</li>
+              <li><strong>דוא"ל</strong> (email) - שדה טקסט חובה עם ולידציה לפורמט אימייל תקין</li>
+            </ul>
+          </li>
+          <li>הטופס יתחיל עם מחבר אחד ריק</li>
+          <li>חייב להיות לפחות מחבר אחד בספר (לא ניתן למחוק את האחרון)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section bonus-section">
+      <h2>🎁 משימות בונוס (אופציונלי)</h2>
+
+      <div class="bonus-item">
+        <h3>בונוס 1: תיאור הספר (Description Field)</h3>
+        <p>הוסף/י שדה <code>description</code> (תיאור הספר):</p>
+        <ul>
+          <li>שדה textarea (לא חובה)</li>
+          <li>מקסימום 500 תווים</li>
+          <li>הצג/י מונה תווים "X/500" מתחת לשדה</li>
+        </ul>
+      </div>
+
+      <div class="bonus-item">
+        <h3>בונוס 2: עדכון חלקי של הטופס - "מלא דוגמה"</h3>
+        <p>הוסף/י כפתור "מלא דוגמה" שממלא את הטופס בספר לדוגמה באמצעות <code>patchValue()</code></p>
+      </div>
+
+      <div class="bonus-item">
+        <h3>בונוס 3: סטיילינג מקצועי</h3>
+        <p>הוסף/י סטיילינג לטופס:</p>
+        <ul>
+          <li>שדות עם שגיאות יסומנו בגבול אדום</li>
+          <li>שדות תקינים שנגעו בהם יסומנו בגבול ירוק</li>
+          <li>הודעות שגיאה בצבע אדום עם אייקון ⚠️</li>
+          <li>עיצוב כרטיסיות (cards) למחברים</li>
+        </ul>
+      </div>
+
+      <div class="bonus-item highlight">
+        <h3>בונוס 7: ולידטור אסינכרוני - בדיקת ISBN כפול ⭐</h3>
+        <p>הוסף/י ולידטור אסינכרוני שבודק האם ה-ISBN כבר קיים במערכת הספרייה:</p>
+
+        <h4>דרישות הפונקציונליות:</h4>
+        <ul>
+          <li>צור/י async validator בשם <code>isbnExistsValidator()</code></li>
+          <li>סמלל השהיה של 1-2 שניות (כמו קריאת API אמיתית)</li>
+          <li>בדוק מול רשימה של ISBNs קיימים במערכת</li>
+          <li>החזר שגיאה <code>&#123; isbnExists: true &#125;</code> אם ה-ISBN כבר קיים</li>
+        </ul>
+
+        <h4>דרישות תצוגה:</h4>
+        <ul>
+          <li>🔍 אינדיקטור טעינה בזמן הבדיקה</li>
+          <li>⚠️ הודעת שגיאה אם ה-ISBN קיים</li>
+          <li>✓ אינדיקטור הצלחה אם ה-ISBN זמין</li>
+          <li>כפתור השליחה מושבת גם במצב <code>pending</code></li>
+        </ul>
+
+        <div class="info-box">
+          <strong>💡 מה לומדים:</strong>
+          <ul>
+            <li>יצירת ולידטורים אסינכרוניים מותאמים אישית</li>
+            <li>הבנת ההבדל בין ולידציה סינכרונית לאסינכרונית</li>
+            <li>עבודה עם מצב <code>pending</code> של טופס</li>
+            <li>סימולציית קריאות API</li>
+            <li>מתן משוב ויזואלי למשתמש</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🚀 התחלה מהירה</h2>
+      <div class="code-block">
+        <code>ng generate component book-form</code>
+      </div>
+      <p>אחר כך, אל תשכחו לייבא את <code>ReactiveFormsModule</code> בקומפוננטה שלכם!</p>
+    </section>
+
+    <section class="section">
+      <h2>📚 משאבים</h2>
+      <ul>
+        <li>📘 <a href="https://angular.dev/guide/forms/reactive-forms" target="_blank">תיעוד Angular Reactive Forms</a></li>
+        <li>📘 <a href="https://angular.dev/api/forms/FormBuilder" target="_blank">FormBuilder API</a></li>
+        <li>📘 <a href="https://angular.dev/api/forms/Validators" target="_blank">Validators API</a></li>
+        <li>📘 <a href="https://angular.dev/api/forms/FormArray" target="_blank">FormArray API</a></li>
+      </ul>
+    </section>
+
+    <div class="footer">
+      <p><strong>בהצלחה! 📚🚀</strong></p>
+      <p>התרגיל מדמה מצב אמיתי של פיתוח טפסים מורכבים באפליקציות Angular.</p>
+    </div>
+  </div>
+</div>
