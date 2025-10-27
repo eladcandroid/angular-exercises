@@ -1,0 +1,243 @@
+<div class="instructions-container">
+  <div class="header">
+    <h1>⚡ תרגיל: טעינה נדחית (Deferrable Views) ב-Angular - &commat;defer</h1>
+  </div>
+
+  <div class="readme-content">
+    <section class="section">
+      <h2>תיאור כללי</h2>
+      <p>תרגיל זה נועד לבחון את הידע שלך בנושא Deferrable Views (&commat;defer) ב-Angular - טכניקה מתקדמת לאופטימיזציה של ביצועים. זהו תרגיל ברמת ביניים-מתקדמת שמכסה את כל היכולות של &commat;defer בלוקים.</p>
+
+      <p><strong>תרחיש:</strong> אתם בונים קטלוג מוצרים לחנות מקוונת. חלק מהקומפוננטות כבדות ויש להעלות אותן רק כשהמשתמש צריך אותן, כדי לשפר את ביצועי הטעינה הראשונית.</p>
+
+      <div class="meta-info">
+        <span class="badge">⏱️ משך זמן משוער: 2-3 שעות</span>
+        <span class="badge">📊 רמת קושי: ביניים-מתקדמת</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🎯 מטרות הלמידה</h2>
+      <p>בסיום התרגיל תוכיח/י שאת/ה יודע/ת:</p>
+      <ul class="checklist">
+        <li>✅ להשתמש ב-&commat;defer בלוקים לטעינה נדחית של קומפוננטות</li>
+        <li>✅ לעבוד עם &commat;placeholder, &commat;loading ו-&commat;error בלוקים</li>
+        <li>✅ להשתמש בטריגרים שונים: viewport, interaction, hover, timer, idle</li>
+        <li>✅ ליצור תנאים מותאמים אישית עם when</li>
+        <li>✅ להטמיע אסטרטגיות prefetching</li>
+        <li>✅ להבין את ההבדל בין טעינת קוד להצגת תוכן</li>
+        <li>✅ לשלב &commat;defer עם &commat;if לשליטה מלאה</li>
+        <li>✅ לאפטם את ביצועי האפליקציה</li>
+      </ul>
+    </section>
+
+    <section class="section feature-section">
+      <h2>💡 מה זה &commat;defer?</h2>
+      <p><strong>&commat;defer</strong> היא תחביר תבנית מודרני ב-Angular המאפשר לטעון חלקים מהתבנית רק כשהם נדרשים. במקום לטעון את כל הקוד בבת אחת, Angular יוצר bundle נפרד עבור התוכן הנדחה וטוען אותו רק כשמתקיים תנאי מסוים.</p>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">🚀</div>
+          <h4>הפחתת גודל Bundle</h4>
+          <p>Bundle ראשוני קטן יותר</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">⚡</div>
+          <h4>שיפור TTI</h4>
+          <p>Time to Interactive מהיר יותר</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">📦</div>
+          <h4>טעינה גרנולרית</h4>
+          <p>שליטה ברמת הקומפוננטה</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🎯</div>
+          <h4>שליטה מדויקת</h4>
+          <p>בחר מתי לטעון קוד</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>📋 דרישות התרגיל</h2>
+
+      <h3>חלק א': מבנה הפרויקט</h3>
+      <p>צור/י את הקומפוננטות הבאות (כולן <strong>standalone</strong>):</p>
+
+      <div class="component-card">
+        <h4>1. ProductListComponent (קומפוננטת האב)</h4>
+        <p>זוהי הקומפוננטה הראשית שמציגה רשימת מוצרים.</p>
+        <ul>
+          <li>רשימה של 10 מוצרים (מערך סטטי)</li>
+          <li>כל מוצר מכיל: שם, תמונה, מחיר, תיאור קצר</li>
+          <li>תצוגה בסיסית של כרטיסי מוצרים</li>
+        </ul>
+      </div>
+
+      <div class="component-card defer-card">
+        <h4>2. ProductDetailsComponent</h4>
+        <span class="trigger-badge viewport">viewport</span>
+        <p>קומפוננטה כבדה שמציגה פרטי מוצר מורחבים.</p>
+        <strong>דרישות טעינה נדחית:</strong>
+        <ul>
+          <li>הקומפוננטה תיטען כשהיא נכנסת לאזור הנראה של המסך (viewport)</li>
+          <li>הצג תוכן זמני (placeholder) שיהיה גלוי לפחות חצי שנייה</li>
+          <li>הצג אינדיקטור טעינה רק אם הטעינה אורכת יותר ממאית השנייה</li>
+          <li>טפל במצב של שגיאה בטעינה</li>
+        </ul>
+        <strong>תוכן הקומפוננטה:</strong>
+        <ul>
+          <li>תיאור מלא של המוצר</li>
+          <li>גלריית תמונות (3-5 תמונות)</li>
+          <li>מפרט טכני</li>
+          <li>מחיר מפורט</li>
+        </ul>
+      </div>
+
+      <div class="component-card defer-card">
+        <h4>3. ProductReviewsComponent</h4>
+        <span class="trigger-badge interaction">interaction</span>
+        <p>קומפוננטה שמציגה ביקורות לקוחות.</p>
+        <strong>דרישות טעינה נדחית:</strong>
+        <ul>
+          <li>הקומפוננטה תוצג רק כשהמשתמש מבצע אינטראקציה (לחיצה או הקשה)</li>
+          <li>הורד את קוד הקומפוננטה מראש כשהדפדפן במצב סרק (idle)</li>
+          <li>התוכן הזמני יהיה כפתור שמזמין את המשתמש לצפות בביקורות</li>
+          <li>אינדיקטור הטעינה יהיה גלוי למשך 4/5 שנייה לפחות</li>
+        </ul>
+      </div>
+
+      <div class="component-card defer-card">
+        <h4>4. RelatedProductsComponent</h4>
+        <span class="trigger-badge hover">hover</span>
+        <p>קומפוננטה שמציגה מוצרים קשורים.</p>
+        <strong>דרישות טעינה נדחית:</strong>
+        <ul>
+          <li>הקומפוננטה תוצג כשהמשתמש מעביר את העכבר מעל האזור</li>
+          <li>הורד את הקוד מראש כשהאזור נכנס לחלק הנראה של המסך</li>
+          <li>התוכן הזמני יציג הודעה שמעודדת את המשתמש להעביר עכבר</li>
+          <li>אינדיקטור הטעינה יופיע רק אחרי חמישית שנייה</li>
+        </ul>
+      </div>
+
+      <div class="component-card defer-card">
+        <h4>5. ProductAnalyticsComponent</h4>
+        <span class="trigger-badge custom">when</span>
+        <p>קומפוננטה כבדה עם גרפים וסטטיסטיקות.</p>
+        <strong>דרישות טעינה נדחית:</strong>
+        <ul>
+          <li>הקומפוננטה תיטען בהתאם לתנאי מותאם אישית שתגדיר</li>
+          <li>צור משתנה בוליאני שקובע אם להציג את הניתוחים</li>
+          <li>צור משתנה נוסף שמסמל אם המשתמש הוא מנהל</li>
+          <li>הורד את הקוד מראש רק אם המשתמש הוא מנהל</li>
+          <li>התוכן הזמני יהיה כפתור "הצג נתונים סטטיסטיים"</li>
+        </ul>
+      </div>
+
+      <div class="component-card defer-card">
+        <h4>6. PromotionalBannerComponent</h4>
+        <span class="trigger-badge timer">timer</span>
+        <p>באנר פרסומי שמופיע אחרי זמן מוגדר.</p>
+        <strong>דרישות טעינה נדחית:</strong>
+        <ul>
+          <li>הבאנר יופיע אוטומטית אחרי 3 שניות מטעינת הדף</li>
+          <li>אין צורך בתוכן זמני - הבאנר פשוט יופיע אחרי הזמן הקבוע</li>
+          <li>אינדיקטור הטעינה יהיה גלוי לפחות חצי שנייה</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section bonus-section">
+      <h2>🎁 משימות בונוס (אופציונלי)</h2>
+
+      <div class="bonus-grid">
+        <div class="bonus-card">
+          <h4>בונוס 1: Template Reference Variables</h4>
+          <p>הפעל טעינה נדחית כשאלמנט אחר במסך נכנס לאזור הנראה.</p>
+        </div>
+
+        <div class="bonus-card">
+          <h4>בונוס 2: Multiple Triggers</h4>
+          <p>הצג קומפוננטה כשאחד ממספר אירועים מתרחשים - או העברת עכבר או לחיצה.</p>
+        </div>
+
+        <div class="bonus-card">
+          <h4>בונוס 3: Nested &commat;defer</h4>
+          <p>צור מבנה היררכי של טעינות נדחיות - קומפוננטה שנטענת בהדרגה.</p>
+        </div>
+
+        <div class="bonus-card">
+          <h4>בונוס 4: Performance Monitoring</h4>
+          <p>מדוד כמה זמן לוקח לקומפוננטה להיטען והצג את המידע.</p>
+        </div>
+
+        <div class="bonus-card">
+          <h4>בונוס 5: Conditional Prefetching</h4>
+          <p>הורד קוד מראש רק אם המשתמש מחובר לאינטרנט מהיר.</p>
+        </div>
+
+        <div class="bonus-card">
+          <h4>בונוס 6: Build Analysis</h4>
+          <p>בדוק והדגם שהקוד שלך אכן יוצר bundles נפרדים.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🚀 התחלה מהירה</h2>
+      <div class="code-block">
+        <code>ng generate component product-list --standalone</code><br>
+        <code>ng generate component product-details --standalone</code><br>
+        <code>ng generate component product-reviews --standalone</code><br>
+        <code>ng generate component related-products --standalone</code><br>
+        <code>ng generate component product-analytics --standalone</code><br>
+        <code>ng generate component promotional-banner --standalone</code>
+      </div>
+      <p><strong>זכרו:</strong> הקומפוננטות צריכות להיות standalone!</p>
+    </section>
+
+    <section class="section results-section">
+      <h2>📊 תוצאה צפויה</h2>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="result-number">40-60%</div>
+          <p>הפחתה בגודל Bundle הראשוני</p>
+        </div>
+        <div class="result-card">
+          <div class="result-number">⚡</div>
+          <p>שיפור ב-Time to Interactive</p>
+        </div>
+        <div class="result-card">
+          <div class="result-number">✨</div>
+          <p>חווית משתמש טובה יותר</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>📚 משאבים</h2>
+      <ul>
+        <li>📘 <a href="https://angular.dev/guide/defer" target="_blank">Angular Defer Documentation</a></li>
+        <li>📘 <a href="https://angular.dev/guide/performance" target="_blank">Angular Performance Guide</a></li>
+        <li>📘 <a href="https://angular.dev/guide/lazy-loading-ngmodules" target="_blank">Lazy Loading Modules</a></li>
+      </ul>
+    </section>
+
+    <div class="warning-box">
+      <h3>⚠️ שימו לב:</h3>
+      <ul>
+        <li>&commat;defer עובד רק עם <strong>standalone components</strong></li>
+        <li>&commat;placeholder צריך להיות קל - אל תשתמש/י בו בקומפוננטות כבדות</li>
+        <li>שימוש ב-<code>minimum</code> חשוב למניעת UI flickering</li>
+        <li>&commat;defer לא מסתיר תוכן שכבר הוצג - השתמש/י ב-&commat;if לכך</li>
+        <li>Server-Side Rendering (SSR) מציג רק את ה-&commat;placeholder</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <p><strong>בהצלחה! 🚀⚡</strong></p>
+      <p>התרגיל מדמה מצב אמיתי של אופטימיזציה של אפליקציית e-commerce. חנויות מקוונות, פורטלים, ואפליקציות תוכן - כולן משתמשות ב-lazy loading כדי לשפר ביצועים.</p>
+    </div>
+  </div>
+</div>
