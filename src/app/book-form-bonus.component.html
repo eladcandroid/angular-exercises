@@ -1,0 +1,364 @@
+<div class="container">
+  <h1>📚 מערכת ניהול ספרייה - פתרון בונוס מלא</h1>
+  <p class="subtitle">טופס להוספת ספר חדש עם ולידציה אסינכרונית</p>
+
+  <!-- Bonus 2: Fill Example Button -->
+  <div class="example-button-container">
+    <button type="button" class="btn-example" (click)="fillExample()">
+      ✨ מלא דוגמה
+    </button>
+  </div>
+
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+
+    <!-- Book Details Section -->
+    <section class="form-section">
+      <h2>📖 פרטי הספר</h2>
+
+      <div class="form-group">
+        <label for="title">שם הספר *</label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          [class.is-invalid]="title?.invalid && title?.touched"
+          [class.is-valid]="title?.valid && title?.touched"
+        >
+
+        <!-- Bonus 5: Word count -->
+        @if (title?.value) {
+          <div class="helper-text">
+            מספר מילים: {{ titleWordCount }}
+            @if (titleWordCount > 10) {
+              <span class="warning">⚠️ הכותרת ארוכה מדי</span>
+            }
+          </div>
+        }
+
+        @if (title?.invalid && title?.touched) {
+          <div class="error-message">
+            @if (title?.errors?.['required']) {
+              ⚠️ שדה חובה
+            }
+            @if (title?.errors?.['minlength']) {
+              ⚠️ שם הספר חייב להכיל לפחות 2 תווים
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="isbn">ISBN *</label>
+        <input
+          type="text"
+          id="isbn"
+          formControlName="isbn"
+          placeholder="9781234567890"
+          [class.is-invalid]="isbn?.invalid && isbn?.touched"
+          [class.is-valid]="isbn?.valid && !isbn?.pending && isbn?.touched"
+          [class.is-pending]="isbn?.pending"
+        >
+
+        <!-- Bonus 7: Async validation feedback -->
+        @if (isbn?.pending) {
+          <div class="pending-message">
+            🔍 בודק זמינות ISBN...
+          </div>
+        }
+
+        @if (isbn?.valid && !isbn?.pending && isbn?.touched) {
+          <div class="success-message">
+            ✓ ISBN זמין
+          </div>
+        }
+
+        @if (isbn?.invalid && isbn?.touched && !isbn?.pending) {
+          <div class="error-message">
+            @if (isbn?.errors?.['required']) {
+              ⚠️ שדה חובה
+            }
+            @if (isbn?.errors?.['invalidIsbn']) {
+              ⚠️ ISBN חייב להכיל בדיוק 13 ספרות
+            }
+            @if (isbn?.errors?.['isbnExists']) {
+              ⚠️ ISBN זה כבר קיים במערכת הספרייה
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="publicationYear">שנת הוצאה *</label>
+          <input
+            type="number"
+            id="publicationYear"
+            formControlName="publicationYear"
+            [class.is-invalid]="publicationYear?.invalid && publicationYear?.touched"
+            [class.is-valid]="publicationYear?.valid && publicationYear?.touched"
+          >
+          @if (publicationYear?.invalid && publicationYear?.touched) {
+            <div class="error-message">
+              @if (publicationYear?.errors?.['required']) {
+                ⚠️ שדה חובה
+              }
+              @if (publicationYear?.errors?.['min'] || publicationYear?.errors?.['max']) {
+                ⚠️ שנת הוצאה חייבת להיות בין 1800 ל-2025
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="pageCount">מספר עמודים *</label>
+          <input
+            type="number"
+            id="pageCount"
+            formControlName="pageCount"
+            [class.is-invalid]="pageCount?.invalid && pageCount?.touched"
+            [class.is-valid]="pageCount?.valid && pageCount?.touched"
+          >
+          @if (pageCount?.invalid && pageCount?.touched) {
+            <div class="error-message">
+              @if (pageCount?.errors?.['required']) {
+                ⚠️ שדה חובה
+              }
+              @if (pageCount?.errors?.['min']) {
+                ⚠️ מספר עמודים חייב להיות לפחות 1
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="genre">ז'אנר *</label>
+        <select
+          id="genre"
+          formControlName="genre"
+          [class.is-invalid]="genre?.invalid && genre?.touched"
+          [class.is-valid]="genre?.valid && genre?.touched"
+        >
+          <option value="">בחר/י ז'אנר</option>
+          <option value="Fiction">בדיה</option>
+          <option value="Non-Fiction">עיון</option>
+          <option value="Science">מדע</option>
+          <option value="History">היסטוריה</option>
+          <option value="Biography">ביוגרפיה</option>
+          <option value="Children">ילדים</option>
+        </select>
+        @if (genre?.invalid && genre?.touched) {
+          <div class="error-message">
+            ⚠️ שדה חובה
+          </div>
+        }
+      </div>
+
+      <!-- Bonus 1: Description field -->
+      <div class="form-group">
+        <label for="description">תיאור הספר</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="4"
+          placeholder="תיאור קצר של הספר (אופציונלי)"
+          [class.is-invalid]="description?.invalid && description?.touched"
+          [class.is-valid]="description?.valid && description?.touched && description?.value"
+        ></textarea>
+        <div class="helper-text">
+          {{ descriptionCharCount }}/500 תווים
+        </div>
+        @if (description?.invalid && description?.touched) {
+          <div class="error-message">
+            @if (description?.errors?.['maxlength']) {
+              ⚠️ התיאור יכול להכיל עד 500 תווים בלבד
+            }
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Publisher Section -->
+    <section class="form-section" formGroupName="publisher">
+      <h2>🏢 פרטי המו"ל</h2>
+
+      <div class="form-group">
+        <label for="publisherName">שם המו"ל *</label>
+        <input
+          type="text"
+          id="publisherName"
+          formControlName="name"
+          [class.is-invalid]="publisherName?.invalid && publisherName?.touched"
+          [class.is-valid]="publisherName?.valid && publisherName?.touched"
+        >
+        @if (publisherName?.invalid && publisherName?.touched) {
+          <div class="error-message">⚠️ שדה חובה</div>
+        }
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="publisherCity">עיר *</label>
+          <input
+            type="text"
+            id="publisherCity"
+            formControlName="city"
+            [class.is-invalid]="publisherCity?.invalid && publisherCity?.touched"
+            [class.is-valid]="publisherCity?.valid && publisherCity?.touched"
+          >
+          @if (publisherCity?.invalid && publisherCity?.touched) {
+            <div class="error-message">⚠️ שדה חובה</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="publisherCountry">מדינה *</label>
+          <input
+            type="text"
+            id="publisherCountry"
+            formControlName="country"
+            [class.is-invalid]="publisherCountry?.invalid && publisherCountry?.touched"
+            [class.is-valid]="publisherCountry?.valid && publisherCountry?.touched"
+          >
+          @if (publisherCountry?.invalid && publisherCountry?.touched) {
+            <div class="error-message">⚠️ שדה חובה</div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Authors Section -->
+    <section class="form-section">
+      <h2>✍️ מחברים</h2>
+
+      <div formArrayName="authors">
+        @for (author of authors.controls; track $index) {
+          <div class="author-card" [formGroupName]="$index">
+            <div class="author-header">
+              <h3>מחבר/ת {{ $index + 1 }}</h3>
+              @if (authors.length > 1) {
+                <button
+                  type="button"
+                  class="btn-remove"
+                  (click)="removeAuthor($index)"
+                  title="הסר מחבר/ת"
+                >
+                  ✕
+                </button>
+              }
+            </div>
+
+            <div class="form-group">
+              <label [for]="'authorName' + $index">שם מלא *</label>
+              <input
+                type="text"
+                [id]="'authorName' + $index"
+                formControlName="fullName"
+                [class.is-invalid]="getAuthorControl($index, 'fullName')?.invalid && getAuthorControl($index, 'fullName')?.touched"
+                [class.is-valid]="getAuthorControl($index, 'fullName')?.valid && getAuthorControl($index, 'fullName')?.touched"
+              >
+              @if (getAuthorControl($index, 'fullName')?.invalid && getAuthorControl($index, 'fullName')?.touched) {
+                <div class="error-message">⚠️ שדה חובה</div>
+              }
+            </div>
+
+            <div class="form-group">
+              <label [for]="'authorEmail' + $index">דוא"ל *</label>
+              <input
+                type="email"
+                [id]="'authorEmail' + $index"
+                formControlName="email"
+                [class.is-invalid]="getAuthorControl($index, 'email')?.invalid && getAuthorControl($index, 'email')?.touched"
+                [class.is-valid]="getAuthorControl($index, 'email')?.valid && getAuthorControl($index, 'email')?.touched"
+              >
+              @if (getAuthorControl($index, 'email')?.invalid && getAuthorControl($index, 'email')?.touched) {
+                <div class="error-message">
+                  @if (getAuthorControl($index, 'email')?.errors?.['required']) {
+                    ⚠️ שדה חובה
+                  }
+                  @if (getAuthorControl($index, 'email')?.errors?.['email']) {
+                    ⚠️ כתובת דוא"ל לא תקינה
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <button type="button" class="btn-add" (click)="addAuthor()">
+        ➕ הוסף מחבר/ת
+      </button>
+    </section>
+
+    <!-- Submit Button -->
+    <div class="submit-section">
+      <button
+        type="submit"
+        class="btn-submit"
+        [disabled]="bookForm.invalid || bookForm.pending"
+      >
+        @if (bookForm.pending) {
+          ⏳ מאמת נתונים...
+        } @else {
+          📚 הוסף ספר לספרייה
+        }
+      </button>
+    </div>
+  </form>
+
+  <!-- Form Status Display -->
+  <section class="status-section">
+    <h2>📊 סטטוס הטופס</h2>
+    <div class="status-grid">
+      <div class="status-item">
+        <strong>סטטוס:</strong>
+        <span [class.status-valid]="bookForm.valid" [class.status-invalid]="bookForm.invalid">
+          {{ bookForm.valid ? 'VALID ✓' : 'INVALID ✗' }}
+        </span>
+      </div>
+      <div class="status-item">
+        <strong>מצב:</strong>
+        <span [class.status-pending]="bookForm.pending">
+          {{ bookForm.pending ? 'PENDING ⏳' : 'READY ✓' }}
+        </span>
+      </div>
+      <div class="status-item">
+        <strong>נגוע:</strong>
+        {{ bookForm.touched ? 'כן' : 'לא' }}
+      </div>
+      <div class="status-item">
+        <strong>מספר מחברים:</strong>
+        {{ authors.length }}
+      </div>
+    </div>
+  </section>
+
+  <!-- Form Values Display -->
+  <section class="json-section">
+    <h2>📄 מידע על הספר (JSON)</h2>
+    <pre>{{ bookForm.value | json }}</pre>
+  </section>
+
+  <!-- Bonus 6: Books List -->
+  @if (books.length > 0) {
+    <section class="books-list-section">
+      <h2>📚 ספרים שנוספו ({{ books.length }})</h2>
+      <div class="books-grid">
+        @for (book of books; track $index) {
+          <div class="book-item">
+            <h3>{{ book.title }}</h3>
+            <p class="book-genre">🏷️ {{ book.genre }}</p>
+            <p class="book-authors">
+              <strong>מחברים:</strong>
+              @for (author of book.authors; track $index) {
+                {{ author.fullName }}@if ($index < book.authors.length - 1) {, }
+              }
+            </p>
+            <p class="book-isbn"><strong>ISBN:</strong> {{ book.isbn }}</p>
+          </div>
+        }
+      </div>
+    </section>
+  }
+</div>
