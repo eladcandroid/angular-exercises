@@ -1,13 +1,30 @@
 <nav class="main-nav">
-  <a routerLink="/signals-instructions" routerLinkActive="active">🎯 הוראות Signals</a>
-  <a routerLink="/signals-solution" routerLinkActive="active">פתרון מלא Signals 🎯</a>
-  <a routerLink="/signals-bonus" routerLinkActive="active">בונוס Signals מתקדם 🏆</a>
-  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">טפסים ריאקטיביים</a>
-  <a routerLink="/instructions" routerLinkActive="active">📖 הוראות טפסים</a>
-  <a routerLink="/bonus-solution" routerLinkActive="active">פתרון בונוס מלא 🎯</a>
-  <a routerLink="/products" routerLinkActive="active">קטלוג מוצרים (&commat;defer)</a>
-  <a routerLink="/defer-instructions" routerLinkActive="active">⚡ הוראות &commat;defer</a>
-  <a routerLink="/bonus" routerLinkActive="active">דמו בונוס</a>
+  <div class="nav-group">
+    <span class="group-label">🎯 Angular Signals</span>
+    <div class="group-links">
+      <a routerLink="/signals-instructions" routerLinkActive="active">הוראות</a>
+      <a routerLink="/signals-solution" routerLinkActive="active">הדגמה</a>
+      <a routerLink="/signals-bonus" routerLinkActive="active">בונוס</a>
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <span class="group-label">📝 טפסים ריאקטיביים</span>
+    <div class="group-links">
+      <a routerLink="/instructions" routerLinkActive="active">הוראות</a>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">הדגמה</a>
+      <a routerLink="/bonus-solution" routerLinkActive="active">בונוס</a>
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <span class="group-label">⚡ &commat;defer</span>
+    <div class="group-links">
+      <a routerLink="/defer-instructions" routerLinkActive="active">הוראות</a>
+      <a routerLink="/products" routerLinkActive="active">הדגמה</a>
+      <a routerLink="/bonus" routerLinkActive="active">בונוס</a>
+    </div>
+  </div>
 </nav>
 
 <router-outlet />
