@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { BookFormComponent } from './book-form.component';
-import { BookFormBonusComponent } from './book-form-bonus.component';
-import { ProductListComponent } from './product-catalog/product-list.component';
-import { BonusDemosComponent } from './bonus-demos/bonus-demos.component';
-import { InstructionsComponent } from './instructions/instructions';
-import { DeferInstructionsComponent } from './defer-instructions/defer-instructions';
-import { SignalsInstructionsComponent } from './signals-instructions/signals-instructions';
-import { TodoAppComponent } from './todo-app/todo-app';
-import { TodoAppBonusComponent } from './todo-app-bonus/todo-app-bonus';
+import { BookFormComponent } from './02-reactive-forms/demo/demo.component';
+import { BookFormBonusComponent } from './02-reactive-forms/bonus/bonus.component';
+import { ProductListComponent } from './03-defer/demo/product-catalog/product-list.component';
+import { BonusDemosComponent } from './03-defer/bonus/bonus-demos/bonus-demos.component';
+import { InstructionsComponent } from './02-reactive-forms/instructions/instructions';
+import { DeferInstructionsComponent } from './03-defer/instructions/defer-instructions';
+import { SignalsInstructionsComponent } from './01-signals/instructions/signals-instructions';
+import { TodoAppComponent } from './01-signals/demo/todo-app/todo-app';
+import { TodoAppBonusComponent } from './01-signals/bonus/todo-app-bonus/todo-app-bonus';
 
 export const routes: Routes = [
   {

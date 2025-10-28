@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "reactive-forms": {
+    "angular-exercises": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -58,10 +58,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "reactive-forms:build:production"
+              "buildTarget": "angular-exercises:build:production"
             },
             "development": {
-              "buildTarget": "reactive-forms:build:development"
+              "buildTarget": "angular-exercises:build:development"
             }
           },
           "defaultConfiguration": "development"
