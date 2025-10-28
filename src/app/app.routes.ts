@@ -12,6 +12,10 @@ import { TodoAppBonusComponent } from './01-signals/bonus/todo-app-bonus/todo-ap
 export const routes: Routes = [
   {
     path: '',
+    component: SignalsInstructionsComponent
+  },
+  {
+    path: 'reactive-forms-demo',
     component: BookFormComponent
   },
   {
