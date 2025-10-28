@@ -1,0 +1,121 @@
+<div class="task-form-overlay">
+  <div class="task-form-container">
+    <div class="form-header">
+      <h2>{{ editTask() ? 'Edit Task' : 'New Task' }}</h2>
+      <button
+        type="button"
+        class="btn-close"
+        (click)="onCancel()"
+        aria-label="Close form"
+      >
+        ✕
+      </button>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="task-form">
+      <div class="form-group">
+        <label for="title" class="form-label">
+          Title <span class="required">*</span>
+        </label>
+        <input
+          #titleInput
+          type="text"
+          id="title"
+          class="form-control"
+          [(ngModel)]="title"
+          name="title"
+          placeholder="Enter task title"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          id="description"
+          class="form-control"
+          [(ngModel)]="description"
+          name="description"
+          rows="3"
+          placeholder="Enter task description (optional)"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="category" class="form-label">
+            Category <span class="required">*</span>
+          </label>
+          @if (categories().length > 0) {
+            <select
+              id="category"
+              class="form-control"
+              [(ngModel)]="category"
+              name="category"
+              required
+            >
+              <option value="">Select category</option>
+              @for (cat of categories(); track cat) {
+                <option [value]="cat">{{ cat }}</option>
+              }
+              <option value="__new__">+ New Category</option>
+            </select>
+          } @else {
+            <input
+              type="text"
+              id="category"
+              class="form-control"
+              [(ngModel)]="category"
+              name="category"
+              placeholder="Enter category"
+              required
+            />
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="priority" class="form-label">Priority</label>
+          <select
+            id="priority"
+            class="form-control"
+            [(ngModel)]="priority"
+            name="priority"
+            required
+          >
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dueDate" class="form-label">Due Date</label>
+        <input
+          type="date"
+          id="dueDate"
+          class="form-control"
+          [(ngModel)]="dueDate"
+          name="dueDate"
+        />
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!isValid()"
+        >
+          {{ editTask() ? 'Update Task' : 'Add Task' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

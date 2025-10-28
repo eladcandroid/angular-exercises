@@ -1,0 +1,157 @@
+<div class="todo-app-bonus">
+  <!-- Header -->
+  <header class="app-header">
+    <h1>🏆 TODO מתקדם - כל 8 הבונוסים</h1>
+    <p class="subtitle">מערכת ניהול משימות מתקדמת עם כל תכונות ה-Signals</p>
+    <div class="feature-badges">
+      <span class="badge">Resource API</span>
+      <span class="badge">HTTP Resource</span>
+      <span class="badge">Undo/Redo</span>
+      <span class="badge">Real-time Sync</span>
+      <span class="badge">Optimistic Updates</span>
+      <span class="badge">Drag & Drop</span>
+      <span class="badge">Performance Monitor</span>
+      <span class="badge">Debounced Search</span>
+    </div>
+  </header>
+
+  <!-- Bonus Control Panel -->
+  <app-bonus-control-panel
+    [(useResource)]="useResource"
+    [(useHttpResource)]="useHttpResource"
+    [(enableSync)]="enableSync"
+    [(enableOptimistic)]="enableOptimistic"
+    [(enableDragDrop)]="enableDragDrop"
+    [(showPerformance)]="showPerformance"
+    [dataSource]="dataSource()"
+    [syncState]="syncState()"
+  />
+
+  <!-- Performance Monitor -->
+  @if (showPerformance()) {
+    <app-performance-monitor [metrics]="performanceMetrics()" />
+  }
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <!-- Sync Status -->
+      <app-sync-status [syncState]="syncState()" />
+
+      <!-- Stats -->
+      <app-stats [stats]="stats()" />
+
+      <!-- Undo/Redo Controls -->
+      <div class="undo-redo-section">
+        <h3>היסטוריה</h3>
+        <div class="undo-redo-controls">
+          <button
+            class="btn-undo"
+            [disabled]="!canUndo()"
+            (click)="undo()"
+            title="ביטול"
+          >
+            ↶ ביטול
+          </button>
+          <button
+            class="btn-redo"
+            [disabled]="!canRedo()"
+            (click)="redo()"
+            title="חזרה"
+          >
+            ↷ חזרה
+          </button>
+        </div>
+        <p class="history-info">
+          צעד {{ historyIndex() }} מתוך {{ history().length }}
+        </p>
+      </div>
+    </aside>
+
+    <!-- Tasks Section -->
+    <main class="tasks-section">
+      <!-- Filter Bar -->
+      <app-filter-bar
+        [(filterType)]="filter"
+        [(searchQuery)]="searchQuery"
+        [(selectedCategory)]="selectedCategory"
+        [categories]="categories()"
+        [stats]="stats()"
+      />
+
+      <!-- Add Task Button -->
+      @if (!showForm()) {
+        <button class="btn-add-task" (click)="openForm()">
+          ➕ הוסף משימה חדשה
+        </button>
+      }
+
+      <!-- Task Form -->
+      @if (showForm()) {
+        <app-task-form
+          [editTask]="editingTask()"
+          [categories]="categories()"
+          (save)="onTaskSave($event)"
+          (cancel)="onFormCancel()"
+        />
+      }
+
+      <!-- Resource Loading States -->
+      @if (useResource()) {
+        @if (tasksResource.isLoading()) {
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>טוען משימות מה-Resource API...</p>
+          </div>
+        }
+
+        @if (tasksResource.error()) {
+          <div class="error-state">
+            <p>❌ שגיאה בטעינת משימות</p>
+            <button class="btn-retry" (click)="tasksResource.reload()">
+              נסה שוב
+            </button>
+          </div>
+        }
+      }
+
+      <!-- Task Lists -->
+      @if (!useResource() || tasksResource.value()) {
+        @if (enableDragDrop()) {
+          <!-- Drag & Drop Task List (Bonus 6) -->
+          <app-drag-drop-task-list
+            [tasks]="orderedTasks()"
+            (taskReorder)="onTaskReorder($event)"
+            (taskToggle)="toggleTask($event)"
+            (taskDelete)="deleteTask($event)"
+            (taskEdit)="onTaskEdit($event)"
+          />
+        } @else {
+          <!-- Regular Task List -->
+          <app-task-list
+            [tasks]="filteredTasks()"
+            (taskToggle)="toggleTask($event)"
+            (taskDelete)="deleteTask($event)"
+            (taskEdit)="onTaskEdit($event)"
+          />
+        }
+
+        <!-- Empty State -->
+        @if (filteredTasks().length === 0 && !tasksResource.isLoading()) {
+          <div class="empty-state">
+            @if (searchQuery() || selectedCategory()) {
+              <p>🔍 לא נמצאו משימות מתאימות</p>
+              <p class="empty-hint">נסה לשנות את מסננים החיפוש</p>
+            } @else if (tasks().length === 0) {
+              <p>📝 אין עדיין משימות</p>
+              <p class="empty-hint">הוסף משימה חדשה כדי להתחיל</p>
+            } @else {
+              <p>✅ כל המשימות הושלמו!</p>
+            }
+          </div>
+        }
+      }
+    </main>
+  </div>
+</div>

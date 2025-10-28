@@ -1,0 +1,143 @@
+.performance-monitor {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+
+  .monitor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h3 {
+      margin: 0;
+      color: #1e293b;
+      font-size: 1.2rem;
+    }
+
+    .performance-badge {
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+
+      &[data-performance='excellent'] {
+        background: #d1fae5;
+        color: #065f46;
+      }
+
+      &[data-performance='good'] {
+        background: #bfdbfe;
+        color: #1e40af;
+      }
+
+      &[data-performance='fair'] {
+        background: #fed7aa;
+        color: #92400e;
+      }
+
+      &[data-performance='poor'] {
+        background: #fecaca;
+        color: #991b1b;
+      }
+    }
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .metric-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      border-radius: 8px;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      .metric-icon {
+        font-size: 1.8rem;
+      }
+
+      .metric-content {
+        flex: 1;
+
+        .metric-label {
+          font-size: 0.75rem;
+          color: #64748b;
+          margin-bottom: 0.25rem;
+        }
+
+        .metric-value {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #1e293b;
+        }
+      }
+    }
+  }
+
+  .performance-bar-container {
+    margin-bottom: 1rem;
+
+    .performance-bar-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      color: #64748b;
+
+      .bar-value {
+        font-weight: 600;
+        color: #1e293b;
+      }
+    }
+
+    .performance-bar-track {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+
+      .performance-bar-fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+
+        &[data-performance='excellent'] {
+          background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+        }
+
+        &[data-performance='good'] {
+          background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        &[data-performance='fair'] {
+          background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        &[data-performance='poor'] {
+          background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+        }
+      }
+    }
+  }
+
+  .last-update {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e2e8f0;
+  }
+}

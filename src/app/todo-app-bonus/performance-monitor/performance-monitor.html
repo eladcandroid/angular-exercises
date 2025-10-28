@@ -1,0 +1,66 @@
+<div class="performance-monitor">
+  <div class="monitor-header">
+    <h3>⚡ ניטור ביצועים</h3>
+    <span class="performance-badge" [attr.data-performance]="performanceColor()">
+      {{ performanceLabel() }}
+    </span>
+  </div>
+
+  <div class="metrics-grid">
+    <!-- Computation Time -->
+    <div class="metric-card">
+      <div class="metric-icon">⏱️</div>
+      <div class="metric-content">
+        <div class="metric-label">זמן חישוב</div>
+        <div class="metric-value">{{ computationTimeFormatted() }}</div>
+      </div>
+    </div>
+
+    <!-- Tasks Processed -->
+    <div class="metric-card">
+      <div class="metric-icon">📊</div>
+      <div class="metric-content">
+        <div class="metric-label">משימות מעובדות</div>
+        <div class="metric-value">{{ metrics().tasksProcessed }}</div>
+      </div>
+    </div>
+
+    <!-- Recomputation Count -->
+    <div class="metric-card">
+      <div class="metric-icon">🔄</div>
+      <div class="metric-content">
+        <div class="metric-label">חישובים מחדש</div>
+        <div class="metric-value">{{ metrics().recomputationCount }}</div>
+      </div>
+    </div>
+
+    <!-- Average Time -->
+    <div class="metric-card">
+      <div class="metric-icon">📈</div>
+      <div class="metric-content">
+        <div class="metric-label">ממוצע זמן</div>
+        <div class="metric-value">{{ averageTimeFormatted() }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Performance Bar -->
+  <div class="performance-bar-container">
+    <div class="performance-bar-label">
+      <span>ביצועי סינון</span>
+      <span class="bar-value">{{ computationTimeFormatted() }}</span>
+    </div>
+    <div class="performance-bar-track">
+      <div
+        class="performance-bar-fill"
+        [attr.data-performance]="performanceColor()"
+        [style.width]="performanceBarWidth()"
+      ></div>
+    </div>
+  </div>
+
+  <!-- Last Update -->
+  <div class="last-update">
+    עדכון אחרון: {{ metrics().lastUpdate.toLocaleTimeString('he-IL') }}
+  </div>
+</div>

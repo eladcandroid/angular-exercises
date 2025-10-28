@@ -1,0 +1,172 @@
+<div class="bonus-control-panel">
+  <h2>🎛️ לוח בקרת תכונות</h2>
+
+  <div class="controls-grid">
+    <!-- Bonus 1: Resource API -->
+    <div class="control-item">
+      <div class="control-header">
+        <label class="control-label">
+          <input
+            type="checkbox"
+            class="toggle-switch"
+            [checked]="useResource()"
+            (change)="useResource.set(!useResource())"
+          />
+          <span class="bonus-number">1️⃣</span>
+          <span>Resource API</span>
+        </label>
+        @if (useResource()) {
+          <span class="status-badge active">פעיל</span>
+        }
+      </div>
+      <p class="control-description">
+        טעינה אסינכרונית עם מצבי loading/error/success
+      </p>
+    </div>
+
+    <!-- Bonus 2: HTTP Resource -->
+    <div class="control-item">
+      <div class="control-header">
+        <label class="control-label">
+          <input
+            type="checkbox"
+            class="toggle-switch"
+            [checked]="useHttpResource()"
+            (change)="useHttpResource.set(!useHttpResource())"
+          />
+          <span class="bonus-number">2️⃣</span>
+          <span>HTTP Resource</span>
+        </label>
+        @if (useHttpResource()) {
+          <span class="status-badge active">פעיל</span>
+        }
+      </div>
+      <p class="control-description">
+        טעינת משימות מ-JSONPlaceholder API
+      </p>
+      @if (useHttpResource()) {
+        <p class="data-source-info">
+          מקור נתונים: <strong>{{ dataSource() === 'api' ? 'API' : 'localStorage' }}</strong>
+        </p>
+      }
+    </div>
+
+    <!-- Bonus 3: Undo/Redo -->
+    <div class="control-item">
+      <div class="control-header">
+        <span class="control-label">
+          <span class="bonus-number">3️⃣</span>
+          <span>Undo/Redo</span>
+        </span>
+        <span class="status-badge always-active">תמיד פעיל</span>
+      </div>
+      <p class="control-description">
+        ביטול וחזרה על פעולות עם היסטוריה מלאה
+      </p>
+    </div>
+
+    <!-- Bonus 4: Real-time Sync -->
+    <div class="control-item">
+      <div class="control-header">
+        <label class="control-label">
+          <input
+            type="checkbox"
+            class="toggle-switch"
+            [checked]="enableSync()"
+            (change)="enableSync.set(!enableSync())"
+          />
+          <span class="bonus-number">4️⃣</span>
+          <span>Real-time Sync</span>
+        </label>
+        @if (enableSync()) {
+          <span class="status-badge" [class.active]="syncState().status === 'syncing'">
+            {{ syncState().status === 'syncing' ? 'מסנכרן...' : 'פעיל' }}
+          </span>
+        }
+      </div>
+      <p class="control-description">
+        סנכרון אוטומטי עם debounce של שנייה
+      </p>
+    </div>
+
+    <!-- Bonus 5: Optimistic Updates -->
+    <div class="control-item">
+      <div class="control-header">
+        <label class="control-label">
+          <input
+            type="checkbox"
+            class="toggle-switch"
+            [checked]="enableOptimistic()"
+            (change)="enableOptimistic.set(!enableOptimistic())"
+          />
+          <span class="bonus-number">5️⃣</span>
+          <span>Optimistic Updates</span>
+        </label>
+        @if (enableOptimistic()) {
+          <span class="status-badge active">פעיל</span>
+        }
+      </div>
+      <p class="control-description">
+        עדכונים מיידיים עם rollback במקרה שגיאה
+      </p>
+    </div>
+
+    <!-- Bonus 6: Drag & Drop -->
+    <div class="control-item">
+      <div class="control-header">
+        <label class="control-label">
+          <input
+            type="checkbox"
+            class="toggle-switch"
+            [checked]="enableDragDrop()"
+            (change)="enableDragDrop.set(!enableDragDrop())"
+          />
+          <span class="bonus-number">6️⃣</span>
+          <span>Drag & Drop</span>
+        </label>
+        @if (enableDragDrop()) {
+          <span class="status-badge active">פעיל</span>
+        }
+      </div>
+      <p class="control-description">
+        סידור מחדש של משימות בגרירה (Angular CDK)
+      </p>
+    </div>
+
+    <!-- Bonus 7: Performance Monitor -->
+    <div class="control-item">
+      <div class="control-header">
+        <label class="control-label">
+          <input
+            type="checkbox"
+            class="toggle-switch"
+            [checked]="showPerformance()"
+            (change)="showPerformance.set(!showPerformance())"
+          />
+          <span class="bonus-number">7️⃣</span>
+          <span>Performance Monitor</span>
+        </label>
+        @if (showPerformance()) {
+          <span class="status-badge active">פעיל</span>
+        }
+      </div>
+      <p class="control-description">
+        ניטור ביצועים של computed signals
+      </p>
+    </div>
+
+    <!-- Bonus 8: Debounced Search -->
+    <div class="control-item">
+      <div class="control-header">
+        <span class="control-label">
+          <span class="bonus-number">8️⃣</span>
+          <span>Debounced Search</span>
+        </span>
+        <span class="status-badge always-active">תמיד פעיל</span>
+      </div>
+      <p class="control-description">
+        חיפוש עם debounce של 300ms (debouncedSignal)
+      </p>
+    </div>
+  </div>
+</div>

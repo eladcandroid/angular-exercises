@@ -1,0 +1,55 @@
+<div class="sync-status">
+  <h3>🔄 סטטוס סנכרון</h3>
+
+  <div class="status-display">
+    <div class="status-icon" [attr.data-status]="syncState().status">
+      @if (syncState().status === 'syncing') {
+        <div class="spinner-icon">{{ statusIcon() }}</div>
+      } @else {
+        {{ statusIcon() }}
+      }
+    </div>
+
+    <div class="status-content">
+      <div class="status-label" [attr.data-status]="syncState().status">
+        {{ statusLabel() }}
+      </div>
+
+      @if (syncState().lastSync) {
+        <div class="last-sync">
+          סנכרון אחרון: {{ lastSyncFormatted() }}
+        </div>
+      }
+
+      @if (syncState().error) {
+        <div class="error-message">
+          {{ syncState().error }}
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="sync-info">
+    <div class="info-item">
+      <span class="info-label">מצב:</span>
+      <span class="info-value">{{ statusLabel() }}</span>
+    </div>
+
+    @if (syncState().status === 'synced' || syncState().status === 'syncing') {
+      <div class="info-item">
+        <span class="info-label">זמינות:</span>
+        <span class="info-value connectivity-good">🟢 מחובר</span>
+      </div>
+    } @else if (syncState().status === 'error') {
+      <div class="info-item">
+        <span class="info-label">זמינות:</span>
+        <span class="info-value connectivity-error">🔴 לא מחובר</span>
+      </div>
+    } @else {
+      <div class="info-item">
+        <span class="info-label">זמינות:</span>
+        <span class="info-value connectivity-idle">⚪ סרק</span>
+      </div>
+    }
+  </div>
+</div>

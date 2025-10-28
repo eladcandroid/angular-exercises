@@ -1,0 +1,66 @@
+<div class="filter-bar">
+  <div class="filter-buttons">
+    <button
+      type="button"
+      class="filter-btn"
+      [class.active]="filterType() === 'all'"
+      (click)="onFilterChange('all')"
+    >
+      All
+      <span class="count">{{ stats().total }}</span>
+    </button>
+    <button
+      type="button"
+      class="filter-btn"
+      [class.active]="filterType() === 'active'"
+      (click)="onFilterChange('active')"
+    >
+      Active
+      <span class="count">{{ stats().active }}</span>
+    </button>
+    <button
+      type="button"
+      class="filter-btn"
+      [class.active]="filterType() === 'completed'"
+      (click)="onFilterChange('completed')"
+    >
+      Completed
+      <span class="count">{{ stats().completed }}</span>
+    </button>
+  </div>
+
+  <div class="filter-controls">
+    <div class="search-input-wrapper">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search tasks..."
+        [(ngModel)]="searchQuery"
+      />
+    </div>
+
+    @if (categories().length > 0) {
+      <select
+        class="category-select"
+        [value]="selectedCategory() ?? ''"
+        (change)="onCategoryChange($event)"
+      >
+        <option value="">All Categories</option>
+        @for (category of categories(); track category) {
+          <option [value]="category">{{ category }}</option>
+        }
+      </select>
+    }
+
+    @if (hasActiveFilters()) {
+      <button
+        type="button"
+        class="clear-filters-btn"
+        (click)="clearFilters()"
+        title="Clear filters"
+      >
+        Clear Filters
+      </button>
+    }
+  </div>
+</div>

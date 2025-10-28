@@ -1,0 +1,120 @@
+<div class="drag-drop-task-list">
+  <div class="drag-drop-header">
+    <span class="drag-icon">↕️</span>
+    <span>גרור והזז משימות לסידור מחדש</span>
+  </div>
+
+  <div
+    cdkDropList
+    class="tasks-container"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    @for (task of tasks(); track task.id) {
+      <div
+        cdkDrag
+        class="task-item"
+        [class.completed]="task.completed"
+        [class.overdue]="isOverdue(task)"
+      >
+        <!-- Drag Handle -->
+        <div class="drag-handle" cdkDragHandle>
+          <span class="handle-icon">⋮⋮</span>
+        </div>
+
+        <!-- Drag Placeholder -->
+        <div class="task-placeholder" *cdkDragPlaceholder>
+          <div class="placeholder-content">
+            הזז לכאן...
+          </div>
+        </div>
+
+        <!-- Task Content -->
+        <div class="task-content">
+          <!-- Checkbox -->
+          <div class="task-checkbox">
+            <input
+              type="checkbox"
+              [checked]="task.completed"
+              (change)="onToggle(task.id)"
+              [id]="'task-' + task.id"
+            />
+            <label [for]="'task-' + task.id"></label>
+          </div>
+
+          <!-- Task Info -->
+          <div class="task-info">
+            <div class="task-header">
+              <h3 class="task-title">{{ task.title }}</h3>
+              <span class="priority-badge" [class]="getPriorityClass(task.priority)">
+                @if (task.priority === 'high') {
+                  🔴 גבוה
+                } @else if (task.priority === 'medium') {
+                  🟡 בינוני
+                } @else {
+                  🟢 נמוך
+                }
+              </span>
+            </div>
+
+            @if (task.description) {
+              <p class="task-description">{{ task.description }}</p>
+            }
+
+            <div class="task-meta">
+              <span class="task-category">📁 {{ task.category }}</span>
+
+              @if (task.dueDate) {
+                <span class="task-due-date" [class.overdue]="isOverdue(task)">
+                  @if (isOverdue(task)) {
+                    ⚠️
+                  } @else {
+                    📅
+                  }
+                  {{ formatDate(task.dueDate) }}
+                </span>
+              }
+
+              @if (task.tags && task.tags.length > 0) {
+                <div class="task-tags">
+                  @for (tag of task.tags; track tag) {
+                    <span class="tag">#{{ tag }}</span>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="task-actions">
+            <button
+              class="btn-edit"
+              (click)="onEdit(task)"
+              title="עריכה"
+            >
+              ✏️
+            </button>
+            <button
+              class="btn-delete"
+              (click)="onDelete(task.id)"
+              title="מחיקה"
+            >
+              🗑️
+            </button>
+          </div>
+        </div>
+
+        <!-- Drag Preview -->
+        <div class="task-preview" *cdkDragPreview>
+          <div class="preview-content">
+            <span class="drag-icon-preview">↕️</span>
+            <span>{{ task.title }}</span>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-list">
+        <p>אין משימות להצגה</p>
+      </div>
+    }
+  </div>
+</div>

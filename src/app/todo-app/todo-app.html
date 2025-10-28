@@ -1,0 +1,73 @@
+<div class="todo-container">
+  <header class="todo-header">
+    <h1>🎯 אפליקציית TODO עם Signals</h1>
+    <p class="subtitle">ניהול משימות מתקדם עם Angular Signals API</p>
+  </header>
+
+  <!-- Stats Section -->
+  <app-stats [stats]="stats()" />
+
+  <!-- Filter Bar -->
+  <app-filter-bar
+    [(filterType)]="filter"
+    [(searchQuery)]="searchQuery"
+    [(selectedCategory)]="selectedCategory"
+    [categories]="categories()"
+    [stats]="stats()"
+  />
+
+  <!-- Action Buttons -->
+  <div class="action-bar">
+    <button class="btn btn-primary" (click)="openForm()">
+      ➕ הוסף משימה חדשה
+    </button>
+
+    <div class="undo-redo-buttons">
+      <button
+        class="btn btn-secondary"
+        [disabled]="!canUndo()"
+        (click)="undo()"
+        title="ביטול">
+        ↶ ביטול
+      </button>
+      <button
+        class="btn btn-secondary"
+        [disabled]="!canRedo()"
+        (click)="redo()"
+        title="חזרה">
+        ↷ חזרה
+      </button>
+    </div>
+  </div>
+
+  <!-- Task Form -->
+  @if (showForm()) {
+    <app-task-form
+      [editTask]="editingTask()"
+      [categories]="categories()"
+      (save)="onTaskSave($event)"
+      (cancel)="onFormCancel()"
+    />
+  }
+
+  <!-- Task List -->
+  <app-task-list
+    [tasks]="filteredTasks()"
+    (taskToggle)="toggleTask($event)"
+    (taskDelete)="deleteTask($event)"
+    (taskEdit)="onTaskEdit($event)"
+  />
+
+  <!-- Empty State -->
+  @if (filteredTasks().length === 0 && tasks().length > 0) {
+    <div class="empty-state">
+      <p>🔍 לא נמצאו משימות מתאימות לסינון</p>
+    </div>
+  }
+
+  @if (tasks().length === 0) {
+    <div class="empty-state">
+      <p>📝 אין משימות עדיין. התחל בהוספת משימה חדשה!</p>
+    </div>
+  }
+</div>

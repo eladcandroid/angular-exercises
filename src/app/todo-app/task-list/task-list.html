@@ -1,0 +1,13 @@
+<div class="task-list">
+  @if (sortedTasks().length > 0) {
+    @for (task of sortedTasks(); track task.id) {
+      <app-task-item
+        [task]="task"
+        [(completed)]="task.completed"
+        (delete)="taskDelete.emit(task.id)"
+        (edit)="taskEdit.emit(task)"
+        (toggle)="taskToggle.emit(task.id)"
+      />
+    }
+  }
+</div>

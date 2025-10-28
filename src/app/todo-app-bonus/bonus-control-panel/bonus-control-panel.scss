@@ -1,0 +1,110 @@
+.bonus-control-panel {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+
+  h2 {
+    margin: 0 0 1.5rem 0;
+    color: #1e293b;
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+
+    .control-item {
+      padding: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      transition: all 0.3s;
+
+      &:hover {
+        border-color: #7c3aed;
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+      }
+
+      .control-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+
+        .control-label {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-weight: 600;
+          color: #1e293b;
+          cursor: pointer;
+          flex: 1;
+
+          .toggle-switch {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #7c3aed;
+          }
+
+          .bonus-number {
+            font-size: 1.2rem;
+          }
+        }
+
+        .status-badge {
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          background: #e2e8f0;
+          color: #64748b;
+
+          &.active {
+            background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+            color: white;
+            animation: pulse 2s infinite;
+          }
+
+          &.always-active {
+            background: #10b981;
+            color: white;
+          }
+        }
+      }
+
+      .control-description {
+        margin: 0.5rem 0 0 0;
+        font-size: 0.85rem;
+        color: #64748b;
+        line-height: 1.4;
+      }
+
+      .data-source-info {
+        margin: 0.5rem 0 0 0;
+        font-size: 0.8rem;
+        color: #7c3aed;
+        padding: 0.5rem;
+        background: #f5f3ff;
+        border-radius: 4px;
+
+        strong {
+          color: #5b21b6;
+        }
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}

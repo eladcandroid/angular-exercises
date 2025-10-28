@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
   AbstractControl,
-  ValidationErrors
+  ValidationErrors,
 } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 
@@ -15,7 +15,7 @@ import { JsonPipe } from '@angular/common';
   imports: [ReactiveFormsModule, JsonPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './book-form.component.html',
-  styleUrl: './book-form.component.css'
+  styleUrl: './book-form.component.css',
 })
 export class BookFormComponent {
   private formBuilder = inject(FormBuilder);
@@ -40,11 +40,9 @@ export class BookFormComponent {
     publisher: this.formBuilder.group({
       name: ['', Validators.required],
       city: ['', Validators.required],
-      country: ['', Validators.required]
+      country: ['', Validators.required],
     }),
-    authors: this.formBuilder.array([
-      this.createAuthorGroup()
-    ])
+    authors: this.formBuilder.array([this.createAuthorGroup()]),
   });
 
   // Getters for easy access to form controls
@@ -88,7 +86,7 @@ export class BookFormComponent {
   createAuthorGroup(): FormGroup {
     return this.formBuilder.group({
       fullName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 

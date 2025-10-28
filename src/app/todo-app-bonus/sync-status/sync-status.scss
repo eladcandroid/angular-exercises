@@ -1,0 +1,128 @@
+.sync-status {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+  h3 {
+    margin: 0 0 1rem 0;
+    color: #1e293b;
+    font-size: 1.1rem;
+  }
+
+  .status-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+
+    .status-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+
+      .spinner-icon {
+        animation: spin 1s linear infinite;
+      }
+
+      &[data-status='idle'] {
+        opacity: 0.5;
+      }
+
+      &[data-status='syncing'] {
+        color: #3b82f6;
+      }
+
+      &[data-status='synced'] {
+        color: #10b981;
+      }
+
+      &[data-status='error'] {
+        color: #ef4444;
+      }
+    }
+
+    .status-content {
+      flex: 1;
+
+      .status-label {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+
+        &[data-status='idle'] {
+          color: #64748b;
+        }
+
+        &[data-status='syncing'] {
+          color: #3b82f6;
+        }
+
+        &[data-status='synced'] {
+          color: #10b981;
+        }
+
+        &[data-status='error'] {
+          color: #ef4444;
+        }
+      }
+
+      .last-sync {
+        font-size: 0.8rem;
+        color: #64748b;
+      }
+
+      .error-message {
+        font-size: 0.8rem;
+        color: #ef4444;
+        margin-top: 0.25rem;
+        padding: 0.5rem;
+        background: #fee;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .sync-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      font-size: 0.85rem;
+
+      .info-label {
+        color: #64748b;
+      }
+
+      .info-value {
+        font-weight: 600;
+        color: #1e293b;
+
+        &.connectivity-good {
+          color: #10b981;
+        }
+
+        &.connectivity-error {
+          color: #ef4444;
+        }
+
+        &.connectivity-idle {
+          color: #94a3b8;
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,476 @@
+<div class="instructions-container">
+  <div class="header">
+    <h1>🎯 תרגיל: אפליקציית TODO עם Signals ב-Angular</h1>
+  </div>
+
+  <div class="readme-content">
+    <section class="section">
+      <h2>תיאור כללי</h2>
+      <p>תרגיל מקיף זה נועד לבחון את הידע שלך בנושא <strong>Angular Signals</strong> - מערכת ניהול המצב החדשה והמודרנית של Angular. זהו תרגיל ברמת ביניים-מתקדמת שמכסה את כל ה-APIs של Signals כולל signal, computed, effect, resource, httpResource, input, output, model, linkedSignal ועוד.</p>
+
+      <p><strong>תרחיש:</strong> אתם בונים אפליקציית TODO מתקדמת לניהול משימות, עם תכונות כמו סינון, קטגוריות, סטטיסטיקות, ושמירה מקומית. האפליקציה תהיה מבוססת Signals בלבד, ללא שימוש ב-RxJS או ניהול מצב חיצוני.</p>
+
+      <div class="meta-info">
+        <span class="badge">⏱️ משך זמן משוער: 3-4 שעות</span>
+        <span class="badge">📊 רמת קושי: ביניים-מתקדמת</span>
+        <span class="badge">💻 טכנולוגיות: Angular 20, Signals API, TypeScript, Standalone Components</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🎯 מטרות הלמידה</h2>
+      <p>בסיום התרגיל תוכיח/י שאת/ה יודע/ת:</p>
+      <ul class="checklist">
+        <li>✅ <strong>signal()</strong> - יצירה וניהול של מצב ריאקטיבי</li>
+        <li>✅ <strong>computed()</strong> - חישוב ערכים נגזרים ממצב</li>
+        <li>✅ <strong>effect()</strong> - טיפול בתופעות לוואי (side effects)</li>
+        <li>✅ <strong>resource()</strong> - טעינת נתונים אסינכרונית</li>
+        <li>✅ <strong>httpResource()</strong> - טעינת נתונים מ-API (ניסיוני)</li>
+        <li>✅ <strong>input()</strong> - קבלת נתונים מקומפוננטת אב</li>
+        <li>✅ <strong>output()</strong> - שליחת אירועים לקומפוננטת אב</li>
+        <li>✅ <strong>model()</strong> - two-way binding עם signals</li>
+        <li>✅ <strong>linkedSignal()</strong> - יצירת signals תלויים</li>
+        <li>✅ <strong>viewChild()</strong> - גישה לאלמנטים בתבנית</li>
+        <li>✅ <strong>contentChild()</strong> - גישה לתוכן מוקרן</li>
+      </ul>
+    </section>
+
+    <section class="section feature-section">
+      <h2>💡 מה זה Signals?</h2>
+      <p><strong>Signals</strong> הוא מערכת ניהול מצב ריאקטיבי חדשה ב-Angular שמספקת:</p>
+
+      <h3>יתרונות מפתח</h3>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">🚀</div>
+          <h4>ביצועים משופרים</h4>
+          <p>Change Detection מדויק ויעיל</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">⚡</div>
+          <h4>פשטות</h4>
+          <p>API פשוט ואינטואיטיבי</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🎯</div>
+          <h4>Type Safety</h4>
+          <p>תמיכה מלאה ב-TypeScript</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🔄</div>
+          <h4>ריאקטיביות אוטומטית</h4>
+          <p>עדכונים אוטומטיים של UI</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">📦</div>
+          <h4>ללא תלויות</h4>
+          <p>מובנה ב-Angular, ללא צורך ב-RxJS</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>📋 דרישות התרגיל</h2>
+
+      <h3>חלק א': מבנה הפרויקט</h3>
+      <p>צור/י את הקומפוננטות הבאות (כולן <strong>standalone</strong>):</p>
+
+      <div class="component-card">
+        <h4>1. TodoAppComponent (קומפוננטת האב)</h4>
+        <p>זוהי הקומפוננטה הראשית שמנהלת את כל המצב.</p>
+
+        <p><strong>Signals שצריך להגדיר:</strong></p>
+        <ul>
+          <li><code>tasks</code> - רשימת המשימות</li>
+          <li><code>filter</code> - סינון לפי מצב (all/active/completed)</li>
+          <li><code>searchQuery</code> - טקסט חיפוש</li>
+          <li><code>selectedCategory</code> - קטגוריה נבחרת</li>
+        </ul>
+
+        <p><strong>Computed Signals:</strong></p>
+        <ul>
+          <li><code>filteredTasks</code> - משימות מסוננות</li>
+          <li><code>activeTasks</code> - משימות פעילות</li>
+          <li><code>completedTasks</code> - משימות שהושלמו</li>
+          <li><code>categories</code> - רשימת קטגוריות</li>
+          <li><code>stats</code> - סטטיסטיקות</li>
+        </ul>
+
+        <p><strong>Effects:</strong></p>
+        <ul>
+          <li>שמירה אוטומטית ל-localStorage</li>
+          <li>לוג של שינויים</li>
+        </ul>
+
+        <p><strong>פונקציות:</strong></p>
+        <ul>
+          <li><code>addTask(task: Task)</code></li>
+          <li><code>updateTask(id: string, updates: Partial&lt;Task&gt;)</code></li>
+          <li><code>deleteTask(id: string)</code></li>
+          <li><code>toggleTask(id: string)</code></li>
+          <li><code>loadTasks()</code></li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h4>2. TaskListComponent</h4>
+        <p>קומפוננטה שמציגה רשימת משימות.</p>
+
+        <p><strong>Inputs:</strong></p>
+        <ul>
+          <li><code>tasks = input.required&lt;Task[]&gt;()</code></li>
+        </ul>
+
+        <p><strong>Outputs:</strong></p>
+        <ul>
+          <li><code>taskToggle = output&lt;string&gt;()</code></li>
+          <li><code>taskDelete = output&lt;string&gt;()</code></li>
+          <li><code>taskEdit = output&lt;Task&gt;()</code></li>
+        </ul>
+
+        <p><strong>Computed:</strong></p>
+        <ul>
+          <li><code>sortedTasks</code> - משימות ממוינות לפי תאריך יצירה</li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h4>3. TaskItemComponent</h4>
+        <p>קומפוננטה שמציגה משימה בודדת.</p>
+
+        <p><strong>Inputs:</strong></p>
+        <ul>
+          <li><code>task = input.required&lt;Task&gt;()</code></li>
+        </ul>
+
+        <p><strong>Model (two-way binding):</strong></p>
+        <ul>
+          <li><code>completed = model&lt;boolean&gt;()</code></li>
+        </ul>
+
+        <p><strong>Outputs:</strong></p>
+        <ul>
+          <li><code>delete = output&lt;void&gt;()</code></li>
+          <li><code>edit = output&lt;void&gt;()</code></li>
+        </ul>
+
+        <p><strong>Computed:</strong></p>
+        <ul>
+          <li><code>isOverdue</code> - בדיקה אם המשימה באיחור</li>
+          <li><code>priorityClass</code> - מחלקת CSS לפי עדיפות</li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h4>4. TaskFormComponent</h4>
+        <p>קומפוננטה ליצירת/עריכת משימות.</p>
+
+        <p><strong>Inputs:</strong></p>
+        <ul>
+          <li><code>editTask = input&lt;Task | null&gt;()</code></li>
+          <li><code>categories = input&lt;string[]&gt;(() =&gt; [])</code></li>
+        </ul>
+
+        <p><strong>Outputs:</strong></p>
+        <ul>
+          <li><code>save = output&lt;Task&gt;()</code></li>
+          <li><code>cancel = output&lt;void&gt;()</code></li>
+        </ul>
+
+        <p><strong>Signals:</strong></p>
+        <ul>
+          <li><code>title</code>, <code>description</code>, <code>category</code></li>
+          <li><code>priority</code>, <code>dueDate</code></li>
+        </ul>
+
+        <p><strong>Computed:</strong></p>
+        <ul>
+          <li><code>isValid</code> - בדיקת תקינות הטופס</li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h4>5. FilterBarComponent</h4>
+        <p>קומפוננטה לסינון משימות.</p>
+
+        <p><strong>Model (two-way binding):</strong></p>
+        <ul>
+          <li><code>filterType = model&lt;FilterType&gt;('all')</code></li>
+          <li><code>searchQuery = model&lt;string&gt;('')</code></li>
+          <li><code>selectedCategory = model&lt;string | null&gt;(null)</code></li>
+        </ul>
+
+        <p><strong>Inputs:</strong></p>
+        <ul>
+          <li><code>categories = input&lt;string[]&gt;(() =&gt; [])</code></li>
+          <li><code>stats = input.required&lt;TaskStats&gt;()</code></li>
+        </ul>
+
+        <p><strong>Computed:</strong></p>
+        <ul>
+          <li><code>hasActiveFilters</code> - בדיקה אם יש סינונים פעילים</li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h4>6. StatsComponent</h4>
+        <p>קומפוננטה שמציגה סטטיסטיקות.</p>
+
+        <p><strong>Inputs:</strong></p>
+        <ul>
+          <li><code>stats = input.required&lt;TaskStats&gt;()</code></li>
+        </ul>
+
+        <p><strong>Computed:</strong></p>
+        <ul>
+          <li><code>completionColor</code> - צבע לפי אחוז השלמה</li>
+          <li><code>displayStats</code> - סטטיסטיקות מעוצבות לתצוגה</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>📐 מודל הנתונים</h2>
+      <div class="component-card">
+        <h3>Task Interface</h3>
+        <p>כל משימה תכיל:</p>
+        <ul>
+          <li><code>id: string</code></li>
+          <li><code>title: string</code></li>
+          <li><code>description: string</code></li>
+          <li><code>completed: boolean</code></li>
+          <li><code>category: string</code></li>
+          <li><code>priority: 'low' | 'medium' | 'high'</code></li>
+          <li><code>dueDate?: string</code></li>
+          <li><code>createdAt: Date</code></li>
+          <li><code>updatedAt: Date</code></li>
+          <li><code>tags?: string[]</code></li>
+        </ul>
+
+        <h3>FilterType</h3>
+        <p><code>type FilterType = 'all' | 'active' | 'completed'</code></p>
+
+        <h3>TaskStats Interface</h3>
+        <ul>
+          <li><code>total: number</code></li>
+          <li><code>active: number</code></li>
+          <li><code>completed: number</code></li>
+          <li><code>completionRate: number</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>💾 דרישות טכניות</h2>
+
+      <div class="component-card">
+        <h3>1. LocalStorage Persistence</h3>
+        <p>השתמש/י ב-effect() כדי לשמור אוטומטית את המשימות ב-localStorage:</p>
+        <ul>
+          <li>טעינה ראשונית של משימות קיימות</li>
+          <li>שמירה אוטומטית בכל שינוי</li>
+          <li>המרה נכונה של תאריכים</li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h3>2. Search & Filter</h3>
+        <p>השתמש/י ב-computed() ליצירת רשימה מסוננת:</p>
+        <ul>
+          <li>סינון לפי מצב (all/active/completed)</li>
+          <li>חיפוש בכותרת ובתיאור</li>
+          <li>סינון לפי קטגוריה</li>
+          <li>צירוף כל הסינונים יחד</li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h3>3. ViewChild & ContentChild</h3>
+        <p>השתמש/י ב-viewChild() לגישה לאלמנטים:</p>
+        <ul>
+          <li>פוקוס אוטומטי על שדה הטקסט בטופס</li>
+          <li>גישה לאלמנטים ספציפיים בתבנית</li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h3>4. Linked Signals</h3>
+        <p>השתמש/י ב-linkedSignal() ליצירת signals תלויים:</p>
+        <ul>
+          <li>כשהקטגוריה משתנה, הסינון מתאפס</li>
+          <li>signals שתלויים בערכים אחרים</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🎁 משימות בונוס (אופציונלי)</h2>
+      <div class="bonus-grid">
+        <div class="bonus-card">
+          <h4>בונוס 1: Resource API</h4>
+          <p>השתמש/י ב-resource() לטעינת משימות בצורה אסינכרונית עם טיפול ב-loading, error ו-value states.</p>
+        </div>
+        <div class="bonus-card">
+          <h4>בונוס 2: HttpResource</h4>
+          <p>צור/י backend פשוט או השתמש/י ב-JSONPlaceholder וטען/י משימות מה-API באמצעות httpResource().</p>
+        </div>
+        <div class="bonus-card">
+          <h4>בונוס 3: Undo/Redo</h4>
+          <p>הוסף/י פונקציונליות Undo/Redo עם signals: שמור/י היסטוריה של שינויים ואפשר/י חזרה וקדימה.</p>
+        </div>
+        <div class="bonus-card">
+          <h4>בונוס 4: Real-time Sync</h4>
+          <p>השתמש/י ב-effect() לסנכרון אמת עם LocalStorage או Backend עם debounce.</p>
+        </div>
+        <div class="bonus-card">
+          <h4>בונוס 5: Optimistic Updates</h4>
+          <p>הוסף/י עדכונים אופטימיים עם rollback במקרה של שגיאה בשרת.</p>
+        </div>
+        <div class="bonus-card">
+          <h4>בונוס 6: Drag & Drop</h4>
+          <p>הוסף/י אפשרות לסדר מחדש משימות עם drag & drop וניהול ה-order ב-signal.</p>
+        </div>
+        <div class="bonus-card">
+          <h4>בונוס 7: Performance Monitoring</h4>
+          <p>מדוד/י ביצועים של computed signals והצג/י את הזמן שלוקח לכל חישוב.</p>
+        </div>
+        <div class="bonus-card">
+          <h4>בונוס 8: Custom Utilities</h4>
+          <p>צור/י פונקציות עזר מותאמות אישית כמו debouncedSignal או throttledSignal.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🚀 התחלה מהירה</h2>
+      <div class="component-card">
+        <h3>צור את הקומפוננטות</h3>
+        <p>התחל ביצירת הקומפוננטות באמצעות Angular CLI:</p>
+        <div class="code-block">
+          <code>ng generate component todo-app --standalone</code><br>
+          <code>ng generate component task-list --standalone</code><br>
+          <code>ng generate component task-item --standalone</code><br>
+          <code>ng generate component task-form --standalone</code><br>
+          <code>ng generate component filter-bar --standalone</code><br>
+          <code>ng generate component stats --standalone</code>
+        </div>
+        <p><strong>זכרו:</strong> הקומפוננטות צריכות להיות standalone!</p>
+      </div>
+    </section>
+
+    <section class="section results-section">
+      <h2>📊 תוצאה צפויה</h2>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="result-number">⚡</div>
+          <p>Change Detection מדויק ויעיל</p>
+        </div>
+        <div class="result-card">
+          <div class="result-number">📦</div>
+          <p>Bundle קטן יותר בהשוואה ל-RxJS</p>
+        </div>
+        <div class="result-card">
+          <div class="result-number">🚀</div>
+          <p>ביצועים מהירים ב-30-50%</p>
+        </div>
+        <div class="result-card">
+          <div class="result-number">📝</div>
+          <p>קוד פשוט וקריא יותר</p>
+        </div>
+        <div class="result-card">
+          <div class="result-number">🎯</div>
+          <p>Type Safe עם TypeScript</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>⚠️ Best Practices</h2>
+      <div class="warning-box">
+        <h3>שימו לב:</h3>
+        <ul>
+          <li><strong>אל תשנו signals בתוך computed</strong> - computed צריך להיות pure function</li>
+          <li><strong>השתמשו ב-effect רק ל-side effects</strong> - לא לחישובים</li>
+          <li><strong>זהירות עם effect cleanup</strong> - נקו subscriptions ו-timers</li>
+          <li><strong>השתמשו ב-OnPush Change Detection</strong> - עבור ביצועים טובים יותר</li>
+          <li><strong>אל תעבירו signals כ-inputs</strong> - העבירו ערכים</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🎯 קריטריוני הערכה</h2>
+      <div class="component-card">
+        <h3>פונקציונליות (40%)</h3>
+        <ul>
+          <li>✅ כל הקומפוננטות עובדות כראוי</li>
+          <li>✅ הוספה, עריכה, מחיקה של משימות</li>
+          <li>✅ סינון וחיפוש עובדים</li>
+          <li>✅ סטטיסטיקות מדויקות</li>
+          <li>✅ שמירה ב-localStorage</li>
+        </ul>
+
+        <h3>שימוש נכון ב-Signals (40%)</h3>
+        <ul>
+          <li>✅ שימוש ב-signal() למצב</li>
+          <li>✅ שימוש ב-computed() לערכים נגזרים</li>
+          <li>✅ שימוש ב-effect() ל-side effects</li>
+          <li>✅ שימוש ב-input()/output()/model()</li>
+          <li>✅ ללא שימוש מיותר ב-RxJS</li>
+        </ul>
+
+        <h3>איכות קוד (20%)</h3>
+        <ul>
+          <li>✅ קוד נקי וקריא</li>
+          <li>✅ Standalone components</li>
+          <li>✅ OnPush change detection</li>
+          <li>✅ Type safety</li>
+          <li>✅ הפרדת אחריות</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>📚 משאבים</h2>
+      <ul>
+        <li>📘 <a href="https://angular.dev/guide/signals" target="_blank">Angular Signals Documentation</a></li>
+        <li>📘 <a href="https://angular.dev/guide/signals/inputs" target="_blank">Signal Inputs</a></li>
+        <li>📘 <a href="https://angular.dev/guide/signals/queries" target="_blank">Signal Queries</a></li>
+        <li>📘 <a href="https://angular.dev/guide/signals/resource" target="_blank">Resource API</a></li>
+        <li>📘 <a href="https://angular.dev/guide/signals/model" target="_blank">Model Inputs</a></li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>💬 שאלות נפוצות</h2>
+      <div class="faq-section">
+        <div class="faq-item">
+          <p class="faq-question">Q: האם אפשר להשתמש ב-RxJS?</p>
+          <p class="faq-answer">A: רצוי להימנע. התרגיל מיועד ללמוד Signals בלבד.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-question">Q: האם חייבים להשתמש ב-httpResource?</p>
+          <p class="faq-answer">A: לא חובה, זה בונוס. httpResource עדיין ניסיוני.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-question">Q: איך מטפלים ב-forms עם Signals?</p>
+          <p class="faq-answer">A: השתמשו ב-model() ל-two-way binding או ב-signal() + events.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-question">Q: האם אפשר להשתמש ב-NgRx Signals Store?</p>
+          <p class="faq-answer">A: לא בתרגיל הזה. השתמשו רק ב-Signals API המובנה.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-question">Q: מה ההבדל בין computed() ל-effect()?</p>
+          <p class="faq-answer">A: computed() מחזיר ערך חדש, effect() מבצע side effects (כמו שמירה ב-localStorage).</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <p><strong>בהצלחה! 🚀</strong></p>
+      <p>Signals הוא העתיד של Angular. שליטה בו תעזור לכם לכתוב קוד טוב יותר, מהיר יותר, ונקי יותר.</p>
+      <p><strong>נוצר עם ❤️ ב-2025 | Angular 20 | Signals API</strong></p>
+    </div>
+  </div>
+</div>
