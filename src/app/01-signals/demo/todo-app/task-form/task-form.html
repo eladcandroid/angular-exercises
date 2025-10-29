@@ -46,11 +46,33 @@
           <label for="category" class="form-label">
             Category <span class="required">*</span>
           </label>
-          @if (categories().length > 0) {
+          @if (isAddingNewCategory()) {
+            <div class="new-category-container">
+              <input
+                type="text"
+                id="newCategory"
+                class="form-control"
+                [(ngModel)]="newCategoryInput"
+                name="newCategory"
+                placeholder="Enter new category name"
+                required
+                autofocus
+              />
+              <button
+                type="button"
+                class="btn-cancel-new"
+                (click)="onCancelNewCategory()"
+                title="Cancel adding new category"
+              >
+                ✕
+              </button>
+            </div>
+          } @else if (categories().length > 0) {
             <select
               id="category"
               class="form-control"
-              [(ngModel)]="category"
+              [value]="category()"
+              (change)="onCategoryChange($event)"
               name="category"
               required
             >

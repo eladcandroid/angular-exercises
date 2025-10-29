@@ -191,6 +191,46 @@ select.form-control {
   }
 }
 
+// New category input with cancel button
+.new-category-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .form-control {
+    flex: 1;
+  }
+
+  .btn-cancel-new {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    flex-shrink: 0;
+    border: 2px solid #e0e0e0;
+    background: white;
+    color: #666;
+    font-size: 1.25rem;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+
+    &:hover {
+      background: #f5f5f5;
+      border-color: #999;
+      color: #333;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
 // RTL Support
 [dir="rtl"] {
   .form-header {
