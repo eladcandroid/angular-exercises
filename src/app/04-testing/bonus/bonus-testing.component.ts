@@ -1,0 +1,18 @@
+import { Component, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+
+declare const Prism: any;
+
+@Component({
+  selector: 'app-bonus-testing',
+  imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './bonus-testing.component.html',
+  styleUrl: './bonus-testing.component.scss',
+})
+export class BonusTestingComponent implements AfterViewInit {
+  ngAfterViewInit() {
+    if (typeof Prism !== 'undefined') {
+      Prism.highlightAll();
+    }
+  }
+}

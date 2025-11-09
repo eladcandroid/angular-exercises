@@ -73,6 +73,58 @@
           <li>כל מוצר מכיל: שם, תמונה, מחיר, תיאור קצר</li>
           <li>תצוגה בסיסית של כרטיסי מוצרים</li>
         </ul>
+
+        <button class="collapse-toggle" (click)="toggleProductListCode()">
+          <span class="arrow" [class.expanded]="showProductListCode()">▼</span>
+          הצג/הסתר קוד הפתרון
+        </button>
+
+        @if (showProductListCode()) {
+          <div class="solution-code">
+            <h5>product-list.component.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
+
+interface Product &#123;
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: string;
+  inStock: boolean;
+&#125;
+
+&commat;Component(&#123;
+  selector: 'app-product-list',
+  imports: [/* קומפוננטות ילד */],
+  templateUrl: './product-list.component.html',
+  styleUrl: './product-list.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
+&#125;)
+export class ProductListComponent &#123;
+  protected readonly products = signal&lt;Product[]&gt;([
+    &#123;
+      id: 1,
+      name: 'מחשב נייד Dell XPS 15',
+      price: 6999,
+      image: 'https://placehold.co/300x200/1976d2/ffffff?text=Laptop',
+      description: 'מחשב נייד מתקדם עם מסך 15.6 אינץ\' ומעבד Intel Core i7',
+      category: 'מחשבים',
+      inStock: true
+    &#125;,
+    // ... עוד 9 מוצרים
+  ]);
+
+  // State for custom trigger (analytics)
+  protected showAnalytics = signal(false);
+  protected userIsAdmin = signal(true);
+
+  protected toggleAnalytics(): void &#123;
+    this.showAnalytics.update(value =&gt; !value);
+  &#125;
+&#125;</code></pre>
+          </div>
+        }
       </div>
 
       <div class="component-card defer-card">
@@ -93,6 +145,92 @@
           <li>מפרט טכני</li>
           <li>מחיר מפורט</li>
         </ul>
+
+        <button class="collapse-toggle" (click)="toggleProductDetailsCode()">
+          <span class="arrow" [class.expanded]="showProductDetailsCode()">▼</span>
+          הצג/הסתר קוד הפתרון
+        </button>
+
+        @if (showProductDetailsCode()) {
+          <div class="solution-code">
+            <h5>product-details.component.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
+
+interface ProductDetail &#123;
+  name: string;
+  value: string;
+&#125;
+
+&commat;Component(&#123;
+  selector: 'app-product-details',
+  templateUrl: './product-details.component.html',
+  styleUrl: './product-details.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
+&#125;)
+export class ProductDetailsComponent &#123;
+  protected readonly productName = signal('מחשב נייד Dell XPS 15');
+  protected readonly fullDescription = signal(
+    'מחשב נייד מתקדם המיועד למקצוענים ויוצרי תוכן...'
+  );
+
+  protected readonly images = signal([
+    'https://placehold.co/400x300/1976d2/ffffff?text=Image+1',
+    'https://placehold.co/400x300/1565c0/ffffff?text=Image+2',
+    'https://placehold.co/400x300/0d47a1/ffffff?text=Image+3',
+    'https://placehold.co/400x300/1e88e5/ffffff?text=Image+4'
+  ]);
+
+  protected readonly specifications = signal&lt;ProductDetail[]&gt;([
+    &#123; name: 'מעבד', value: 'Intel Core i7-13700H (14 ליבות)' &#125;,
+    &#123; name: 'זיכרון RAM', value: '32GB DDR5' &#125;,
+    &#123; name: 'כרטיס מסך', value: 'NVIDIA GeForce RTX 4050 (6GB)' &#125;,
+    // ... more specs
+  ]);
+
+  protected readonly priceBreakdown = signal([
+    &#123; item: 'מחיר בסיסי', amount: 5999 &#125;,
+    &#123; item: 'שדרוג ל-32GB RAM', amount: 600 &#125;,
+    // ... more items
+  ]);
+
+  protected readonly totalPrice = signal(6999);
+&#125;</code></pre>
+
+            <h5>product-details.component.html</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="product-details-container"&gt;
+  &lt;h2&gt;&#123;&#123; productName() &#125;&#125;&lt;/h2&gt;
+
+  &lt;div class="description-section"&gt;
+    &lt;h3&gt;תיאור מלא&lt;/h3&gt;
+    &lt;p&gt;&#123;&#123; fullDescription() &#125;&#125;&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class="gallery-section"&gt;
+    &lt;h3&gt;גלריית תמונות&lt;/h3&gt;
+    &lt;div class="image-gallery"&gt;
+      &commat;for (image of images(); track $index) &#123;
+        &lt;img [src]="image" [alt]="'תמונה ' + ($index + 1)"&gt;
+      &#125;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="specifications-section"&gt;
+    &lt;h3&gt;מפרט טכני&lt;/h3&gt;
+    &commat;for (spec of specifications(); track spec.name) &#123;
+      &lt;div&gt;&#123;&#123; spec.name &#125;&#125;: &#123;&#123; spec.value &#125;&#125;&lt;/div&gt;
+    &#125;
+  &lt;/div&gt;
+
+  &lt;div class="price-section"&gt;
+    &lt;h3&gt;פירוט מחיר&lt;/h3&gt;
+    &commat;for (item of priceBreakdown(); track item.item) &#123;
+      &lt;div&gt;&#123;&#123; item.item &#125;&#125;: ₪&#123;&#123; item.amount &#125;&#125;&lt;/div&gt;
+    &#125;
+    &lt;div&gt;סה"כ: ₪&#123;&#123; totalPrice() &#125;&#125;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        }
       </div>
 
       <div class="component-card defer-card">
@@ -106,6 +244,99 @@
           <li>התוכן הזמני יהיה כפתור שמזמין את המשתמש לצפות בביקורות</li>
           <li>אינדיקטור הטעינה יהיה גלוי למשך 4/5 שנייה לפחות</li>
         </ul>
+
+        <button class="collapse-toggle" (click)="toggleProductReviewsCode()">
+          <span class="arrow" [class.expanded]="showProductReviewsCode()">▼</span>
+          הצג/הסתר קוד הפתרון
+        </button>
+
+        @if (showProductReviewsCode()) {
+          <div class="solution-code">
+            <h5>product-reviews.component.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
+import &#123; FormBuilder, FormGroup, ReactiveFormsModule, Validators &#125; from '&commat;angular/forms';
+
+interface Review &#123;
+  id: number;
+  author: string;
+  rating: number;
+  date: string;
+  content: string;
+&#125;
+
+&commat;Component(&#123;
+  selector: 'app-product-reviews',
+  templateUrl: './product-reviews.component.html',
+  styleUrl: './product-reviews.component.css',
+  imports: [ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
+&#125;)
+export class ProductReviewsComponent &#123;
+  protected readonly Math = Math; // Expose Math to template
+
+  protected readonly reviews = signal&lt;Review[]&gt;([
+    &#123;
+      id: 1,
+      author: 'דניאל כהן',
+      rating: 5,
+      date: '2024-10-15',
+      content: 'מחשב מדהים! ביצועים מעולים ועיצוב יפהפה...'
+    &#125;,
+    // ... more reviews
+  ]);
+
+  protected readonly averageRating = signal(4.4);
+  protected readonly reviewForm: FormGroup;
+
+  constructor(private fb: FormBuilder) &#123;
+    this.reviewForm = this.fb.group(&#123;
+      author: ['', [Validators.required, Validators.minLength(2)]],
+      rating: [5, [Validators.required, Validators.min(1), Validators.max(5)]],
+      content: ['', [Validators.required, Validators.minLength(10)]]
+    &#125;);
+  &#125;
+
+  protected onSubmitReview(): void &#123;
+    if (this.reviewForm.valid) &#123;
+      console.log('ביקורת חדשה:', this.reviewForm.value);
+      this.reviewForm.reset(&#123; rating: 5 &#125;);
+    &#125;
+  &#125;
+
+  protected getStars(rating: number): string[] &#123;
+    return Array(5).fill(0).map((_, i) =&gt; i &lt; rating ? '★' : '☆');
+  &#125;
+&#125;</code></pre>
+
+            <h5>product-reviews.component.html (קטע מייצג)</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="reviews-container"&gt;
+  &lt;h2&gt;ביקורות לקוחות&lt;/h2&gt;
+
+  &lt;div class="average-rating"&gt;
+    &lt;div&gt;&#123;&#123; averageRating() &#125;&#125;&lt;/div&gt;
+    &commat;for (star of getStars(Math.round(averageRating())); track $index) &#123;
+      &lt;span&gt;&#123;&#123; star &#125;&#125;&lt;/span&gt;
+    &#125;
+  &lt;/div&gt;
+
+  &lt;div class="reviews-list"&gt;
+    &commat;for (review of reviews(); track review.id) &#123;
+      &lt;div class="review-card"&gt;
+        &lt;div&gt;&#123;&#123; review.author &#125;&#125;&lt;/div&gt;
+        &lt;div&gt;&#123;&#123; review.content &#125;&#125;&lt;/div&gt;
+      &lt;/div&gt;
+    &#125;
+  &lt;/div&gt;
+
+  &lt;form [formGroup]="reviewForm" (ngSubmit)="onSubmitReview()"&gt;
+    &lt;input formControlName="author" placeholder="שם מלא"&gt;
+    &lt;select formControlName="rating"&gt;...&lt;/select&gt;
+    &lt;textarea formControlName="content"&gt;&lt;/textarea&gt;
+    &lt;button type="submit" [disabled]="reviewForm.invalid"&gt;פרסם ביקורת&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        }
       </div>
 
       <div class="component-card defer-card">
@@ -119,6 +350,67 @@
           <li>התוכן הזמני יציג הודעה שמעודדת את המשתמש להעביר עכבר</li>
           <li>אינדיקטור הטעינה יופיע רק אחרי חמישית שנייה</li>
         </ul>
+
+        <button class="collapse-toggle" (click)="toggleRelatedProductsCode()">
+          <span class="arrow" [class.expanded]="showRelatedProductsCode()">▼</span>
+          הצג/הסתר קוד הפתרון
+        </button>
+
+        @if (showRelatedProductsCode()) {
+          <div class="solution-code">
+            <h5>related-products.component.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal, input &#125; from '&commat;angular/core';
+
+interface RelatedProduct &#123;
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+&#125;
+
+&commat;Component(&#123;
+  selector: 'app-related-products',
+  templateUrl: './related-products.component.html',
+  styleUrl: './related-products.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
+&#125;)
+export class RelatedProductsComponent &#123;
+  category = input&lt;string&gt;('מחשבים');
+
+  protected readonly relatedProducts = signal&lt;RelatedProduct[]&gt;([
+    &#123;
+      id: 11,
+      name: 'מחשב נייד HP Pavilion',
+      price: 4999,
+      image: 'https://placehold.co/200x150/9c27b0/ffffff?text=HP'
+    &#125;,
+    &#123;
+      id: 12,
+      name: 'מחשב נייד Lenovo ThinkPad',
+      price: 5799,
+      image: 'https://placehold.co/200x150/673ab7/ffffff?text=Lenovo'
+    &#125;,
+    // ... more products
+  ]);
+&#125;</code></pre>
+
+            <h5>related-products.component.html</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="related-products-container"&gt;
+  &lt;h2&gt;מוצרים קשורים בקטגוריה: &#123;&#123; category() &#125;&#125;&lt;/h2&gt;
+
+  &lt;div class="products-grid"&gt;
+    &commat;for (product of relatedProducts(); track product.id) &#123;
+      &lt;div class="product-card"&gt;
+        &lt;img [src]="product.image" [alt]="product.name"&gt;
+        &lt;h3&gt;&#123;&#123; product.name &#125;&#125;&lt;/h3&gt;
+        &lt;p&gt;₪&#123;&#123; product.price &#125;&#125;&lt;/p&gt;
+        &lt;button&gt;צפה במוצר&lt;/button&gt;
+      &lt;/div&gt;
+    &#125;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        }
       </div>
 
       <div class="component-card defer-card">
@@ -133,6 +425,80 @@
           <li>הורד את הקוד מראש רק אם המשתמש הוא מנהל</li>
           <li>התוכן הזמני יהיה כפתור "הצג נתונים סטטיסטיים"</li>
         </ul>
+
+        <button class="collapse-toggle" (click)="toggleProductAnalyticsCode()">
+          <span class="arrow" [class.expanded]="showProductAnalyticsCode()">▼</span>
+          הצג/הסתר קוד הפתרון
+        </button>
+
+        @if (showProductAnalyticsCode()) {
+          <div class="solution-code">
+            <h5>product-analytics.component.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
+
+interface AnalyticsData &#123;
+  label: string;
+  value: number;
+  color: string;
+&#125;
+
+&commat;Component(&#123;
+  selector: 'app-product-analytics',
+  templateUrl: './product-analytics.component.html',
+  styleUrl: './product-analytics.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
+&#125;)
+export class ProductAnalyticsComponent &#123;
+  protected readonly views = signal(15234);
+  protected readonly purchases = signal(892);
+  protected readonly stockLevel = signal(47);
+  protected readonly conversionRate = signal(5.85);
+
+  protected readonly monthlyData = signal&lt;AnalyticsData[]&gt;([
+    &#123; label: 'ינואר', value: 120, color: '#1976d2' &#125;,
+    &#123; label: 'פברואר', value: 95, color: '#2196f3' &#125;,
+    &#123; label: 'מרץ', value: 140, color: '#03a9f4' &#125;,
+    // ... more months
+  ]);
+
+  protected getBarHeight(value: number): number &#123;
+    const maxValue = Math.max(...this.monthlyData().map(d =&gt; d.value));
+    return (value / maxValue) * 100;
+  &#125;
+&#125;</code></pre>
+
+            <h5>product-analytics.component.html (קטע מייצג)</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="analytics-container"&gt;
+  &lt;h2&gt;סטטיסטיקות מוצר&lt;/h2&gt;
+
+  &lt;div class="metrics-grid"&gt;
+    &lt;div class="metric-card"&gt;
+      &lt;div&gt;👁️&lt;/div&gt;
+      &lt;div&gt;&#123;&#123; views().toLocaleString() &#125;&#125;&lt;/div&gt;
+      &lt;div&gt;צפיות&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="metric-card"&gt;
+      &lt;div&gt;🛒&lt;/div&gt;
+      &lt;div&gt;&#123;&#123; purchases().toLocaleString() &#125;&#125;&lt;/div&gt;
+      &lt;div&gt;רכישות&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="chart-section"&gt;
+    &lt;h3&gt;מכירות חודשיות&lt;/h3&gt;
+    &commat;for (data of monthlyData(); track data.label) &#123;
+      &lt;div class="chart-bar"&gt;
+        &lt;div [style.height.%]="getBarHeight(data.value)"
+             [style.background]="data.color"&gt;
+          &#123;&#123; data.value &#125;&#125;
+        &lt;/div&gt;
+        &lt;div&gt;&#123;&#123; data.label &#125;&#125;&lt;/div&gt;
+      &lt;/div&gt;
+    &#125;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        }
       </div>
 
       <div class="component-card defer-card">
@@ -145,6 +511,51 @@
           <li>אין צורך בתוכן זמני - הבאנר פשוט יופיע אחרי הזמן הקבוע</li>
           <li>אינדיקטור הטעינה יהיה גלוי לפחות חצי שנייה</li>
         </ul>
+
+        <button class="collapse-toggle" (click)="togglePromotionalBannerCode()">
+          <span class="arrow" [class.expanded]="showPromotionalBannerCode()">▼</span>
+          הצג/הסתר קוד הפתרון
+        </button>
+
+        @if (showPromotionalBannerCode()) {
+          <div class="solution-code">
+            <h5>promotional-banner.component.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
+
+&commat;Component(&#123;
+  selector: 'app-promotional-banner',
+  templateUrl: './promotional-banner.component.html',
+  styleUrl: './promotional-banner.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
+&#125;)
+export class PromotionalBannerComponent &#123;
+  protected readonly isVisible = signal(true);
+  protected readonly couponCode = signal('DEFER2024');
+  protected readonly discountPercent = signal(15);
+
+  protected closeBanner(): void &#123;
+    this.isVisible.set(false);
+  &#125;
+&#125;</code></pre>
+
+            <h5>promotional-banner.component.html</h5>
+            <pre ngNonBindable><code class="language-html">&commat;if (isVisible()) &#123;
+  &lt;div class="banner-container"&gt;
+    &lt;button class="close-btn" (click)="closeBanner()"&gt;✕&lt;/button&gt;
+
+    &lt;div class="banner-content"&gt;
+      &lt;div&gt;🎉&lt;/div&gt;
+      &lt;h3&gt;מבצע מיוחד!&lt;/h3&gt;
+      &lt;p&gt;קבל/י &#123;&#123; discountPercent() &#125;&#125;% הנחה על כל המוצרים&lt;/p&gt;
+      &lt;div class="coupon-code"&gt;
+        &lt;span&gt;קוד קופון:&lt;/span&gt;
+        &lt;span&gt;&#123;&#123; couponCode() &#125;&#125;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&#125;</code></pre>
+          </div>
+        }
       </div>
     </section>
 

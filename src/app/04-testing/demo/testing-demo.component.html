@@ -1,0 +1,95 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>🧪 הדגמת בדיקות - ProductListComponent</h1>
+    <p class="subtitle">דוגמה לקומפוננטה עם בדיקות מקיפות</p>
+  </div>
+
+  <div class="demo-content">
+    <section class="controls-section">
+      <h2>בקרות להדגמה</h2>
+      <div class="controls">
+        <div class="button-group">
+          <button (click)="clearFilter()" [class.active]="categoryFilter() === ''">
+            כל המוצרים
+          </button>
+          <button (click)="filterByCategory('מחשבים')" [class.active]="categoryFilter() === 'מחשבים'">
+            מחשבים
+          </button>
+          <button (click)="filterByCategory('אביזרים')" [class.active]="categoryFilter() === 'אביזרים'">
+            אביזרים
+          </button>
+          <button (click)="filterByCategory('מסכים')" [class.active]="categoryFilter() === 'מסכים'">
+            מסכים
+          </button>
+          <button (click)="filterByCategory('רכיבים')" [class.active]="categoryFilter() === 'רכיבים'">
+            רכיבים
+          </button>
+        </div>
+
+        <button class="toggle-loading" (click)="toggleLoading()">
+          {{ loading() ? '✓ הסתר Loading' : '⏳ הצג Loading' }}
+        </button>
+      </div>
+    </section>
+
+    <section class="component-section">
+      <h2>הקומפוננטה</h2>
+      <app-product-list
+        [products]="products()"
+        [categoryFilter]="categoryFilter()"
+        [loading]="loading()"
+      />
+    </section>
+
+    <section class="info-section">
+      <h2>📋 מה נבדק בקומפוננטה זו?</h2>
+      <div class="test-categories">
+        <div class="test-category">
+          <h3>✅ Signal Inputs</h3>
+          <ul>
+            <li>קבלת מוצרים מקומפוננטת אב</li>
+            <li>סינון לפי קטגוריה</li>
+            <li>מצב טעינה</li>
+          </ul>
+        </div>
+
+        <div class="test-category">
+          <h3>✅ Computed Signals</h3>
+          <ul>
+            <li>כותרת דינמית לפי פילטר</li>
+            <li>מוצרים מסוננים</li>
+            <li>ספירת מוצרים</li>
+          </ul>
+        </div>
+
+        <div class="test-category">
+          <h3>✅ Modern Control Flow</h3>
+          <ul>
+            <li>&commat;if - מצב loading</li>
+            <li>&commat;for - רשימת מוצרים</li>
+            <li>&commat;empty - מצב ריק</li>
+            <li>&commat;if - מוצרים שאזלו</li>
+          </ul>
+        </div>
+
+        <div class="test-category">
+          <h3>✅ DOM Testing</h3>
+          <ul>
+            <li>בדיקת תוכן אלמנטים</li>
+            <li>בדיקת CSS classes</li>
+            <li>בדיקת מבנה</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="code-hint">
+        <h3>💡 איפה הבדיקות?</h3>
+        <p>
+          הבדיקות המלאות של קומפוננטה זו נמצאות ב:
+          <code>src/app/04-testing/demo/product-list/product-list.component.spec.ts</code>
+        </p>
+        <p>הקובץ כולל 15+ בדיקות המכסות את כל הפונקציונליות!</p>
+      </div>
+    </section>
+  </div>
+</div>

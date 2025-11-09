@@ -1,0 +1,131 @@
+<div class="bonus-container">
+  <div class="header">
+    <h1>🏆 תרגילי בונוס - בדיקות מתקדמות</h1>
+    <p class="subtitle">בדיקות Reactive Forms, Async Operations ו-Integration Tests</p>
+  </div>
+
+  <div class="bonus-content">
+    <section class="bonus-section">
+      <h2>📝 חלק ג': Reactive Forms (בונוס - קשה)</h2>
+
+      <div class="task-card">
+        <h3>4. LoginFormComponent - בדיקת טפסים עם Validation</h3>
+        <p>צור/י טופס התחברות עם validations מותאמים.</p>
+
+        <div class="requirements">
+          <h4>דרישות:</h4>
+          <ul>
+            <li>טופס עם שדות email ו-password</li>
+            <li>Validation של פורמט אימייל</li>
+            <li>Validation של אורך סיסמה (מינימום 8 תווים)</li>
+            <li>Custom validator לחוזק סיסמה (חייב לכלול אותיות ומספרים)</li>
+            <li>הצגת הודעות שגיאה</li>
+            <li>Output event כשהטופס נשלח</li>
+          </ul>
+
+          <h4>בדיקות שצריך לכתוב:</h4>
+          <ul>
+            <li>✓ טופס לא תקין כשריק</li>
+            <li>✓ validation של פורמט אימייל</li>
+            <li>✓ validation של אורך סיסמה</li>
+            <li>✓ validation של חוזק סיסמה (custom validator)</li>
+            <li>✓ שליחת אירוע loginSubmit כשהטופס תקין</li>
+            <li>✓ אי-שליחה כשהטופס לא תקין</li>
+            <li>✓ הצגת הודעות שגיאה</li>
+          </ul>
+        </div>
+
+        <div class="hint-box">
+          <strong>טיפ:</strong> טפסים הם סינכרוניים - אין צורך ב-detectChanges לבדיקת validation. השתמשו
+          ב-<code>jest.fn()</code> ליצירת spy functions.
+        </div>
+      </div>
+
+      <div class="task-card">
+        <h3>5. SearchFilterComponent - בדיקות Async עם Debounce</h3>
+        <p>צור/י קומפוננטת חיפוש עם debouncing.</p>
+
+        <div class="requirements">
+          <h4>דרישות:</h4>
+          <ul>
+            <li>Input חיפוש עם debounce של 300ms</li>
+            <li>אינדיקטור "מחפש..." בזמן ה-debounce</li>
+            <li>Output event עם query החיפוש</li>
+            <li>ביטול חיפוש קודם כשמקלידים מחדש</li>
+          </ul>
+
+          <h4>בדיקות שצריך לכתוב:</h4>
+          <ul>
+            <li>✓ debounce של input חיפוש</li>
+            <li>✓ הצגת אינדיקטור "מחפש..."</li>
+            <li>✓ ביטול חיפוש קודם</li>
+          </ul>
+        </div>
+
+        <div class="hint-box">
+          <strong>טיפ:</strong> השתמשו ב-<code>fakeAsync()</code> ו-<code>tick(ms)</code> לשליטה בזמן
+          בבדיקות.
+        </div>
+      </div>
+
+      <div class="task-card">
+        <h3>6. Cart Integration Tests - בדיקות אינטגרציה</h3>
+        <p>צור/י בדיקות שבודקות flow מלא של הוספת מוצר לעגלה.</p>
+
+        <div class="requirements">
+          <h4>בדיקות שצריך לכתוב:</h4>
+          <ul>
+            <li>✓ flow מלא של רכישה (טעינת מוצרים → הוספה לעגלה → עדכון כמות → חישוב מחיר)</li>
+            <li>✓ טיפול במוצרים שאזלו מהמלאי</li>
+            <li>✓ שמירת עגלה בין טעינות דף (localStorage)</li>
+          </ul>
+        </div>
+
+        <div class="hint-box">
+          <strong>טיפ:</strong> integration tests בודקים את האינטראקציה בין מספר קומפוננטות ו-services
+          יחד.
+        </div>
+      </div>
+    </section>
+
+    <section class="bonus-section zoneless">
+      <h2>🧪 Zoneless Testing</h2>
+      <p>
+        בדיקות ב-Zoneless mode - אפליקציות בלי zone.js. הוסיפו
+        <code>provideExperimentalZonelessChangeDetection()</code> ל-providers בבדיקות.
+      </p>
+
+      <div class="code-example">
+        <h4>דוגמה:</h4>
+        <pre><code class="language-typescript">beforeEach(() =&gt; &#123;
+  TestBed.configureTestingModule(&#123;
+    providers: [
+      provideExperimentalZonelessChangeDetection()
+    ]
+  &#125;);
+&#125;);
+
+it('should update automatically without detectChanges', () =&gt; &#123;
+  component.count.set(5);
+  // ב-zoneless, אין צורך ב-fixture.detectChanges()!
+  expect(fixture.nativeElement.textContent).toContain('5');
+&#125;);</code></pre>
+      </div>
+    </section>
+
+    <section class="resources-section">
+      <h2>📚 משאבים נוספים</h2>
+      <ul>
+        <li>📖 ראו את <code>EXERCISE.md</code> להוראות מפורטות</li>
+        <li>📖 ראו דוגמאות בתיקיית <code>demo/</code></li>
+        <li>📖 התמקדו בבדיקת התנהגות, לא מימוש</li>
+        <li>📖 כתבו בדיקות תיאוריות עם שמות ברורים</li>
+      </ul>
+    </section>
+
+    <div class="success-message">
+      <h3>מוכנים להתחיל? בהצלחה! 🚀</h3>
+      <p>זכרו: טסטים טובים מביאים לקוד טוב יותר</p>
+    </div>
+  </div>
+</div>

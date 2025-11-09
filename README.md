@@ -69,6 +69,29 @@ Master Angular's @defer syntax for lazy loading and performance optimization.
 
 ---
 
+### 4. Unit Testing (04-testing)
+Learn modern Angular testing with Jest, covering standalone components, signals, HTTP services, and more.
+
+- **Location:** `src/app/04-testing/`
+- **Instructions:** [EXERCISE.md](src/app/04-testing/EXERCISE.md)
+- **Topics Covered:**
+  - Jest setup and configuration
+  - Testing standalone components with signals
+  - Testing modern control flow (@if, @for, @switch)
+  - HTTP testing with provideHttpClient/provideHttpClientTesting
+  - Testing reactive forms and custom validators
+  - Async testing with fakeAsync, tick, waitForAsync
+  - Zoneless testing patterns
+  - Integration tests
+  - Test-Driven Development (TDD)
+
+**Routes:**
+- `/testing-instructions` - Exercise instructions
+- `/testing-demo` - Component testing demo
+- `/testing-bonus` - Advanced testing patterns
+
+---
+
 ## Project Structure
 
 ```
@@ -88,6 +111,11 @@ src/app/
 │   ├── bonus/               # Advanced features
 │   └── instructions/        # Exercise instructions
 │
+├── 04-testing/              # Unit Testing exercises
+│   ├── demo/                # Testing examples
+│   ├── bonus/               # Advanced testing patterns
+│   └── instructions/        # Exercise instructions
+│
 └── shared/                  # Shared resources
     ├── models/              # Data models
     └── utils/               # Utility functions
@@ -100,6 +128,7 @@ src/app/
 - **Angular CDK** 20.0.2
 - **RxJS** 7.8.1
 - **Zone.js** 0.15.0
+- **Jest** 30.2.0 (testing framework)
 
 ## Getting Started
 

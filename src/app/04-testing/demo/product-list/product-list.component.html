@@ -1,0 +1,24 @@
+<div class="product-list">
+  <h2>{{ title() }}</h2>
+
+  @if (loading()) {
+    <div class="loading">טוען מוצרים...</div>
+  } @else {
+    <div class="products-grid">
+      @for (product of visibleProducts(); track product.id) {
+        <div class="product-card" [class.out-of-stock]="!product.inStock">
+          <h3>{{ product.name }}</h3>
+          <p class="price">₪{{ product.price }}</p>
+          <p class="category">{{ product.category }}</p>
+          @if (!product.inStock) {
+            <span class="badge">אזל מהמלאי</span>
+          }
+        </div>
+      } @empty {
+        <p class="empty-state">אין מוצרים להצגה</p>
+      }
+    </div>
+  }
+
+  <div class="summary">סה"כ {{ productCount() }} מוצרים</div>
+</div>

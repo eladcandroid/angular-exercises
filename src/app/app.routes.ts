@@ -8,6 +8,9 @@ import { DeferInstructionsComponent } from './03-defer/instructions/defer-instru
 import { SignalsInstructionsComponent } from './01-signals/instructions/signals-instructions';
 import { TodoAppComponent } from './01-signals/demo/todo-app/todo-app';
 import { TodoAppBonusComponent } from './01-signals/bonus/todo-app-bonus/todo-app-bonus';
+import { TestingInstructionsComponent } from './04-testing/instructions/testing-instructions';
+import { TestingDemoComponent } from './04-testing/demo/testing-demo.component';
+import { BonusTestingComponent } from './04-testing/bonus/bonus-testing.component';
 
 export const routes: Routes = [
   {
@@ -49,5 +52,17 @@ export const routes: Routes = [
   {
     path: 'bonus',
     component: BonusDemosComponent
+  },
+  {
+    path: 'testing-instructions',
+    component: TestingInstructionsComponent
+  },
+  {
+    path: 'testing-demo',
+    component: TestingDemoComponent
+  },
+  {
+    path: 'testing-bonus',
+    component: BonusTestingComponent
   }
 ];

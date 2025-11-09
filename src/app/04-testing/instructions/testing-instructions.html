@@ -1,0 +1,621 @@
+<div class="instructions-container">
+  <div class="header">
+    <h1>🧪 תרגיל: בדיקות יחידה (Unit Testing) ב-Angular 20 עם Jest</h1>
+  </div>
+
+  <div class="readme-content">
+    <section class="section">
+      <h2>תיאור כללי</h2>
+      <p>
+        תרגיל מקיף זה נועד ללמד אתכם כיצד לכתוב בדיקות יחידה מודרניות ב-Angular 20 באמצעות
+        <strong>Jest</strong>. התרגיל מכסה בדיקות של standalone components, signals, reactive
+        forms, HTTP services, ופעולות אסינכרוניות - הכל בהקשר של אפליקציית קניות מקוונת.
+      </p>
+
+      <p>
+        <strong>תרחיש:</strong> אתם בונים אפליקציית קניות מקוונת עם קטלוג מוצרים, עגלת
+        קניות, חיפוש ופילטרים, והזדהות משתמשים. לכל תכונה תכתבו בדיקות מקיפות שמבטיחות
+        שהקוד עובד כמו שצריך.
+      </p>
+
+      <div class="meta-info">
+        <span class="badge">⏱️ משך זמן משוער: 4-5 שעות</span>
+        <span class="badge">📊 רמת קושי: ביניים-מתקדמת</span>
+        <span class="badge"
+          >💻 טכנולוגיות: Angular 20, Jest, Signals, Zoneless, Standalone Components</span
+        >
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🎯 מטרות הלמידה</h2>
+      <p>בסיום התרגיל תדעו לכתוב בדיקות עבור:</p>
+      <ul class="checklist">
+        <li>✅ <strong>Standalone Components</strong> עם signals ו-modern control flow</li>
+        <li>✅ <strong>Signals</strong> - signal(), computed(), effect()</li>
+        <li>
+          ✅ <strong>HTTP Services</strong> עם provideHttpClient/provideHttpClientTesting
+        </li>
+        <li>✅ <strong>Reactive Forms</strong> עם validators מותאמים</li>
+        <li>✅ <strong>Async Operations</strong> עם fakeAsync, tick, waitForAsync</li>
+        <li>✅ <strong>Zoneless Applications</strong> עם provideExperimentalZonelessChangeDetection</li>
+        <li>✅ <strong>Integration Tests</strong> - בדיקות של flows מלאים</li>
+        <li>✅ <strong>Test-Driven Development (TDD)</strong> - כתיבת בדיקות לפני הקוד</li>
+      </ul>
+    </section>
+
+    <section class="section feature-section">
+      <h2>💡 למה Jest ולא Karma?</h2>
+
+      <h3>Karma הוצא משימוש (Deprecated)</h3>
+      <p>מאז Angular 16, <strong>Karma</strong> הוצא משימוש. הסיבות:</p>
+      <ul>
+        <li>🐌 <strong>איטי</strong> - דורש הרצת דפדפן לכל בדיקה</li>
+        <li>📦 <strong>כבד</strong> - תלוי בהרבה חבילות</li>
+        <li>🚫 <strong>חסר תכונות מודרניות</strong> - אין snapshot testing, parallel execution</li>
+      </ul>
+
+      <h3>למה Jest?</h3>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">⚡</div>
+          <h4>מהיר פי 10</h4>
+          <p>הרצה מקבילית של בדיקות</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">📸</div>
+          <h4>Snapshot Testing</h4>
+          <p>בדיקות קלות של UI</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🎯</div>
+          <h4>Developer Experience</h4>
+          <p>תצוגה ברורה, watch mode מעולה</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🔧</div>
+          <h4>Zero Config</h4>
+          <p>עובד out-of-the-box</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🌍</div>
+          <h4>תקן בתעשייה</h4>
+          <p>משמש ב-React, Vue, Node.js</p>
+        </div>
+      </div>
+
+      <div class="code-example">
+        <h4>התקנת Jest</h4>
+        <pre><code class="language-bash"># התקנת Jest
+npm install --save-dev jest @types/jest jest-preset-angular
+
+# הרצת בדיקות
+npm test                # הרצה רגילה
+npm run test:watch      # watch mode
+npm run test:coverage   # דוח כיסוי</code></pre>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🏗️ מבנה בדיקה בסיסי</h2>
+
+      <div class="code-example">
+        <h4>אנטומיה של בדיקה</h4>
+        <pre><code class="language-typescript">import &#123; ComponentFixture, TestBed &#125; from '@angular/core/testing';
+
+describe('ProductListComponent', () =&gt; &#123;
+  // 1. משתני בדיקה
+  let component: ProductListComponent;
+  let fixture: ComponentFixture&lt;ProductListComponent&gt;;
+
+  // 2. Setup - רץ לפני כל בדיקה
+  beforeEach(() =&gt; &#123;
+    fixture = TestBed.createComponent(ProductListComponent);
+    component = fixture.componentInstance;
+  &#125;);
+
+  // 3. בדיקה אינדיבידואלית
+  it('should create', () =&gt; &#123;
+    expect(component).toBeTruthy();
+  &#125;);
+&#125;);</code></pre>
+      </div>
+
+      <h3>מושגי מפתח</h3>
+      <ul>
+        <li><code>describe()</code> - מקבץ בדיקות קשורות (test suite)</li>
+        <li><code>beforeEach()</code> - קוד setup שרץ לפני כל בדיקה</li>
+        <li><code>it()</code> - בדיקה בודדת</li>
+        <li><code>expect()</code> - assertion על מה שצריך להיות נכון</li>
+      </ul>
+
+      <div class="component-card">
+        <h4>מה זה TestBed?</h4>
+        <ul>
+          <li>כלי עזר לבדיקות של Angular</li>
+          <li>יוצר components בסביבת בדיקה מבודדת</li>
+          <li>מספק dependency injection לבדיקות</li>
+        </ul>
+
+        <h4>מה זה ComponentFixture?</h4>
+        <ul>
+          <li><code>componentInstance</code> - מחלקת הקומפוננטה</li>
+          <li><code>nativeElement</code> - ה-DOM האמיתי</li>
+          <li><code>debugElement</code> - wrapper של Angular עם כלי עזר</li>
+          <li><code>detectChanges()</code> - הפעלת change detection ידנית</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>📋 דרישות התרגיל</h2>
+
+      <h3>חלק א': בדיקות בסיסיות (קל)</h3>
+
+      <div class="component-card">
+        <h4>1. ProductListComponent - בדיקת קומפוננטה עם Signals</h4>
+        <p>צור/י קומפוננטה שמציגה רשימת מוצרים עם סינון.</p>
+
+        <button class="collapse-toggle" (click)="toggleProductListCode()">
+          <span class="arrow" [class.expanded]="showProductListCode()">▼</span>
+          הצג/הסתר קוד הפתרון
+        </button>
+
+        @if (showProductListCode()) {
+          <div class="solution-code">
+            <h5>shop.models.ts (Product interface)</h5>
+            <pre ngNonBindable><code class="language-typescript">export interface Product &#123;
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  imageUrl?: string;
+  description?: string;
+  inStock: boolean;
+&#125;</code></pre>
+
+            <h5>product-list.component.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, computed, ChangeDetectionStrategy &#125; from '&commat;angular/core';
+import &#123; Product &#125; from '../../../shared/models/shop.models';
+
+&commat;Component(&#123;
+  selector: 'app-product-list',
+  imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './product-list.component.html',
+  styleUrl: './product-list.component.scss',
+&#125;)
+export class ProductListComponent &#123;
+  products = input.required&lt;Product[]&gt;();
+  categoryFilter = input&lt;string&gt;('');
+  loading = input&lt;boolean&gt;(false);
+
+  title = computed(() =&gt; &#123;
+    const category = this.categoryFilter();
+    return category ? `מוצרים בקטגוריה: $&#123;category&#125;` : 'כל המוצרים';
+  &#125;);
+
+  visibleProducts = computed(() =&gt; &#123;
+    const filter = this.categoryFilter();
+    if (!filter) return this.products();
+    return this.products().filter((p) =&gt; p.category === filter);
+  &#125;);
+
+  productCount = computed(() =&gt; this.visibleProducts().length);
+&#125;</code></pre>
+
+            <h5>product-list.component.html</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="product-list"&gt;
+  &lt;h2&gt;&#123;&#123; title() &#125;&#125;&lt;/h2&gt;
+
+  &commat;if (loading()) &#123;
+    &lt;div class="loading"&gt;טוען מוצרים...&lt;/div&gt;
+  &#125; &commat;else &#123;
+    &lt;div class="products-grid"&gt;
+      &commat;for (product of visibleProducts(); track product.id) &#123;
+        &lt;div class="product-card" [class.out-of-stock]="!product.inStock"&gt;
+          &lt;h3&gt;&#123;&#123; product.name &#125;&#125;&lt;/h3&gt;
+          &lt;p class="price"&gt;₪&#123;&#123; product.price &#125;&#125;&lt;/p&gt;
+          &lt;p class="category"&gt;&#123;&#123; product.category &#125;&#125;&lt;/p&gt;
+          &commat;if (!product.inStock) &#123;
+            &lt;span class="badge"&gt;אזל מהמלאי&lt;/span&gt;
+          &#125;
+        &lt;/div&gt;
+      &#125; &commat;empty &#123;
+        &lt;p class="empty-state"&gt;אין מוצרים להצגה&lt;/p&gt;
+      &#125;
+    &lt;/div&gt;
+  &#125;
+
+  &lt;div class="summary"&gt;סה"כ &#123;&#123; productCount() &#125;&#125; מוצרים&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        }
+
+        <p><strong>הבדיקות שצריך לכתוב:</strong></p>
+        <ul>
+          <li>✓ בדיקת יצירת הקומפוננטה</li>
+          <li>✓ הצגת כל המוצרים</li>
+          <li>✓ סינון מוצרים לפי קטגוריה</li>
+          <li>✓ הצגת מצב loading</li>
+          <li>✓ הצגת מצב empty state</li>
+          <li>✓ סימון מוצרים שאזלו מהמלאי</li>
+          <li>✓ חישוב כותרת לפי פילטר</li>
+          <li>✓ ספירת מוצרים נכונה</li>
+        </ul>
+
+        <p><strong>טיפים:</strong></p>
+        <ul>
+          <li>השתמשו ב-<code>componentRef.setInput()</code> להגדרת signal inputs</li>
+          <li>זכרו לקרוא ל-<code>fixture.detectChanges()</code> אחרי שינוי inputs</li>
+          <li>השתמשו ב-<code>querySelector</code> למציאת אלמנטים ב-DOM</li>
+          <li>בדקו גם את התוכן (<code>textContent</code>) וגם את המבנה (מספר אלמנטים)</li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h4>2. ShoppingCartService - בדיקת Service עם Signals</h4>
+        <p>צור/י service לניהול עגלת קניות.</p>
+
+        <button class="collapse-toggle" (click)="toggleShoppingCartCode()">
+          <span class="arrow" [class.expanded]="showShoppingCartCode()">▼</span>
+          הצג/הסתר קוד הפתרון
+        </button>
+
+        @if (showShoppingCartCode()) {
+          <div class="solution-code">
+            <h5>shop.models.ts (Product & CartItem interfaces)</h5>
+            <pre ngNonBindable><code class="language-typescript">export interface Product &#123;
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  imageUrl?: string;
+  description?: string;
+  inStock: boolean;
+&#125;
+
+export interface CartItem &#123;
+  product: Product;
+  quantity: number;
+&#125;</code></pre>
+
+            <h5>shopping-cart.service.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Injectable, signal, computed, effect &#125; from '&commat;angular/core';
+import &#123; CartItem, Product &#125; from '../../../shared/models/shop.models';
+
+&commat;Injectable(&#123; providedIn: 'root' &#125;)
+export class ShoppingCartService &#123;
+  private items = signal&lt;CartItem[]&gt;([]);
+
+  // Computed signals
+  cartItems = computed(() =&gt; this.items());
+
+  totalItems = computed(() =&gt; this.items().reduce((sum, item) =&gt; sum + item.quantity, 0));
+
+  totalPrice = computed(() =&gt;
+    this.items().reduce((sum, item) =&gt; sum + item.product.price * item.quantity, 0)
+  );
+
+  isEmpty = computed(() =&gt; this.items().length === 0);
+
+  constructor() &#123;
+    // Effect לשמירה ב-localStorage
+    effect(() =&gt; &#123;
+      const cartData = this.items();
+      if (typeof localStorage !== 'undefined') &#123;
+        localStorage.setItem('cart', JSON.stringify(cartData));
+      &#125;
+    &#125;);
+
+    // Load from localStorage on init
+    this.loadFromStorage();
+  &#125;
+
+  private loadFromStorage() &#123;
+    if (typeof localStorage !== 'undefined') &#123;
+      const stored = localStorage.getItem('cart');
+      if (stored) &#123;
+        try &#123;
+          const parsed = JSON.parse(stored);
+          this.items.set(parsed);
+        &#125; catch (e) &#123;
+          console.error('Failed to parse cart from localStorage', e);
+        &#125;
+      &#125;
+    &#125;
+  &#125;
+
+  addItem(product: Product, quantity: number = 1) &#123;
+    this.items.update((items) =&gt; &#123;
+      const existingItem = items.find((i) =&gt; i.product.id === product.id);
+
+      if (existingItem) &#123;
+        return items.map((item) =&gt;
+          item.product.id === product.id ? &#123; ...item, quantity: item.quantity + quantity &#125; : item
+        );
+      &#125;
+
+      return [...items, &#123; product, quantity &#125;];
+    &#125;);
+  &#125;
+
+  removeItem(productId: number) &#123;
+    this.items.update((items) =&gt; items.filter((item) =&gt; item.product.id !== productId));
+  &#125;
+
+  updateQuantity(productId: number, quantity: number) &#123;
+    if (quantity &lt;= 0) &#123;
+      this.removeItem(productId);
+      return;
+    &#125;
+
+    this.items.update((items) =&gt;
+      items.map((item) =&gt; (item.product.id === productId ? &#123; ...item, quantity &#125; : item))
+    );
+  &#125;
+
+  clear() &#123;
+    this.items.set([]);
+  &#125;
+
+  getItemQuantity(productId: number): number &#123;
+    const item = this.items().find((i) =&gt; i.product.id === productId);
+    return item ? item.quantity : 0;
+  &#125;
+&#125;</code></pre>
+          </div>
+        }
+
+        <p><strong>הבדיקות שצריך לכתוב:</strong></p>
+        <ul>
+          <li>✓ יצירת ה-service</li>
+          <li>✓ עגלה ריקה בהתחלה</li>
+          <li>✓ הוספת מוצר לעגלה</li>
+          <li>✓ עדכון כמות כשמוסיפים מוצר קיים</li>
+          <li>✓ הסרת מוצר מהעגלה</li>
+          <li>✓ עדכון כמות מוצר</li>
+          <li>✓ חישוב סך הפריטים</li>
+          <li>✓ חישוב סך המחיר</li>
+          <li>✓ ניקוי עגלה</li>
+          <li>✓ שמירה ב-localStorage</li>
+        </ul>
+
+        <p><strong>טיפים:</strong></p>
+        <ul>
+          <li>Signals הם <strong>סינכרוניים</strong> - אין צורך ב-async/await</li>
+          <li>השתמשו ב-<code>TestBed.flushEffects()</code> לבדיקת effects</li>
+          <li>זכרו לנקות localStorage לפני ואחרי כל בדיקה</li>
+          <li>computed signals מתעדכנים אוטומטית</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>חלק ב': בדיקות HTTP (בינוני)</h3>
+
+      <div class="component-card">
+        <h4>3. ProductApiService - בדיקת HTTP Requests</h4>
+        <p>צור/י service לשליפת מוצרים מ-API.</p>
+
+        <p><strong>הבדיקות שצריך לכתוב:</strong></p>
+        <ul>
+          <li>✓ שליפת כל המוצרים (GET)</li>
+          <li>✓ שליפת מוצר בודד לפי ID</li>
+          <li>✓ חיפוש מוצרים עם פילטרים (POST)</li>
+          <li>✓ יצירת מוצר חדש (POST)</li>
+          <li>✓ עדכון מוצר (PATCH)</li>
+          <li>✓ מחיקת מוצר (DELETE)</li>
+          <li>✓ טיפול בשגיאות HTTP</li>
+        </ul>
+
+        <div class="code-example">
+          <h4>דוגמת Setup לבדיקות HTTP</h4>
+          <pre><code class="language-typescript">import &#123; provideHttpClient &#125; from '@angular/common/http';
+import &#123;
+  HttpTestingController,
+  provideHttpClientTesting
+&#125; from '@angular/common/http/testing';
+
+beforeEach(() =&gt; &#123;
+  TestBed.configureTestingModule(&#123;
+    providers: [
+      provideHttpClient(),           // חובה להיות ראשון!
+      provideHttpClientTesting()     // override עם testing version
+    ]
+  &#125;);
+
+  service = TestBed.inject(ProductApiService);
+  httpTesting = TestBed.inject(HttpTestingController);
+&#125;);
+
+afterEach(() =&gt; &#123;
+  httpTesting.verify(); // וודא שאין בקשות תלויות
+&#125;);</code></pre>
+        </div>
+
+        <p><strong>טיפים:</strong></p>
+        <ul>
+          <li><strong>סדר חשוב!</strong> <code>provideHttpClient()</code> חייב להיות לפני <code>provideHttpClientTesting()</code></li>
+          <li><code>expectOne()</code> תופס בקשה אחת - הבדיקה נכשלת אם יש יותר/פחות</li>
+          <li><code>flush()</code> שולח תשובה מדומה</li>
+          <li><code>verify()</code> מוודא שכל הבקשות טופלו</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>חלק ג': Reactive Forms (בונוס - קשה)</h3>
+
+      <div class="component-card">
+        <h4>4. LoginFormComponent - בדיקת טפסים עם Validation</h4>
+        <p>צור/י טופס התחברות עם validations מותאמים.</p>
+
+        <p><strong>הבדיקות שצריך לכתוב:</strong></p>
+        <ul>
+          <li>✓ טופס לא תקין כשריק</li>
+          <li>✓ validation של פורמט אימייל</li>
+          <li>✓ validation של אורך סיסמה</li>
+          <li>✓ validation של חוזק סיסמה (custom validator)</li>
+          <li>✓ שליחת אירוע loginSubmit כשהטופס תקין</li>
+          <li>✓ אי-שליחה כשהטופס לא תקין</li>
+          <li>✓ הצגת הודעות שגיאה</li>
+        </ul>
+
+        <p><strong>טיפים:</strong></p>
+        <ul>
+          <li>טפסים הם <strong>סינכרוניים</strong> - אין צורך ב-detectChanges לבדיקת validation</li>
+          <li>השתמשו ב-<code>jest.fn()</code> ליצירת spy functions</li>
+          <li>בדקו גם את הלוגיקה וגם את ה-UI</li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h4>5. SearchFilterComponent - בדיקות Async עם Debounce</h4>
+        <p>צור/י קומפוננטת חיפוש עם debouncing.</p>
+
+        <p><strong>הבדיקות שצריך לכתוב:</strong></p>
+        <ul>
+          <li>✓ debounce של input חיפוש</li>
+          <li>✓ הצגת אינדיקטור "מחפש..."</li>
+          <li>✓ ביטול חיפוש קודם</li>
+        </ul>
+
+        <p><strong>טיפים:</strong></p>
+        <ul>
+          <li><code>fakeAsync()</code> - יוצר "fake async zone" שבו אפשר לשלוט בזמן</li>
+          <li><code>tick(ms)</code> - מקדם את הזמן ב-ms מילישניות</li>
+          <li>שימושי לבדיקת setTimeout, setInterval, debounce</li>
+        </ul>
+      </div>
+
+      <div class="component-card">
+        <h4>6. Cart Integration Tests - בדיקות אינטגרציה</h4>
+        <p>צור/י בדיקות שבודקות flow מלא של הוספת מוצר לעגלה.</p>
+
+        <p><strong>הבדיקות שצריך לכתוב:</strong></p>
+        <ul>
+          <li>✓ flow מלא של רכישה</li>
+          <li>✓ טיפול במוצרים שאזלו מהמלאי</li>
+          <li>✓ שמירת עגלה בין טעינות דף (localStorage)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section feature-section">
+      <h2>🧪 Zoneless Testing</h2>
+      <p>Angular 20 תומך ב-<strong>Zoneless</strong> mode - אפליקציות בלי zone.js.</p>
+
+      <div class="code-example">
+        <h4>הגדרת Zoneless</h4>
+        <pre><code class="language-typescript">// main.ts
+import &#123; provideExperimentalZonelessChangeDetection &#125; from '@angular/core';
+
+bootstrapApplication(AppComponent, &#123;
+  providers: [
+    provideExperimentalZonelessChangeDetection(),
+    // ...
+  ]
+&#125;);</code></pre>
+      </div>
+
+      <div class="code-example">
+        <h4>בדיקות Zoneless</h4>
+        <pre><code class="language-typescript">beforeEach(() =&gt; &#123;
+  TestBed.configureTestingModule(&#123;
+    providers: [
+      provideExperimentalZonelessChangeDetection()
+    ]
+  &#125;);
+&#125;);
+
+it('should update automatically without detectChanges', () =&gt; &#123;
+  component.count.set(5);
+  // ב-zoneless, אין צורך ב-fixture.detectChanges()!
+  // ה-UI מתעדכן אוטומטית
+
+  expect(fixture.nativeElement.textContent).toContain('5');
+&#125;);</code></pre>
+      </div>
+
+      <h3>הבדלים עיקריים</h3>
+      <ul>
+        <li>✅ פחות <code>detectChanges()</code> ידניים</li>
+        <li>✅ Signals גורמים לעדכונים אוטומטיים</li>
+        <li>⚠️ צריך להיזהר עם async operations</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>📊 Best Practices</h2>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <h4>1. בדוק התנהגות, לא מימוש</h4>
+          <p>תמקדו במה שהמשתמש רואה, לא בפרטי המימוש הפנימיים</p>
+        </div>
+        <div class="benefit-card">
+          <h4>2. שמות תיאוריים</h4>
+          <p>שמות בדיקות צריכים להסביר בדיוק מה נבדק</p>
+        </div>
+        <div class="benefit-card">
+          <h4>3. ארגון עם describe</h4>
+          <p>קבצו בדיקות קשורות יחד לקריאות טובה יותר</p>
+        </div>
+        <div class="benefit-card">
+          <h4>4. נקו אחרי עצמכם</h4>
+          <p>השתמשו ב-afterEach לניקוי mocks ו-localStorage</p>
+        </div>
+        <div class="benefit-card">
+          <h4>5. Signals מפשטים</h4>
+          <p>Signals הם סינכרוניים - קל יותר לבדוק מ-RxJS</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🎯 סיכום</h2>
+
+      <h3>מה תלמדו</h3>
+      <ul class="checklist">
+        <li>✅ הגדרת Jest ב-Angular 20</li>
+        <li>✅ בדיקות standalone components עם signals</li>
+        <li>✅ בדיקות modern control flow (&commat;if, &commat;for, &commat;switch)</li>
+        <li>✅ בדיקות HTTP services</li>
+        <li>✅ בדיקות reactive forms ו-validators מותאמים</li>
+        <li>✅ בדיקות async operations</li>
+        <li>✅ בדיקות zoneless applications</li>
+        <li>✅ integration tests</li>
+        <li>✅ best practices ו-TDD</li>
+      </ul>
+
+      <h3>Checklist בדיקות</h3>
+      <p>לכל קומפוננטה/service:</p>
+      <ul>
+        <li>☐ נוצר בהצלחה</li>
+        <li>☐ Inputs מעובדים נכון</li>
+        <li>☐ Outputs שולחים ערכים נכונים</li>
+        <li>☐ Template מתרנדר נכון</li>
+        <li>☐ אינטראקציות משתמש עובדות</li>
+        <li>☐ מצבי שגיאה מטופלים</li>
+        <li>☐ מצבי loading מוצגים</li>
+        <li>☐ בקשות HTTP נכונות</li>
+        <li>☐ Validation של טפסים עובד</li>
+        <li>☐ Validators מותאמים פועלים</li>
+      </ul>
+
+      <div class="component-card">
+        <h3>זכרו</h3>
+        <ul>
+          <li>🎯 בדקו התנהגות, לא מימוש</li>
+          <li>📝 שמות בדיקות תיאוריים</li>
+          <li>📁 ארגנו עם describe blocks</li>
+          <li>🔨 התחילו פשוט, הוסיפו מורכבות</li>
+          <li>⚡ Signals מפשטים בדיקות</li>
+        </ul>
+      </div>
+
+      <p class="success-message">בהצלחה! 🧪✨</p>
+    </section>
+  </div>
+</div>
