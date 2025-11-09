@@ -123,6 +123,37 @@ export class ProductListComponent &#123;
     this.showAnalytics.update(value =&gt; !value);
   &#125;
 &#125;</code></pre>
+
+            <h5>product-list.component.css (קטע מייצג)</h5>
+            <pre ngNonBindable><code class="language-css">.container &#123;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  direction: rtl;
+&#125;
+
+.products-grid &#123;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+&#125;
+
+.product-card &#123;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+&#125;
+
+.product-card:hover &#123;
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+&#125;
+
+/* Defer sections, placeholders, loading, etc... */
+/* (ועוד עיצובים נוספים - קוד מלא בקבצי ההדגמה) */</code></pre>
           </div>
         }
       </div>
@@ -229,6 +260,35 @@ export class ProductDetailsComponent &#123;
     &lt;div&gt;סה"כ: ₪&#123;&#123; totalPrice() &#125;&#125;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+
+            <h5>product-details.component.css (קטע מייצג)</h5>
+            <pre ngNonBindable><code class="language-css">.product-details-container &#123;
+  background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 2px solid #4caf50;
+&#125;
+
+.details-header &#123;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+&#125;
+
+.image-gallery &#123;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+&#125;
+
+.specs-grid &#123;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+&#125;
+
+/* (ועוד עיצובים נוספים - קוד מלא בקבצי ההדגמה) */</code></pre>
           </div>
         }
       </div>
@@ -335,6 +395,34 @@ export class ProductReviewsComponent &#123;
     &lt;button type="submit" [disabled]="reviewForm.invalid"&gt;פרסם ביקורת&lt;/button&gt;
   &lt;/form&gt;
 &lt;/div&gt;</code></pre>
+
+            <h5>product-reviews.component.css (קטע מייצג)</h5>
+            <pre ngNonBindable><code class="language-css">.reviews-container &#123;
+  background: linear-gradient(135deg, #fff3e0 0%, #ffffff 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 2px solid #ff9800;
+&#125;
+
+.average-rating &#123;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+&#125;
+
+.review-card &#123;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+&#125;
+
+/* (ועוד עיצובים נוספים - קוד מלא בקבצי ההדגמה) */</code></pre>
           </div>
         }
       </div>
@@ -409,6 +497,35 @@ export class RelatedProductsComponent &#123;
     &#125;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+
+            <h5>related-products.component.css (קטע מייצג)</h5>
+            <pre ngNonBindable><code class="language-css">.related-products-container &#123;
+  background: linear-gradient(135deg, #f3e5f5 0%, #ffffff 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 2px solid #9c27b0;
+&#125;
+
+.products-grid &#123;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+&#125;
+
+.product-card &#123;
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  text-align: center;
+&#125;
+
+.product-card:hover &#123;
+  transform: translateY(-4px);
+&#125;
+
+/* (ועוד עיצובים נוספים - קוד מלא בקבצי ההדגמה) */</code></pre>
           </div>
         }
       </div>
@@ -497,6 +614,37 @@ export class ProductAnalyticsComponent &#123;
     &#125;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+
+            <h5>product-analytics.component.css (קטע מייצג)</h5>
+            <pre ngNonBindable><code class="language-css">.analytics-container &#123;
+  background: linear-gradient(135deg, #ffebee 0%, #ffffff 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 2px solid #f44336;
+&#125;
+
+.metrics-grid &#123;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+&#125;
+
+.metric-card &#123;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+&#125;
+
+.chart-section &#123;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+&#125;
+
+/* (ועוד עיצובים נוספים - קוד מלא בקבצי ההדגמה) */</code></pre>
           </div>
         }
       </div>
@@ -554,6 +702,48 @@ export class PromotionalBannerComponent &#123;
     &lt;/div&gt;
   &lt;/div&gt;
 &#125;</code></pre>
+
+            <h5>promotional-banner.component.css</h5>
+            <pre ngNonBindable><code class="language-css">.banner-container &#123;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  animation: slideIn 0.5s ease-out;
+&#125;
+
+&commat;keyframes slideIn &#123;
+  from &#123;
+    opacity: 0;
+    transform: translateY(-20px);
+  &#125;
+  to &#123;
+    opacity: 1;
+    transform: translateY(0);
+  &#125;
+&#125;
+
+.close-btn &#123;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+&#125;
+
+.banner-content &#123;
+  text-align: center;
+  padding: 0 2rem;
+&#125;
+
+/* (ועוד עיצובים נוספים - קוד מלא בקבצי ההדגמה) */</code></pre>
           </div>
         }
       </div>
