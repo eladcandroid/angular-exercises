@@ -21,9 +21,9 @@
     }
   </div>
 
-  <!-- Section 1: Product Details - Viewport Trigger -->
+  <!-- Section 2: Product Details - Viewport Trigger -->
   <section class="defer-section viewport-section">
-    <h2 class="section-title">1. פרטי מוצר מורחבים (Viewport Trigger)</h2>
+    <h2 class="section-title">2. פרטי מוצר מורחבים (Viewport Trigger)</h2>
     <p class="section-description">הקומפוננטה תיטען כשתגלול והיא תיכנס לאזור הנראה</p>
 
     @defer (on viewport) {
@@ -46,9 +46,9 @@
     }
   </section>
 
-  <!-- Section 2: Product Reviews - Interaction Trigger with Idle Prefetch -->
+  <!-- Section 3: Product Reviews - Interaction Trigger with Idle Prefetch -->
   <section class="defer-section interaction-section">
-    <h2 class="section-title">2. ביקורות לקוחות (Interaction Trigger + Idle Prefetch)</h2>
+    <h2 class="section-title">3. ביקורות לקוחות (Interaction Trigger + Idle Prefetch)</h2>
     <p class="section-description">לחץ/י על הכפתור כדי לטעון ביקורות (הקוד מורד מראש במצב idle)</p>
 
     @defer (on interaction; prefetch on idle) {
@@ -68,9 +68,9 @@
     }
   </section>
 
-  <!-- Section 3: Related Products - Hover Trigger with Viewport Prefetch -->
+  <!-- Section 4: Related Products - Hover Trigger with Viewport Prefetch -->
   <section class="defer-section hover-section">
-    <h2 class="section-title">3. מוצרים קשורים (Hover Trigger + Viewport Prefetch)</h2>
+    <h2 class="section-title">4. מוצרים קשורים (Hover Trigger + Viewport Prefetch)</h2>
     <p class="section-description">העבר/י את העכבר מעל האזור כדי לטעון מוצרים קשורים</p>
 
     <div class="hover-area">
@@ -90,9 +90,9 @@
     </div>
   </section>
 
-  <!-- Section 4: Product Analytics - Custom When Trigger -->
+  <!-- Section 5: Product Analytics - Custom When Trigger -->
   <section class="defer-section analytics-section">
-    <h2 class="section-title">4. סטטיסטיקות מוצר (Custom When Trigger)</h2>
+    <h2 class="section-title">5. סטטיסטיקות מוצר (Custom When Trigger)</h2>
     <p class="section-description">אנליטיקס נטענת לפי תנאי מותאם אישית (רק למנהלים)</p>
 
     @defer (when showAnalytics(); prefetch when userIsAdmin()) {
@@ -114,9 +114,9 @@
     }
   </section>
 
-  <!-- Section 5: Promotional Banner - Timer Trigger -->
+  <!-- Section 6: Promotional Banner - Timer Trigger -->
   <section class="defer-section timer-section">
-    <h2 class="section-title">5. באנר פרסומי (Timer Trigger)</h2>
+    <h2 class="section-title">6. באנר פרסומי (Timer Trigger)</h2>
     <p class="section-description">הבאנר מופיע אוטומטית אחרי 3 שניות</p>
 
     <div class="timer-container">
