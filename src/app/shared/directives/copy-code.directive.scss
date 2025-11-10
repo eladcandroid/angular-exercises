@@ -35,15 +35,23 @@
   transition: all 0.2s ease;
 
   backdrop-filter: blur(8px);
+  white-space: nowrap;
+  min-width: fit-content;
+  direction: ltr;
 
   .copy-icon {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1rem;
     line-height: 1;
+    flex-shrink: 0;
   }
 
   .copy-text {
     line-height: 1;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   &:hover {
@@ -57,20 +65,17 @@
     transform: translateY(0);
   }
 
-  &.copying {
-    opacity: 0;
-    transform: scale(0.8);
-    pointer-events: none;
-  }
-
   &.copied {
     background: rgba(76, 175, 80, 0.95);
     border-color: rgba(255, 255, 255, 0.5);
     color: white;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
     pointer-events: none;
-    animation: copySuccess 0.3s ease-out;
+
+    // Show feedback for 2s, then fade out over 0.3s, then hide
+    transition: opacity 0.3s ease 2s, visibility 0s 2.3s;
+    opacity: 0 !important;
+    visibility: hidden !important;
 
     .copy-text {
       font-weight: 600;
@@ -81,10 +86,8 @@
     background: rgba(244, 67, 54, 0.95);
     border-color: rgba(255, 255, 255, 0.5);
     color: white;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.4);
     pointer-events: none;
-    animation: copySuccess 0.3s ease-out;
   }
 
   &:focus {
@@ -94,17 +97,6 @@
 
   &:focus:not(:focus-visible) {
     outline: none;
-  }
-}
-
-@keyframes copySuccess {
-  from {
-    opacity: 0;
-    transform: scale(0.8) translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1.05) translateY(0);
   }
 }
 

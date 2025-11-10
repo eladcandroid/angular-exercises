@@ -63,12 +63,17 @@ export class CopyCodeDirective implements AfterViewInit, OnDestroy {
     codeBlocks.forEach((codeBlock: HTMLElement) => {
       const preElement = codeBlock.parentElement;
 
-      if (!preElement || preElement.querySelector('.copy-code-button')) {
-        return; // Button already exists
+      if (!preElement) {
+        return;
       }
 
       // Create wrapper if needed
       const wrapper = this.createWrapper(preElement);
+
+      // Check if button already exists in wrapper
+      if (wrapper.querySelector('.copy-code-button')) {
+        return; // Button already exists
+      }
 
       // Create copy button
       const copyButton = this.createCopyButton(codeBlock);
@@ -175,22 +180,34 @@ export class CopyCodeDirective implements AfterViewInit, OnDestroy {
     const originalText = textSpan.textContent;
     const originalIcon = iconSpan.innerHTML;
 
-    // Hide button temporarily and show feedback
-    this.renderer.addClass(button, 'copying');
+    // Disconnect observer temporarily to prevent triggering on text changes
+    this.observer?.disconnect();
 
+    // Update button content immediately
+    this.renderer.setProperty(textSpan, 'textContent', success ? 'Copied!' : 'Failed');
+    this.renderer.setProperty(iconSpan, 'innerHTML', success ? '✅' : '❌');
+    this.renderer.addClass(button, success ? 'copied' : 'failed');
+
+    // Reconnect observer
+    this.observer?.observe(this.el.nativeElement, {
+      childList: true,
+      subtree: true
+    });
+
+    // Reset after 5 seconds
     setTimeout(() => {
-      // Update button content
-      this.renderer.setProperty(textSpan, 'textContent', success ? 'Copied!' : 'Failed');
-      this.renderer.setProperty(iconSpan, 'innerHTML', success ? '✅' : '❌');
-      this.renderer.removeClass(button, 'copying');
-      this.renderer.addClass(button, success ? 'copied' : 'failed');
+      // Disconnect observer before resetting
+      this.observer?.disconnect();
 
-      // Reset after 1.5 seconds
-      setTimeout(() => {
-        this.renderer.setProperty(textSpan, 'textContent', originalText);
-        this.renderer.setProperty(iconSpan, 'innerHTML', originalIcon);
-        this.renderer.removeClass(button, success ? 'copied' : 'failed');
-      }, 1500);
-    }, 200);
+      this.renderer.setProperty(textSpan, 'textContent', originalText);
+      this.renderer.setProperty(iconSpan, 'innerHTML', originalIcon);
+      this.renderer.removeClass(button, success ? 'copied' : 'failed');
+
+      // Reconnect observer
+      this.observer?.observe(this.el.nativeElement, {
+        childList: true,
+        subtree: true
+      });
+    }, 5000);
   }
 }
