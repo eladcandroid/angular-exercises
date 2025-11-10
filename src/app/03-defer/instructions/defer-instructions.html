@@ -3,7 +3,7 @@
     <h1>⚡ תרגיל: טעינה נדחית (Deferrable Views) ב-Angular - &commat;defer</h1>
   </div>
 
-  <div class="readme-content">
+  <div class="readme-content" appCopyCode>
     <section class="section">
       <h2>תיאור כללי</h2>
       <p>תרגיל זה נועד לבחון את הידע שלך בנושא Deferrable Views (&commat;defer) ב-Angular - טכניקה מתקדמת לאופטימיזציה של ביצועים. זהו תרגיל ברמת ביניים-מתקדמת שמכסה את כל היכולות של &commat;defer בלוקים.</p>
@@ -123,6 +123,30 @@ export class ProductListComponent &#123;
     this.showAnalytics.update(value =&gt; !value);
   &#125;
 &#125;</code></pre>
+
+            <h5>product-list.component.html</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="container"&gt;
+  &lt;h1&gt;קטלוג מוצרים&lt;/h1&gt;
+
+  &lt;div class="products-grid"&gt;
+    &commat;for (product of products(); track product.id) &#123;
+      &lt;div class="product-card"&gt;
+        &lt;img [src]="product.image" [alt]="product.name"&gt;
+        &lt;h3&gt;&#123;&#123; product.name &#125;&#125;&lt;/h3&gt;
+        &lt;p class="description"&gt;&#123;&#123; product.description &#125;&#125;&lt;/p&gt;
+        &lt;div class="card-footer"&gt;
+          &lt;p class="price"&gt;₪&#123;&#123; product.price &#125;&#125;&lt;/p&gt;
+          &lt;span class="category"&gt;&#123;&#123; product.category &#125;&#125;&lt;/span&gt;
+        &lt;/div&gt;
+        &commat;if (product.inStock) &#123;
+          &lt;span class="badge in-stock"&gt;במלאי&lt;/span&gt;
+        &#125; &commat;else &#123;
+          &lt;span class="badge out-of-stock"&gt;אזל מהמלאי&lt;/span&gt;
+        &#125;
+      &lt;/div&gt;
+    &#125;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
 
             <h5>product-list.component.css (קטע מייצג)</h5>
             <pre ngNonBindable><code class="language-css">.container &#123;

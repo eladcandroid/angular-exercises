@@ -1,5 +1,6 @@
 // Reuse the same styles from instructions.css but with @defer-specific colors
 @import '../../02-reactive-forms/instructions/instructions.css';
+@import '../../shared/directives/copy-code.directive.scss';
 
 // Override with @defer-specific theme colors
 .header {

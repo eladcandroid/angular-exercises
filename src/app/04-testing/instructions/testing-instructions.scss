@@ -1,5 +1,6 @@
 // Reuse the same styles from instructions.css but with testing-specific colors
 @import '../../02-reactive-forms/instructions/instructions.css';
+@import '../../shared/directives/copy-code.directive.scss';
 
 // Override with testing-specific theme colors (blue/purple theme for testing)
 .header {

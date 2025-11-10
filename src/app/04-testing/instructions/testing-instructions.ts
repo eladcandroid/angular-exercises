@@ -1,10 +1,11 @@
 import { Component, ChangeDetectionStrategy, AfterViewInit, signal } from '@angular/core';
+import { CopyCodeDirective } from '../../shared/directives/copy-code.directive';
 
 declare const Prism: any;
 
 @Component({
   selector: 'app-testing-instructions',
-  imports: [],
+  imports: [CopyCodeDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './testing-instructions.html',
   styleUrl: './testing-instructions.scss',

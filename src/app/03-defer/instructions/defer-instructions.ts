@@ -1,10 +1,11 @@
 import { Component, ChangeDetectionStrategy, AfterViewInit, signal } from '@angular/core';
+import { CopyCodeDirective } from '../../shared/directives/copy-code.directive';
 
 declare const Prism: any;
 
 @Component({
   selector: 'app-defer-instructions',
-  imports: [],
+  imports: [CopyCodeDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './defer-instructions.html',
   styleUrl: './defer-instructions.scss',
