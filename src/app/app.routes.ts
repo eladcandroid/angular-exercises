@@ -18,23 +18,11 @@ export const routes: Routes = [
     component: SignalsInstructionsComponent
   },
   {
-    path: 'reactive-forms-demo',
-    component: BookFormComponent
-  },
-  {
-    path: 'instructions',
-    component: InstructionsComponent
-  },
-  {
-    path: 'defer-instructions',
-    component: DeferInstructionsComponent
-  },
-  {
     path: 'signals-instructions',
     component: SignalsInstructionsComponent
   },
   {
-    path: 'signals-solution',
+    path: 'signals-demo',
     component: TodoAppComponent
   },
   {
@@ -42,15 +30,27 @@ export const routes: Routes = [
     component: TodoAppBonusComponent
   },
   {
-    path: 'bonus-solution',
+    path: 'reactive-forms-instructions',
+    component: InstructionsComponent
+  },
+  {
+    path: 'reactive-forms-demo',
+    component: BookFormComponent
+  },
+  {
+    path: 'reactive-forms-bonus',
     component: BookFormBonusComponent
   },
   {
-    path: 'products',
+    path: 'defer-instructions',
+    component: DeferInstructionsComponent
+  },
+  {
+    path: 'defer-demo',
     component: ProductListComponent
   },
   {
-    path: 'bonus',
+    path: 'defer-bonus',
     component: BonusDemosComponent
   },
   {

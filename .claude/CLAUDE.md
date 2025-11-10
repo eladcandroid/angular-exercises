@@ -44,8 +44,8 @@ vercel --prod --yes          # Deploy to Vercel (project: gocode-angular-exercis
 ```
 src/app/
 ├── 01-signals/              # Signals exercise module (route prefix: /signals-*)
-├── 02-reactive-forms/       # Forms exercise module (routes: /instructions, /reactive-forms-demo, /bonus-solution)
-├── 03-defer/                # @defer exercise module (routes: /defer-instructions, /products, /bonus)
+├── 02-reactive-forms/       # Forms exercise module (routes: /reactive-forms-instructions, /reactive-forms-demo, /reactive-forms-bonus)
+├── 03-defer/                # @defer exercise module (routes: /defer-instructions, /defer-demo, /defer-bonus)
 ├── shared/
 │   ├── models/              # Shared data models (Task, Book, Product, PerformanceMetrics)
 │   └── utils/               # Shared utilities (signal-utils.ts with debouncedSignal)
@@ -62,9 +62,10 @@ src/app/
 
 ### Routing Structure
 Routes are organized by exercise topic with consistent naming:
-- **Signals:** `/signals-instructions`, `/signals-solution`, `/signals-bonus`
-- **Reactive Forms:** `/instructions`, `/reactive-forms-demo`, `/bonus-solution`
-- **@defer:** `/defer-instructions`, `/products`, `/bonus`
+- **Signals:** `/signals-instructions`, `/signals-demo`, `/signals-bonus`
+- **Reactive Forms:** `/reactive-forms-instructions`, `/reactive-forms-demo`, `/reactive-forms-bonus`
+- **@defer:** `/defer-instructions`, `/defer-demo`, `/defer-bonus`
+- **Testing:** `/testing-instructions`, `/testing-demo`, `/testing-bonus`
 
 Default route (`/`) renders `SignalsInstructionsComponent`.
 

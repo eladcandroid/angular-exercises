@@ -23,7 +23,7 @@ Learn Angular's reactive primitives with a comprehensive TODO application exerci
 
 **Routes:**
 - `/signals-instructions` - Exercise instructions
-- `/signals-solution` - Working demo
+- `/signals-demo` - Working demo
 - `/signals-bonus` - Advanced bonus features
 
 ---
@@ -42,9 +42,9 @@ Build complex forms using Angular's Reactive Forms API with FormBuilder and vali
   - Form submission and handling
 
 **Routes:**
-- `/instructions` - Exercise instructions
-- `/` - Working demo (book form)
-- `/bonus-solution` - Advanced bonus features
+- `/reactive-forms-instructions` - Exercise instructions
+- `/reactive-forms-demo` - Working demo (book form)
+- `/reactive-forms-bonus` - Advanced bonus features
 
 ---
 
@@ -64,8 +64,8 @@ Master Angular's @defer syntax for lazy loading and performance optimization.
 
 **Routes:**
 - `/defer-instructions` - Exercise instructions
-- `/products` - Product catalog demo
-- `/bonus` - Advanced defer patterns
+- `/defer-demo` - Product catalog demo
+- `/defer-bonus` - Advanced defer patterns
 
 ---
 
