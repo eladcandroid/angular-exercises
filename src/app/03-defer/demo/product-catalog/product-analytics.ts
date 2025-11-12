@@ -8,8 +8,8 @@ interface AnalyticsData {
 
 @Component({
   selector: 'app-product-analytics',
-  templateUrl: './product-analytics.component.html',
-  styleUrl: './product-analytics.component.css',
+  templateUrl: './product-analytics.html',
+  styleUrl: './product-analytics.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductAnalyticsComponent {

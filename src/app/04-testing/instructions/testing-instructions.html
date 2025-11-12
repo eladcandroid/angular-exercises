@@ -174,7 +174,7 @@ describe('ProductListComponent', () =&gt; &#123;
   inStock: boolean;
 &#125;</code></pre>
 
-            <h5>product-list.component.ts</h5>
+            <h5>product-list.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, computed, ChangeDetectionStrategy &#125; from '&commat;angular/core';
 import &#123; Product &#125; from '../../../shared/models/shop.models';
 
@@ -182,8 +182,8 @@ import &#123; Product &#125; from '../../../shared/models/shop.models';
   selector: 'app-product-list',
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss',
+  templateUrl: './product-list.html',
+  styleUrl: './product-list.scss',
 &#125;)
 export class ProductListComponent &#123;
   products = input.required&lt;Product[]&gt;();
@@ -204,7 +204,7 @@ export class ProductListComponent &#123;
   productCount = computed(() =&gt; this.visibleProducts().length);
 &#125;</code></pre>
 
-            <h5>product-list.component.html</h5>
+            <h5>product-list.html</h5>
             <pre ngNonBindable><code class="language-html">&lt;div class="product-list"&gt;
   &lt;h2&gt;&#123;&#123; title() &#125;&#125;&lt;/h2&gt;
 

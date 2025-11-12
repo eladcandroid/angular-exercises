@@ -673,12 +673,12 @@ searchDebounced = debouncedSignal('', 300);
 ### 1. צור/י את המבנה
 
 ```bash
-ng generate component todo-app --standalone
-ng generate component task-list --standalone
-ng generate component task-item --standalone
-ng generate component task-form --standalone
-ng generate component filter-bar --standalone
-ng generate component stats --standalone
+ng generate component todo-app
+ng generate component task-list
+ng generate component task-item
+ng generate component task-form
+ng generate component filter-bar
+ng generate component stats
 ```
 
 ### 2. צור/י את המודלים

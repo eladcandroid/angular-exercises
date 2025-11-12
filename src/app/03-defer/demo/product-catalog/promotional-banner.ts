@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 
 @Component({
   selector: 'app-promotional-banner',
-  templateUrl: './promotional-banner.component.html',
-  styleUrl: './promotional-banner.component.css',
+  templateUrl: './promotional-banner.html',
+  styleUrl: './promotional-banner.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PromotionalBannerComponent {

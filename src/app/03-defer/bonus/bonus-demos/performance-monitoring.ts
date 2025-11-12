@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { HeavyComponent } from './heavy.component';
+import { HeavyComponent } from './heavy';
 
 @Component({
   selector: 'app-performance-monitoring',

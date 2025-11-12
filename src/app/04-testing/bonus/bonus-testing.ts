@@ -6,8 +6,8 @@ declare const Prism: any;
   selector: 'app-bonus-testing',
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './bonus-testing.component.html',
-  styleUrl: './bonus-testing.component.scss',
+  templateUrl: './bonus-testing.html',
+  styleUrl: './bonus-testing.scss',
 })
 export class BonusTestingComponent implements AfterViewInit {
   ngAfterViewInit() {

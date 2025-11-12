@@ -15,8 +15,8 @@ import { JsonPipe } from '@angular/common';
   selector: 'app-book-form-bonus',
   imports: [ReactiveFormsModule, JsonPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './bonus.component.html',
-  styleUrl: './bonus.component.css'
+  templateUrl: './bonus.html',
+  styleUrl: './bonus.css'
 })
 export class BookFormBonusComponent {
   private formBuilder = inject(FormBuilder);

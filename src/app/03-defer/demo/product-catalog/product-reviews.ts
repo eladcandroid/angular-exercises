@@ -11,8 +11,8 @@ interface Review {
 
 @Component({
   selector: 'app-product-reviews',
-  templateUrl: './product-reviews.component.html',
-  styleUrl: './product-reviews.component.css',
+  templateUrl: './product-reviews.html',
+  styleUrl: './product-reviews.css',
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

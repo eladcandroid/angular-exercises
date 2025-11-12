@@ -335,5 +335,5 @@ ng generate component promotional-banner
 
 **זכרו:** הקומפוננטות צריכות להיות standalone!
 ```bash
-ng generate component product-details --standalone
+ng generate component product-details
 ```

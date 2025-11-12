@@ -5,8 +5,8 @@ import { Product } from '../../../shared/models/shop.models';
   selector: 'app-product-list',
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss',
+  templateUrl: './product-list.html',
+  styleUrl: './product-list.scss',
 })
 export class ProductListComponent {
   products = input.required<Product[]>();

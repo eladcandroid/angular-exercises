@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { ProductDetailsComponent } from './product-details.component';
-import { ProductReviewsComponent } from './product-reviews.component';
-import { RelatedProductsComponent } from './related-products.component';
-import { ProductAnalyticsComponent } from './product-analytics.component';
-import { PromotionalBannerComponent } from './promotional-banner.component';
+import { ProductDetailsComponent } from './product-details';
+import { ProductReviewsComponent } from './product-reviews';
+import { RelatedProductsComponent } from './related-products';
+import { ProductAnalyticsComponent } from './product-analytics';
+import { PromotionalBannerComponent } from './promotional-banner';
 
 interface Product {
   id: number;
@@ -24,8 +24,8 @@ interface Product {
     ProductAnalyticsComponent,
     PromotionalBannerComponent
   ],
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.css',
+  templateUrl: './product-list.html',
+  styleUrl: './product-list.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListComponent {

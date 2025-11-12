@@ -9,8 +9,8 @@ interface RelatedProduct {
 
 @Component({
   selector: 'app-related-products',
-  templateUrl: './related-products.component.html',
-  styleUrl: './related-products.component.css',
+  templateUrl: './related-products.html',
+  styleUrl: './related-products.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelatedProductsComponent {

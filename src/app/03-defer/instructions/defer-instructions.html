@@ -81,7 +81,7 @@
 
         @if (showProductListCode()) {
           <div class="solution-code">
-            <h5>product-list.component.ts</h5>
+            <h5>product-list.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
 
 interface Product &#123;
@@ -97,8 +97,8 @@ interface Product &#123;
 &commat;Component(&#123;
   selector: 'app-product-list',
   imports: [/* קומפוננטות ילד */],
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.css',
+  templateUrl: './product-list.html',
+  styleUrl: './product-list.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 &#125;)
 export class ProductListComponent &#123;
@@ -124,7 +124,7 @@ export class ProductListComponent &#123;
   &#125;
 &#125;</code></pre>
 
-            <h5>product-list.component.html</h5>
+            <h5>product-list.html</h5>
             <pre ngNonBindable><code class="language-html">&lt;div class="container"&gt;
   &lt;h1&gt;קטלוג מוצרים&lt;/h1&gt;
 
@@ -148,7 +148,7 @@ export class ProductListComponent &#123;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
-            <h5>product-list.component.css (קטע מייצג)</h5>
+            <h5>product-list.css (קטע מייצג)</h5>
             <pre ngNonBindable><code class="language-css">.container &#123;
   max-width: 1200px;
   margin: 0 auto;
@@ -208,7 +208,7 @@ export class ProductListComponent &#123;
 
         @if (showProductDetailsCode()) {
           <div class="solution-code">
-            <h5>product-details.component.ts</h5>
+            <h5>product-details.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
 
 interface ProductDetail &#123;
@@ -218,8 +218,8 @@ interface ProductDetail &#123;
 
 &commat;Component(&#123;
   selector: 'app-product-details',
-  templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.css',
+  templateUrl: './product-details.html',
+  styleUrl: './product-details.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 &#125;)
 export class ProductDetailsComponent &#123;
@@ -251,7 +251,7 @@ export class ProductDetailsComponent &#123;
   protected readonly totalPrice = signal(6999);
 &#125;</code></pre>
 
-            <h5>product-details.component.html</h5>
+            <h5>product-details.html</h5>
             <pre ngNonBindable><code class="language-html">&lt;div class="product-details-container"&gt;
   &lt;h2&gt;&#123;&#123; productName() &#125;&#125;&lt;/h2&gt;
 
@@ -285,7 +285,7 @@ export class ProductDetailsComponent &#123;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
-            <h5>product-details.component.css (קטע מייצג)</h5>
+            <h5>product-details.css (קטע מייצג)</h5>
             <pre ngNonBindable><code class="language-css">.product-details-container &#123;
   background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
   padding: 2rem;
@@ -336,7 +336,7 @@ export class ProductDetailsComponent &#123;
 
         @if (showProductReviewsCode()) {
           <div class="solution-code">
-            <h5>product-reviews.component.ts</h5>
+            <h5>product-reviews.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
 import &#123; FormBuilder, FormGroup, ReactiveFormsModule, Validators &#125; from '&commat;angular/forms';
 
@@ -350,8 +350,8 @@ interface Review &#123;
 
 &commat;Component(&#123;
   selector: 'app-product-reviews',
-  templateUrl: './product-reviews.component.html',
-  styleUrl: './product-reviews.component.css',
+  templateUrl: './product-reviews.html',
+  styleUrl: './product-reviews.css',
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 &#125;)
@@ -392,7 +392,7 @@ export class ProductReviewsComponent &#123;
   &#125;
 &#125;</code></pre>
 
-            <h5>product-reviews.component.html (קטע מייצג)</h5>
+            <h5>product-reviews.html (קטע מייצג)</h5>
             <pre ngNonBindable><code class="language-html">&lt;div class="reviews-container"&gt;
   &lt;h2&gt;ביקורות לקוחות&lt;/h2&gt;
 
@@ -420,7 +420,7 @@ export class ProductReviewsComponent &#123;
   &lt;/form&gt;
 &lt;/div&gt;</code></pre>
 
-            <h5>product-reviews.component.css (קטע מייצג)</h5>
+            <h5>product-reviews.css (קטע מייצג)</h5>
             <pre ngNonBindable><code class="language-css">.reviews-container &#123;
   background: linear-gradient(135deg, #fff3e0 0%, #ffffff 100%);
   padding: 2rem;
@@ -470,7 +470,7 @@ export class ProductReviewsComponent &#123;
 
         @if (showRelatedProductsCode()) {
           <div class="solution-code">
-            <h5>related-products.component.ts</h5>
+            <h5>related-products.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal, input &#125; from '&commat;angular/core';
 
 interface RelatedProduct &#123;
@@ -482,8 +482,8 @@ interface RelatedProduct &#123;
 
 &commat;Component(&#123;
   selector: 'app-related-products',
-  templateUrl: './related-products.component.html',
-  styleUrl: './related-products.component.css',
+  templateUrl: './related-products.html',
+  styleUrl: './related-products.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 &#125;)
 export class RelatedProductsComponent &#123;
@@ -506,7 +506,7 @@ export class RelatedProductsComponent &#123;
   ]);
 &#125;</code></pre>
 
-            <h5>related-products.component.html</h5>
+            <h5>related-products.html</h5>
             <pre ngNonBindable><code class="language-html">&lt;div class="related-products-container"&gt;
   &lt;h2&gt;מוצרים קשורים בקטגוריה: &#123;&#123; category() &#125;&#125;&lt;/h2&gt;
 
@@ -522,7 +522,7 @@ export class RelatedProductsComponent &#123;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
-            <h5>related-products.component.css (קטע מייצג)</h5>
+            <h5>related-products.css (קטע מייצג)</h5>
             <pre ngNonBindable><code class="language-css">.related-products-container &#123;
   background: linear-gradient(135deg, #f3e5f5 0%, #ffffff 100%);
   padding: 2rem;
@@ -574,7 +574,7 @@ export class RelatedProductsComponent &#123;
 
         @if (showProductAnalyticsCode()) {
           <div class="solution-code">
-            <h5>product-analytics.component.ts</h5>
+            <h5>product-analytics.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
 
 interface AnalyticsData &#123;
@@ -585,8 +585,8 @@ interface AnalyticsData &#123;
 
 &commat;Component(&#123;
   selector: 'app-product-analytics',
-  templateUrl: './product-analytics.component.html',
-  styleUrl: './product-analytics.component.css',
+  templateUrl: './product-analytics.html',
+  styleUrl: './product-analytics.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 &#125;)
 export class ProductAnalyticsComponent &#123;
@@ -608,7 +608,7 @@ export class ProductAnalyticsComponent &#123;
   &#125;
 &#125;</code></pre>
 
-            <h5>product-analytics.component.html (קטע מייצג)</h5>
+            <h5>product-analytics.html (קטע מייצג)</h5>
             <pre ngNonBindable><code class="language-html">&lt;div class="analytics-container"&gt;
   &lt;h2&gt;סטטיסטיקות מוצר&lt;/h2&gt;
 
@@ -639,7 +639,7 @@ export class ProductAnalyticsComponent &#123;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
-            <h5>product-analytics.component.css (קטע מייצג)</h5>
+            <h5>product-analytics.css (קטע מייצג)</h5>
             <pre ngNonBindable><code class="language-css">.analytics-container &#123;
   background: linear-gradient(135deg, #ffebee 0%, #ffffff 100%);
   padding: 2rem;
@@ -691,13 +691,13 @@ export class ProductAnalyticsComponent &#123;
 
         @if (showPromotionalBannerCode()) {
           <div class="solution-code">
-            <h5>promotional-banner.component.ts</h5>
+            <h5>promotional-banner.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
 
 &commat;Component(&#123;
   selector: 'app-promotional-banner',
-  templateUrl: './promotional-banner.component.html',
-  styleUrl: './promotional-banner.component.css',
+  templateUrl: './promotional-banner.html',
+  styleUrl: './promotional-banner.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 &#125;)
 export class PromotionalBannerComponent &#123;
@@ -710,7 +710,7 @@ export class PromotionalBannerComponent &#123;
   &#125;
 &#125;</code></pre>
 
-            <h5>promotional-banner.component.html</h5>
+            <h5>promotional-banner.html</h5>
             <pre ngNonBindable><code class="language-html">&commat;if (isVisible()) &#123;
   &lt;div class="banner-container"&gt;
     &lt;button class="close-btn" (click)="closeBanner()"&gt;✕&lt;/button&gt;
@@ -727,7 +727,7 @@ export class PromotionalBannerComponent &#123;
   &lt;/div&gt;
 &#125;</code></pre>
 
-            <h5>promotional-banner.component.css</h5>
+            <h5>promotional-banner.css</h5>
             <pre ngNonBindable><code class="language-css">.banner-container &#123;
   background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
   color: white;
@@ -812,12 +812,12 @@ export class PromotionalBannerComponent &#123;
     <section class="section">
       <h2>🚀 התחלה מהירה</h2>
       <div class="code-block">
-        <code>ng generate component product-list --standalone</code><br>
-        <code>ng generate component product-details --standalone</code><br>
-        <code>ng generate component product-reviews --standalone</code><br>
-        <code>ng generate component related-products --standalone</code><br>
-        <code>ng generate component product-analytics --standalone</code><br>
-        <code>ng generate component promotional-banner --standalone</code>
+        <code>ng generate component product-list</code><br>
+        <code>ng generate component product-details</code><br>
+        <code>ng generate component product-reviews</code><br>
+        <code>ng generate component related-products</code><br>
+        <code>ng generate component product-analytics</code><br>
+        <code>ng generate component promotional-banner</code>
       </div>
       <p><strong>זכרו:</strong> הקומפוננטות צריכות להיות standalone!</p>
     </section>

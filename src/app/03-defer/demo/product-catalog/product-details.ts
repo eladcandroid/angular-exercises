@@ -7,8 +7,8 @@ interface ProductDetail {
 
 @Component({
   selector: 'app-product-details',
-  templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.css',
+  templateUrl: './product-details.html',
+  styleUrl: './product-details.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDetailsComponent {

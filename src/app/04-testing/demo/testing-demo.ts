@@ -1,13 +1,13 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { ProductListComponent } from './product-list/product-list.component';
+import { ProductListComponent } from './product-list/product-list';
 import { Product } from '../../shared/models/shop.models';
 
 @Component({
   selector: 'app-testing-demo',
   imports: [ProductListComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './testing-demo.component.html',
-  styleUrl: './testing-demo.component.scss',
+  templateUrl: './testing-demo.html',
+  styleUrl: './testing-demo.scss',
 })
 export class TestingDemoComponent {
   products = signal<Product[]>([
