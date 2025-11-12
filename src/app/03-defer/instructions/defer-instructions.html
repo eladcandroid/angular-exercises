@@ -83,6 +83,11 @@
           <div class="solution-code">
             <h5>product-list.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, ChangeDetectionStrategy, signal &#125; from '&commat;angular/core';
+import &#123; ProductDetailsComponent &#125; from './product-details';
+import &#123; ProductReviewsComponent &#125; from './product-reviews';
+import &#123; RelatedProductsComponent &#125; from './related-products';
+import &#123; ProductAnalyticsComponent &#125; from './product-analytics';
+import &#123; PromotionalBannerComponent &#125; from './promotional-banner';
 
 interface Product &#123;
   id: number;
@@ -96,7 +101,13 @@ interface Product &#123;
 
 &commat;Component(&#123;
   selector: 'app-product-list',
-  imports: [/* קומפוננטות ילד */],
+  imports: [
+    ProductDetailsComponent,
+    ProductReviewsComponent,
+    RelatedProductsComponent,
+    ProductAnalyticsComponent,
+    PromotionalBannerComponent
+  ],
   templateUrl: './product-list.html',
   styleUrl: './product-list.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -502,35 +513,62 @@ export class ProductDetailsComponent &#123;
 
             <h5>product-details.html</h5>
             <pre ngNonBindable><code class="language-html">&lt;div class="product-details-container"&gt;
-  &lt;h2&gt;&#123;&#123; productName() &#125;&#125;&lt;/h2&gt;
+  &lt;div class="details-header"&gt;
+    &lt;h2&gt;&#123;&#123; productName() &#125;&#125;&lt;/h2&gt;
+  &lt;/div&gt;
 
+  &lt;!-- Full Description --&gt;
   &lt;div class="description-section"&gt;
     &lt;h3&gt;תיאור מלא&lt;/h3&gt;
     &lt;p&gt;&#123;&#123; fullDescription() &#125;&#125;&lt;/p&gt;
   &lt;/div&gt;
 
+  &lt;!-- Image Gallery --&gt;
   &lt;div class="gallery-section"&gt;
     &lt;h3&gt;גלריית תמונות&lt;/h3&gt;
     &lt;div class="image-gallery"&gt;
       &commat;for (image of images(); track $index) &#123;
-        &lt;img [src]="image" [alt]="'תמונה ' + ($index + 1)"&gt;
+        &lt;div class="gallery-item"&gt;
+          &lt;img [src]="image" [alt]="'תמונה ' + ($index + 1)"&gt;
+        &lt;/div&gt;
       &#125;
     &lt;/div&gt;
   &lt;/div&gt;
 
+  &lt;!-- Technical Specifications --&gt;
   &lt;div class="specifications-section"&gt;
     &lt;h3&gt;מפרט טכני&lt;/h3&gt;
-    &commat;for (spec of specifications(); track spec.name) &#123;
-      &lt;div&gt;&#123;&#123; spec.name &#125;&#125;: &#123;&#123; spec.value &#125;&#125;&lt;/div&gt;
-    &#125;
+    &lt;div class="specs-grid"&gt;
+      &commat;for (spec of specifications(); track spec.name) &#123;
+        &lt;div class="spec-item"&gt;
+          &lt;span class="spec-name"&gt;&#123;&#123; spec.name &#125;&#125;&lt;/span&gt;
+          &lt;span class="spec-value"&gt;&#123;&#123; spec.value &#125;&#125;&lt;/span&gt;
+        &lt;/div&gt;
+      &#125;
+    &lt;/div&gt;
   &lt;/div&gt;
 
+  &lt;!-- Price Breakdown --&gt;
   &lt;div class="price-section"&gt;
     &lt;h3&gt;פירוט מחיר&lt;/h3&gt;
-    &commat;for (item of priceBreakdown(); track item.item) &#123;
-      &lt;div&gt;&#123;&#123; item.item &#125;&#125;: ₪&#123;&#123; item.amount &#125;&#125;&lt;/div&gt;
-    &#125;
-    &lt;div&gt;סה"כ: ₪&#123;&#123; totalPrice() &#125;&#125;&lt;/div&gt;
+    &lt;div class="price-breakdown"&gt;
+      &commat;for (item of priceBreakdown(); track item.item) &#123;
+        &lt;div class="price-item"&gt;
+          &lt;span class="price-label"&gt;&#123;&#123; item.item &#125;&#125;&lt;/span&gt;
+          &lt;span class="price-amount"&gt;
+            &commat;if (item.amount &gt; 0) &#123;
+              ₪&#123;&#123; item.amount &#125;&#125;
+            &#125; &commat;else &#123;
+              כלול במחיר
+            &#125;
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &#125;
+      &lt;div class="price-total"&gt;
+        &lt;span class="price-label"&gt;סה"כ לתשלום&lt;/span&gt;
+        &lt;span class="price-amount"&gt;₪&#123;&#123; totalPrice() &#125;&#125;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
@@ -702,9 +740,50 @@ export class ProductReviewsComponent &#123;
       author: 'דניאל כהן',
       rating: 5,
       date: '2024-10-15',
-      content: 'מחשב מדהים! ביצועים מעולים ועיצוב יפהפה...'
+      content: 'מחשב מדהים! ביצועים מעולים ועיצוב יפהפה. שווה כל שקל.'
     &#125;,
-    // ... more reviews
+    &#123;
+      id: 2,
+      author: 'שרה לוי',
+      rating: 4,
+      date: '2024-10-10',
+      content: 'מוצר איכותי, אבל המחיר קצת גבוה. בכל מקרה מרוצה מהרכישה.'
+    &#125;,
+    &#123;
+      id: 3,
+      author: 'יוסי מזרחי',
+      rating: 5,
+      date: '2024-10-05',
+      content: 'הטוב ביותר בשוק! המסך פשוט מושלם ומהירות העבודה מדהימה.'
+    &#125;,
+    &#123;
+      id: 4,
+      author: 'מיכל אברהם',
+      rating: 4,
+      date: '2024-09-28',
+      content: 'מחשב מצוין לעבודה מהבית. קל למדי ובעל חיי סוללה טובים.'
+    &#125;,
+    &#123;
+      id: 5,
+      author: 'עידו ישראלי',
+      rating: 5,
+      date: '2024-09-20',
+      content: 'בחירה מושלמת למעצבים גרפיים. כרטיס המסך חזק מאוד!'
+    &#125;,
+    &#123;
+      id: 6,
+      author: 'רונית דוד',
+      rating: 3,
+      date: '2024-09-15',
+      content: 'טוב בסך הכל, אבל יש חום מתפתח בזמן עומס. נראה לי שמאווררים לא מספיק חזקים.'
+    &#125;,
+    &#123;
+      id: 7,
+      author: 'אלון גבאי',
+      rating: 5,
+      date: '2024-09-10',
+      content: 'הגאדג\'ט הטוב ביותר שקניתי! ממליץ בחום.'
+    &#125;
   ]);
 
   protected readonly averageRating = signal(4.4);
@@ -730,32 +809,95 @@ export class ProductReviewsComponent &#123;
   &#125;
 &#125;</code></pre>
 
-            <h5>product-reviews.html (קטע מייצג)</h5>
+            <h5>product-reviews.html</h5>
             <pre ngNonBindable><code class="language-html">&lt;div class="reviews-container"&gt;
-  &lt;h2&gt;ביקורות לקוחות&lt;/h2&gt;
-
-  &lt;div class="average-rating"&gt;
-    &lt;div&gt;&#123;&#123; averageRating() &#125;&#125;&lt;/div&gt;
-    &commat;for (star of getStars(Math.round(averageRating())); track $index) &#123;
-      &lt;span&gt;&#123;&#123; star &#125;&#125;&lt;/span&gt;
-    &#125;
+  &lt;div class="reviews-header"&gt;
+    &lt;h2&gt;ביקורות לקוחות&lt;/h2&gt;
   &lt;/div&gt;
 
+  &lt;!-- Average Rating --&gt;
+  &lt;div class="average-rating"&gt;
+    &lt;div class="rating-score"&gt;&#123;&#123; averageRating() &#125;&#125;&lt;/div&gt;
+    &lt;div class="rating-stars"&gt;
+      &commat;for (star of getStars(Math.round(averageRating())); track $index) &#123;
+        &lt;span class="star"&gt;&#123;&#123; star &#125;&#125;&lt;/span&gt;
+      &#125;
+      &lt;span class="rating-count"&gt;(&#123;&#123; reviews().length &#125;&#125; ביקורות)&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Reviews List --&gt;
   &lt;div class="reviews-list"&gt;
+    &lt;h3&gt;כל הביקורות&lt;/h3&gt;
     &commat;for (review of reviews(); track review.id) &#123;
       &lt;div class="review-card"&gt;
-        &lt;div&gt;&#123;&#123; review.author &#125;&#125;&lt;/div&gt;
-        &lt;div&gt;&#123;&#123; review.content &#125;&#125;&lt;/div&gt;
+        &lt;div class="review-header"&gt;
+          &lt;div class="author-info"&gt;
+            &lt;div class="author-avatar"&gt;&#123;&#123; review.author.charAt(0) &#125;&#125;&lt;/div&gt;
+            &lt;div&gt;
+              &lt;div class="author-name"&gt;&#123;&#123; review.author &#125;&#125;&lt;/div&gt;
+              &lt;div class="review-date"&gt;&#123;&#123; review.date &#125;&#125;&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class="review-rating"&gt;
+            &commat;for (star of getStars(review.rating); track $index) &#123;
+              &lt;span class="star"&gt;&#123;&#123; star &#125;&#125;&lt;/span&gt;
+            &#125;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="review-content"&gt;
+          &#123;&#123; review.content &#125;&#125;
+        &lt;/div&gt;
       &lt;/div&gt;
     &#125;
   &lt;/div&gt;
 
-  &lt;form [formGroup]="reviewForm" (ngSubmit)="onSubmitReview()"&gt;
-    &lt;input formControlName="author" placeholder="שם מלא"&gt;
-    &lt;select formControlName="rating"&gt;...&lt;/select&gt;
-    &lt;textarea formControlName="content"&gt;&lt;/textarea&gt;
-    &lt;button type="submit" [disabled]="reviewForm.invalid"&gt;פרסם ביקורת&lt;/button&gt;
-  &lt;/form&gt;
+  &lt;!-- Add Review Form --&gt;
+  &lt;div class="add-review-section"&gt;
+    &lt;h3&gt;הוסף/י ביקורת&lt;/h3&gt;
+    &lt;form [formGroup]="reviewForm" (ngSubmit)="onSubmitReview()"&gt;
+      &lt;div class="form-group"&gt;
+        &lt;label for="author"&gt;שם מלא *&lt;/label&gt;
+        &lt;input
+          id="author"
+          type="text"
+          formControlName="author"
+          placeholder="הכנס/י את שמך"
+        &gt;
+        &commat;if (reviewForm.get(&#39;author&#39;)?.invalid &amp;&amp; reviewForm.get(&#39;author&#39;)?.touched) &#123;
+          &lt;span class="error"&gt;שם חייב להכיל לפחות 2 תווים&lt;/span&gt;
+        &#125;
+      &lt;/div&gt;
+
+      &lt;div class="form-group"&gt;
+        &lt;label for="rating"&gt;דירוג *&lt;/label&gt;
+        &lt;select id="rating" formControlName="rating"&gt;
+          &lt;option value="5"&gt;⭐⭐⭐⭐⭐ מעולה&lt;/option&gt;
+          &lt;option value="4"&gt;⭐⭐⭐⭐ טוב מאוד&lt;/option&gt;
+          &lt;option value="3"&gt;⭐⭐⭐ בסדר&lt;/option&gt;
+          &lt;option value="2"&gt;⭐⭐ פחות טוב&lt;/option&gt;
+          &lt;option value="1"&gt;⭐ גרוע&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+
+      &lt;div class="form-group"&gt;
+        &lt;label for="content"&gt;תוכן הביקורת *&lt;/label&gt;
+        &lt;textarea
+          id="content"
+          formControlName="content"
+          placeholder="ספר/י לנו על החוויה שלך עם המוצר..."
+          rows="4"
+        &gt;&lt;/textarea&gt;
+        &commat;if (reviewForm.get(&#39;content&#39;)?.invalid &amp;&amp; reviewForm.get(&#39;content&#39;)?.touched) &#123;
+          &lt;span class="error"&gt;ביקורת חייבת להכיל לפחות 10 תווים&lt;/span&gt;
+        &#125;
+      &lt;/div&gt;
+
+      &lt;button type="submit" [disabled]="reviewForm.invalid" class="submit-btn"&gt;
+        פרסם/י ביקורת
+      &lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
             <h5>product-reviews.css (קטע מייצג)</h5>
@@ -1031,15 +1173,17 @@ export class RelatedProductsComponent &#123;
 
             <h5>related-products.html</h5>
             <pre ngNonBindable><code class="language-html">&lt;div class="related-products-container"&gt;
-  &lt;h2&gt;מוצרים קשורים בקטגוריה: &#123;&#123; category() &#125;&#125;&lt;/h2&gt;
+  &lt;div class="related-header"&gt;
+    &lt;h2&gt;מוצרים קשורים בקטגוריה: &#123;&#123; category() &#125;&#125;&lt;/h2&gt;
+  &lt;/div&gt;
 
   &lt;div class="products-grid"&gt;
     &commat;for (product of relatedProducts(); track product.id) &#123;
       &lt;div class="product-card"&gt;
         &lt;img [src]="product.image" [alt]="product.name"&gt;
         &lt;h3&gt;&#123;&#123; product.name &#125;&#125;&lt;/h3&gt;
-        &lt;p&gt;₪&#123;&#123; product.price &#125;&#125;&lt;/p&gt;
-        &lt;button&gt;צפה במוצר&lt;/button&gt;
+        &lt;p class="price"&gt;₪&#123;&#123; product.price &#125;&#125;&lt;/p&gt;
+        &lt;button class="view-btn"&gt;צפה במוצר&lt;/button&gt;
       &lt;/div&gt;
     &#125;
   &lt;/div&gt;
@@ -1193,7 +1337,9 @@ export class ProductAnalyticsComponent &#123;
     &#123; label: 'ינואר', value: 120, color: '#1976d2' &#125;,
     &#123; label: 'פברואר', value: 95, color: '#2196f3' &#125;,
     &#123; label: 'מרץ', value: 140, color: '#03a9f4' &#125;,
-    // ... more months
+    &#123; label: 'אפריל', value: 110, color: '#00bcd4' &#125;,
+    &#123; label: 'מאי', value: 160, color: '#009688' &#125;,
+    &#123; label: 'יוני', value: 135, color: '#4caf50' &#125;
   ]);
 
   protected getBarHeight(value: number): number &#123;
@@ -1202,34 +1348,61 @@ export class ProductAnalyticsComponent &#123;
   &#125;
 &#125;</code></pre>
 
-            <h5>product-analytics.html (קטע מייצג)</h5>
+            <h5>product-analytics.html</h5>
             <pre ngNonBindable><code class="language-html">&lt;div class="analytics-container"&gt;
-  &lt;h2&gt;סטטיסטיקות מוצר&lt;/h2&gt;
+  &lt;div class="analytics-header"&gt;
+    &lt;h2&gt;סטטיסטיקות מוצר&lt;/h2&gt;
+  &lt;/div&gt;
 
+  &lt;!-- Key Metrics --&gt;
   &lt;div class="metrics-grid"&gt;
-    &lt;div class="metric-card"&gt;
-      &lt;div&gt;👁️&lt;/div&gt;
-      &lt;div&gt;&#123;&#123; views().toLocaleString() &#125;&#125;&lt;/div&gt;
-      &lt;div&gt;צפיות&lt;/div&gt;
+    &lt;div class="metric-card views"&gt;
+      &lt;div class="metric-icon"&gt;👁️&lt;/div&gt;
+      &lt;div class="metric-value"&gt;&#123;&#123; views().toLocaleString() &#125;&#125;&lt;/div&gt;
+      &lt;div class="metric-label"&gt;צפיות&lt;/div&gt;
     &lt;/div&gt;
-    &lt;div class="metric-card"&gt;
-      &lt;div&gt;🛒&lt;/div&gt;
-      &lt;div&gt;&#123;&#123; purchases().toLocaleString() &#125;&#125;&lt;/div&gt;
-      &lt;div&gt;רכישות&lt;/div&gt;
+
+    &lt;div class="metric-card purchases"&gt;
+      &lt;div class="metric-icon"&gt;🛒&lt;/div&gt;
+      &lt;div class="metric-value"&gt;&#123;&#123; purchases().toLocaleString() &#125;&#125;&lt;/div&gt;
+      &lt;div class="metric-label"&gt;רכישות&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="metric-card conversion"&gt;
+      &lt;div class="metric-icon"&gt;📈&lt;/div&gt;
+      &lt;div class="metric-value"&gt;&#123;&#123; conversionRate() &#125;&#125;%&lt;/div&gt;
+      &lt;div class="metric-label"&gt;המרה&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="metric-card stock"&gt;
+      &lt;div class="metric-icon"&gt;📦&lt;/div&gt;
+      &lt;div class="metric-value"&gt;&#123;&#123; stockLevel() &#125;&#125;&lt;/div&gt;
+      &lt;div class="metric-label"&gt;יחידות במלאי&lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
+  &lt;!-- Monthly Sales Chart --&gt;
   &lt;div class="chart-section"&gt;
-    &lt;h3&gt;מכירות חודשיות&lt;/h3&gt;
-    &commat;for (data of monthlyData(); track data.label) &#123;
-      &lt;div class="chart-bar"&gt;
-        &lt;div [style.height.%]="getBarHeight(data.value)"
-             [style.background]="data.color"&gt;
-          &#123;&#123; data.value &#125;&#125;
+    &lt;h3&gt;מכירות חודשיות (6 חודשים אחרונים)&lt;/h3&gt;
+    &lt;div class="chart-container"&gt;
+      &commat;for (data of monthlyData(); track data.label) &#123;
+        &lt;div class="chart-bar"&gt;
+          &lt;div
+            class="bar-fill"
+            [style.height.%]="getBarHeight(data.value)"
+            [style.background]="data.color"
+          &gt;
+            &lt;span class="bar-value"&gt;&#123;&#123; data.value &#125;&#125;&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class="bar-label"&gt;&#123;&#123; data.label &#125;&#125;&lt;/div&gt;
         &lt;/div&gt;
-        &lt;div&gt;&#123;&#123; data.label &#125;&#125;&lt;/div&gt;
-      &lt;/div&gt;
-    &#125;
+      &#125;
+    &lt;/div&gt;
+
+    &lt;div class="info-panel"&gt;
+      &lt;strong&gt;מידע:&lt;/strong&gt;
+      &lt;p&gt;תרשים זה מציג את מכירות המוצר בשישת החודשים האחרונים. ניתן לראות כי מאי הוא החודש הטוב ביותר עם 160 מכירות.&lt;/p&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
@@ -1465,12 +1638,12 @@ export class PromotionalBannerComponent &#123;
     &lt;button class="close-btn" (click)="closeBanner()"&gt;✕&lt;/button&gt;
 
     &lt;div class="banner-content"&gt;
-      &lt;div&gt;🎉&lt;/div&gt;
+      &lt;div class="banner-icon"&gt;🎉&lt;/div&gt;
       &lt;h3&gt;מבצע מיוחד!&lt;/h3&gt;
-      &lt;p&gt;קבל/י &#123;&#123; discountPercent() &#125;&#125;% הנחה על כל המוצרים&lt;/p&gt;
+      &lt;p class="banner-message"&gt;קבל/י &#123;&#123; discountPercent() &#125;&#125;% הנחה על כל המוצרים&lt;/p&gt;
       &lt;div class="coupon-code"&gt;
-        &lt;span&gt;קוד קופון:&lt;/span&gt;
-        &lt;span&gt;&#123;&#123; couponCode() &#125;&#125;&lt;/span&gt;
+        &lt;span class="coupon-label"&gt;קוד קופון:&lt;/span&gt;
+        &lt;span class="coupon-value"&gt;&#123;&#123; couponCode() &#125;&#125;&lt;/span&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
