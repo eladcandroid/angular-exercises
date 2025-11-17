@@ -1,0 +1,2032 @@
+<div class="instructions-container" appCopyCode>
+  <div class="header">
+    <h1>📚 Storybook ב-Angular 20</h1>
+    <p class="subtitle">בניית ספריית קומפוננטות מתועדת</p>
+  </div>
+
+  <div class="readme-content">
+    <!-- Introduction Section -->
+    <section class="section">
+      <h2>💡 מה זה Storybook?</h2>
+      <p>
+        <strong>Storybook</strong> הוא סביבת פיתוח UI המאפשרת לפתח ולתעד קומפוננטות בבידוד,
+        ללא צורך להריץ את כל האפליקציה. זהו הכלי המוביל בתעשייה לבניית Design Systems.
+      </p>
+
+      <div class="info-card">
+        <h4>🎯 למה Storybook?</h4>
+        <ul>
+          <li>🧱 פיתוח מהיר - אין צורך בניווט באפליקציה</li>
+          <li>📖 תיעוד חי - תמיד מעודכן</li>
+          <li>🧪 בדיקות ויזואליות - כל המצבים במקום אחד</li>
+          <li>♿ נגישות - בדיקות אוטומטיות עם a11y addon</li>
+          <li>🎨 Design System - בסיס לספריית קומפוננטות</li>
+          <li>👥 שיתוף פעולה - שפה משותפת לצוות</li>
+        </ul>
+      </div>
+
+      <div class="info-card success">
+        <h4>🏢 מי משתמש ב-Storybook?</h4>
+        <p>GitHub, Airbnb, Slack, Microsoft, IBM ועוד אלפי חברות בעולם</p>
+      </div>
+    </section>
+
+    <!-- Learning Goals -->
+    <section class="section">
+      <h2>🎯 מה תלמדו</h2>
+      <ul>
+        <li>✅ כתיבת <strong>stories</strong> עם CSF 3.0</li>
+        <li>✅ שימוש ב-<strong>args</strong> ו-<strong>argTypes</strong></li>
+        <li>✅ יצירת <strong>interactive controls</strong></li>
+        <li>✅ שימוש ב-<strong>actions addon</strong></li>
+        <li>✅ כתיבת <strong>play functions</strong></li>
+        <li>✅ <strong>composition</strong> של קומפוננטות</li>
+        <li>✅ בדיקת <strong>נגישות</strong></li>
+      </ul>
+    </section>
+
+    <!-- Exercise Overview -->
+    <section class="section">
+      <h2>🏗️ מבנה התרגיל</h2>
+      <p>התרגיל כולל <strong>5 קומפוננטות מוכנות</strong> עבור מערכת השאלת ספרים:</p>
+
+      <div class="components-grid">
+        <div class="component-card">
+          <h4>1️⃣ BookCardComponent</h4>
+          <p>הצגת כרטיס ספר בודד</p>
+        </div>
+        <div class="component-card">
+          <h4>2️⃣ BookFilterComponent</h4>
+          <p>סינון לפי קטגוריה וחיפוש</p>
+        </div>
+        <div class="component-card">
+          <h4>3️⃣ LoanFormComponent</h4>
+          <p>טופס השאלת ספר</p>
+        </div>
+        <div class="component-card">
+          <h4>4️⃣ BookListComponent</h4>
+          <p>רשימת ספרים</p>
+        </div>
+        <div class="component-card">
+          <h4>5️⃣ LoanStatsComponent</h4>
+          <p>סטטיסטיקות השאלות</p>
+        </div>
+      </div>
+
+      <div class="info-card warning">
+        <p><strong>המשימה שלכם:</strong> לכתוב קבצי <code>.stories.ts</code> לכל קומפוננטה!</p>
+        <p>הקומפוננטות עצמן כבר מוכנות - תוכלו לראות את הקוד שלהן למטה.</p>
+        <p>פתרונות מלאים נמצאים ב-<code>demo/components/</code></p>
+      </div>
+    </section>
+
+    <!-- Part A: Basic Stories -->
+    <section class="section">
+      <h2>חלק א': Stories בסיסיות ⭐</h2>
+
+      <!-- BookCard Component -->
+      <div class="component-card">
+        <h3>1. BookCardComponent</h3>
+        <p>קומפוננטה המציגה כרטיס ספר בודד עם פרטים, תמונת כיסוי, ודירוג.</p>
+
+        <h4>API של הקומפוננטה:</h4>
+        <ul>
+          <li><strong>Input:</strong> <code>book</code> (חובה) - אובייקט Book</li>
+          <li><strong>Input:</strong> <code>showActions</code> (ברירת מחדל: true) - הצגת כפתורים</li>
+          <li><strong>Input:</strong> <code>compact</code> (ברירת מחדל: false) - תצוגה קומפקטית</li>
+          <li><strong>Output:</strong> <code>loanRequested</code> - נשלח כשלוחצים "השאל"</li>
+        </ul>
+
+        <h4>Stories שצריך לכתוב:</h4>
+        <ul>
+          <li>✓ <strong>Default</strong> - ספר זמין רגיל</li>
+          <li>✓ <strong>Unavailable</strong> - ספר לא זמין</li>
+          <li>✓ <strong>Compact</strong> - תצוגה קומפקטית</li>
+          <li>✓ <strong>WithoutActions</strong> - ללא כפתורים</li>
+          <li>✓ <strong>HighRating</strong> - דירוג מושלם (5.0)</li>
+        </ul>
+
+        <button class="collapse-toggle" (click)="toggleBookCardCode()">
+          <span class="arrow" [class.expanded]="showBookCardCode()">▼</span>
+          הצג/הסתר קוד הקומפוננטה
+        </button>
+
+        @if (showBookCardCode()) {
+          <div class="solution-code">
+            <h5>book-card.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, output, ChangeDetectionStrategy &#125; from '@angular/core';
+import &#123; Book &#125; from '../../../../shared/models/library.models';
+
+@Component(&#123;
+  selector: 'app-book-card',
+  templateUrl: './book-card.html',
+  styleUrl: './book-card.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+&#125;)
+export class BookCardComponent &#123;
+  // Inputs
+  book = input.required&lt;Book&gt;();
+  showActions = input(true);
+  compact = input(false);
+
+  // Outputs
+  loanRequested = output&lt;Book&gt;();
+
+  onLoanClick(): void &#123;
+    if (this.book().available) &#123;
+      this.loanRequested.emit(this.book());
+    &#125;
+  &#125;
+
+  getRatingStars(): string &#123;
+    const rating = this.book().rating || 0;
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    let stars = '★'.repeat(fullStars);
+    if (hasHalfStar) stars += '☆';
+    return stars;
+  &#125;
+&#125;</code></pre>
+
+            <h5>book-card.html</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="book-card" [class.compact]="compact()" [class.unavailable]="!book().available"&gt;
+  &lt;div class="book-cover"&gt;
+    &commat;if (book().coverUrl) &#123;
+      &lt;img [src]="book().coverUrl" [alt]="'כריכת ' + book().title" /&gt;
+    &#125; &commat;else &#123;
+      &lt;div class="placeholder-cover"&gt;
+        &lt;span class="book-icon"&gt;📚&lt;/span&gt;
+        &commat;if (!compact()) &#123;
+          &lt;div class="category-badge"&gt;&#123;&#123; book().category &#125;&#125;&lt;/div&gt;
+        &#125;
+      &lt;/div&gt;
+    &#125;
+    &commat;if (!book().available) &#123;
+      &lt;div class="unavailable-badge"&gt;לא זמין&lt;/div&gt;
+    &#125;
+  &lt;/div&gt;
+
+  &lt;div class="book-info"&gt;
+    &lt;h3 class="book-title"&gt;&#123;&#123; book().title &#125;&#125;&lt;/h3&gt;
+    &lt;p class="book-author"&gt;&#123;&#123; book().author &#125;&#125;&lt;/p&gt;
+
+    &commat;if (!compact()) &#123;
+      &lt;div class="book-meta"&gt;
+        &lt;span class="meta-item"&gt;
+          &lt;span class="meta-label"&gt;שנה:&lt;/span&gt;
+          &lt;span class="meta-value"&gt;&#123;&#123; book().publishYear &#125;&#125;&lt;/span&gt;
+        &lt;/span&gt;
+        &lt;span class="meta-item"&gt;
+          &lt;span class="meta-label"&gt;עמודים:&lt;/span&gt;
+          &lt;span class="meta-value"&gt;&#123;&#123; book().pages &#125;&#125;&lt;/span&gt;
+        &lt;/span&gt;
+      &lt;/div&gt;
+
+      &commat;if (book().description) &#123;
+        &lt;p class="book-description"&gt;&#123;&#123; book().description &#125;&#125;&lt;/p&gt;
+      &#125;
+
+      &commat;if (book().rating) &#123;
+        &lt;div class="book-rating"&gt;
+          &lt;span class="stars"&gt;&#123;&#123; getRatingStars() &#125;&#125;&lt;/span&gt;
+          &lt;span class="rating-value"&gt;&#123;&#123; book().rating?.toFixed(1) &#125;&#125;&lt;/span&gt;
+        &lt;/div&gt;
+      &#125;
+    &#125;
+  &lt;/div&gt;
+
+  &commat;if (showActions()) &#123;
+    &lt;div class="book-actions"&gt;
+      &lt;button
+        type="button"
+        class="loan-btn"
+        [disabled]="!book().available"
+        (click)="onLoanClick()"
+        [attr.aria-label]="'השאל את הספר ' + book().title"&gt;
+        &commat;if (book().available) &#123;
+          השאל ספר
+        &#125; &commat;else &#123;
+          לא זמין
+        &#125;
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &#125;
+&lt;/div&gt;</code></pre>
+
+            <h5>book-card.scss</h5>
+            <pre ngNonBindable><code class="language-css">.book-card &#123;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &:hover &#123;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+  &#125;
+
+  &.unavailable &#123;
+    opacity: 0.7;
+  &#125;
+
+  &.compact &#123;
+    .book-cover &#123;
+      height: 120px;
+    &#125;
+
+    .book-info &#123;
+      padding: 0.75rem;
+    &#125;
+
+    .book-title &#123;
+      font-size: 1rem;
+    &#125;
+
+    .book-author &#123;
+      font-size: 0.85rem;
+    &#125;
+  &#125;
+&#125;
+
+.book-cover &#123;
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  img &#123;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  &#125;
+&#125;
+
+.placeholder-cover &#123;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+&#125;
+
+.book-icon &#123;
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+&#125;
+
+.category-badge &#123;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+&#125;
+
+.unavailable-badge &#123;
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: #ef4444;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+&#125;
+
+.book-info &#123;
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+&#125;
+
+.book-title &#123;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+&#125;
+
+.book-author &#123;
+  font-size: 0.95rem;
+  color: #718096;
+  margin: 0;
+  font-weight: 500;
+&#125;
+
+.book-meta &#123;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+&#125;
+
+.meta-item &#123;
+  font-size: 0.85rem;
+  color: #4a5568;
+&#125;
+
+.meta-label &#123;
+  font-weight: 600;
+  margin-left: 0.25rem;
+&#125;
+
+.meta-value &#123;
+  color: #718096;
+&#125;
+
+.book-description &#123;
+  font-size: 0.9rem;
+  color: #4a5568;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+&#125;
+
+.book-rating &#123;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+&#125;
+
+.stars &#123;
+  color: #f59e0b;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+&#125;
+
+.rating-value &#123;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2d3748;
+&#125;
+
+.book-actions &#123;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e2e8f0;
+&#125;
+
+.loan-btn &#123;
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) &#123;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  &#125;
+
+  &:disabled &#123;
+    background: #cbd5e0;
+    color: #718096;
+    cursor: not-allowed;
+    transform: none;
+  &#125;
+
+  &:active:not(:disabled) &#123;
+    transform: translateY(0);
+  &#125;
+&#125;
+
+// Responsive
+@media (max-width: 640px) &#123;
+  .book-cover &#123;
+    height: 160px;
+  &#125;
+
+  .book-info &#123;
+    padding: 1rem;
+  &#125;
+
+  .book-title &#123;
+    font-size: 1.1rem;
+  &#125;
+&#125;</code></pre>
+          </div>
+        }
+
+        <div class="tip-box">
+          <p><strong>💡 טיפים לכתיבת ה-story:</strong></p>
+          <ul>
+            <li>השתמשו ב-<code>argTypes</code> כדי להפוך props לניתנים לשינוי</li>
+            <li>הוסיפו <code>action</code> ל-<code>loanRequested</code></li>
+            <li>השתמשו ב-<code>decorator</code> להגבלת רוחב</li>
+            <li>ראו את הפתרון המלא ב-<code>demo/components/book-card/book-card.stories.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- BookFilter Component -->
+      <div class="component-card">
+        <h3>2. BookFilterComponent</h3>
+        <p>קומפוננטה לסינון ספרים לפי קטגוריה וטקסט חיפוש.</p>
+
+        <h4>API של הקומפוננטה:</h4>
+        <ul>
+          <li><strong>Input:</strong> <code>categories</code> (חובה) - רשימת קטגוריות</li>
+          <li><strong>Model:</strong> <code>selectedCategory</code> - two-way binding</li>
+          <li><strong>Model:</strong> <code>searchQuery</code> - two-way binding</li>
+          <li><strong>Output:</strong> <code>filterChange</code> - נשלח כשהסינון משתנה</li>
+        </ul>
+
+        <h4>Stories שצריך לכתוב:</h4>
+        <ul>
+          <li>✓ <strong>Default</strong> - מצב ריק</li>
+          <li>✓ <strong>WithSelectedCategory</strong> - עם קטגוריה</li>
+          <li>✓ <strong>WithSearchQuery</strong> - עם חיפוש</li>
+          <li>✓ <strong>AllFiltersActive</strong> - שני הסינונים</li>
+        </ul>
+
+        <button class="collapse-toggle" (click)="toggleBookFilterCode()">
+          <span class="arrow" [class.expanded]="showBookFilterCode()">▼</span>
+          הצג/הסתר קוד הקומפוננטה
+        </button>
+
+        @if (showBookFilterCode()) {
+          <div class="solution-code">
+            <h5>book-filter.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, model, output, ChangeDetectionStrategy &#125; from '@angular/core';
+import &#123; FormsModule &#125; from '@angular/forms';
+import &#123; BookCategory &#125; from '../../../../shared/models/library.models';
+
+@Component(&#123;
+  selector: 'app-book-filter',
+  imports: [FormsModule],
+  templateUrl: './book-filter.html',
+  styleUrl: './book-filter.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+&#125;)
+export class BookFilterComponent &#123;
+  // Inputs
+  categories = input.required&lt;BookCategory[]&gt;();
+
+  // Two-way binding models
+  selectedCategory = model&lt;BookCategory | ''&gt;('');
+  searchQuery = model('');
+
+  // Outputs
+  filterChange = output&lt;void&gt;();
+
+  onCategoryChange(): void &#123;
+    this.filterChange.emit();
+  &#125;
+
+  onSearchChange(): void &#123;
+    this.filterChange.emit();
+  &#125;
+
+  clearFilters(): void &#123;
+    this.selectedCategory.set('');
+    this.searchQuery.set('');
+    this.filterChange.emit();
+  &#125;
+
+  hasActiveFilters(): boolean &#123;
+    return this.selectedCategory() !== '' || this.searchQuery() !== '';
+  &#125;
+&#125;</code></pre>
+
+            <h5>book-filter.html</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="book-filter"&gt;
+  &lt;div class="filter-header"&gt;
+    &lt;h3 class="filter-title"&gt;סינון ספרים&lt;/h3&gt;
+    &commat;if (hasActiveFilters()) &#123;
+      &lt;button
+        type="button"
+        class="clear-btn"
+        (click)="clearFilters()"
+        aria-label="נקה סינונים"&gt;
+        נקה הכל
+      &lt;/button&gt;
+    &#125;
+  &lt;/div&gt;
+
+  &lt;div class="filter-controls"&gt;
+    &lt;!-- Category Filter --&gt;
+    &lt;div class="filter-group"&gt;
+      &lt;label for="category-select" class="filter-label"&gt;
+        &lt;span class="label-icon"&gt;📚&lt;/span&gt;
+        קטגוריה
+      &lt;/label&gt;
+      &lt;select
+        id="category-select"
+        class="filter-select"
+        [(ngModel)]="selectedCategory"
+        (ngModelChange)="onCategoryChange()"
+        aria-label="בחר קטגוריה"&gt;
+        &lt;option value=""&gt;כל הקטגוריות&lt;/option&gt;
+        &commat;for (category of categories(); track category) &#123;
+          &lt;option [value]="category"&gt;&#123;&#123; category &#125;&#125;&lt;/option&gt;
+        &#125;
+      &lt;/select&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Search Filter --&gt;
+    &lt;div class="filter-group"&gt;
+      &lt;label for="search-input" class="filter-label"&gt;
+        &lt;span class="label-icon"&gt;🔍&lt;/span&gt;
+        חיפוש
+      &lt;/label&gt;
+      &lt;input
+        id="search-input"
+        type="text"
+        class="filter-input"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchChange()"
+        placeholder="חפש ספר או מחבר..."
+        aria-label="חפש ספר או מחבר"
+      /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &commat;if (hasActiveFilters()) &#123;
+    &lt;div class="active-filters"&gt;
+      &lt;span class="active-filters-label"&gt;סינונים פעילים:&lt;/span&gt;
+      &commat;if (selectedCategory()) &#123;
+        &lt;span class="filter-tag"&gt;
+          &#123;&#123; selectedCategory() &#125;&#125;
+          &lt;button
+            type="button"
+            class="remove-tag"
+            (click)="selectedCategory.set(''); onCategoryChange()"
+            aria-label="הסר סינון קטגוריה"&gt;
+            ×
+          &lt;/button&gt;
+        &lt;/span&gt;
+      &#125;
+      &commat;if (searchQuery()) &#123;
+        &lt;span class="filter-tag"&gt;
+          "&#123;&#123; searchQuery() &#125;&#125;"
+          &lt;button
+            type="button"
+            class="remove-tag"
+            (click)="searchQuery.set(''); onSearchChange()"
+            aria-label="הסר חיפוש"&gt;
+            ×
+          &lt;/button&gt;
+        &lt;/span&gt;
+      &#125;
+    &lt;/div&gt;
+  &#125;
+&lt;/div&gt;</code></pre>
+
+            <h5>book-filter.scss</h5>
+            <pre ngNonBindable><code class="language-css">.book-filter &#123;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+&#125;
+
+.filter-header &#123;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+&#125;
+
+.filter-title &#123;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+&#125;
+
+.clear-btn &#123;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover &#123;
+    background: #dc2626;
+    transform: translateY(-1px);
+  &#125;
+
+  &:active &#123;
+    transform: translateY(0);
+  &#125;
+&#125;
+
+.filter-controls &#123;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+&#125;
+
+.filter-group &#123;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+&#125;
+
+.filter-label &#123;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+&#125;
+
+.label-icon &#123;
+  font-size: 1rem;
+&#125;
+
+.filter-select,
+.filter-input &#123;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #2d3748;
+  background: white;
+  transition: all 0.2s ease;
+
+  &:focus &#123;
+    outline: none;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+  &#125;
+
+  &:hover &#123;
+    border-color: #cbd5e0;
+  &#125;
+&#125;
+
+.filter-select &#123;
+  cursor: pointer;
+&#125;
+
+.filter-input::placeholder &#123;
+  color: #a0aec0;
+&#125;
+
+.active-filters &#123;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+&#125;
+
+.active-filters-label &#123;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+&#125;
+
+.filter-tag &#123;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+&#125;
+
+.remove-tag &#123;
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  border: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+
+  &:hover &#123;
+    background: rgba(255, 255, 255, 0.5);
+  &#125;
+&#125;
+
+// Responsive
+@media (max-width: 640px) &#123;
+  .book-filter &#123;
+    padding: 1rem;
+  &#125;
+
+  .filter-controls &#123;
+    grid-template-columns: 1fr;
+  &#125;
+
+  .filter-header &#123;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  &#125;
+
+  .clear-btn &#123;
+    width: 100%;
+  &#125;
+&#125;</code></pre>
+          </div>
+        }
+
+        <div class="tip-box">
+          <p><strong>💡 טיפים:</strong></p>
+          <ul>
+            <li>השתמשו ב-<code>model()</code> עבור two-way binding</li>
+            <li>ראו את הפתרון ב-<code>demo/components/book-filter/book-filter.stories.ts</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part B: Advanced Stories -->
+    <section class="section">
+      <h2>חלק ב': Stories מתקדמות ⭐⭐</h2>
+
+      <!-- LoanForm Component -->
+      <div class="component-card">
+        <h3>3. LoanFormComponent</h3>
+        <p>טופס השאלת ספר עם שדות ולידציה.</p>
+
+        <h4>API של הקומפוננטה:</h4>
+        <ul>
+          <li><strong>Input:</strong> <code>book</code> (חובה) - הספר להשאלה</li>
+          <li><strong>Input:</strong> <code>disabled</code> - האם הטופס מבוטל</li>
+          <li><strong>Output:</strong> <code>loanSubmit</code> - שליחת הטופס</li>
+          <li><strong>Output:</strong> <code>cancel</code> - ביטול</li>
+        </ul>
+
+        <h4>Stories שצריך לכתוב:</h4>
+        <ul>
+          <li>✓ <strong>EmptyForm</strong> - טופס ריק</li>
+          <li>✓ <strong>FilledForm</strong> - טופס מלא</li>
+          <li>✓ <strong>WithValidationErrors</strong> - עם שגיאות</li>
+          <li>✓ <strong>DisabledState</strong> - מבוטל</li>
+        </ul>
+
+        <button class="collapse-toggle" (click)="toggleLoanFormCode()">
+          <span class="arrow" [class.expanded]="showLoanFormCode()">▼</span>
+          הצג/הסתר קוד הקומפוננטה
+        </button>
+
+        @if (showLoanFormCode()) {
+          <div class="solution-code">
+            <h5>loan-form.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, output, signal, ChangeDetectionStrategy &#125; from '@angular/core';
+import &#123; FormBuilder, FormGroup, Validators, ReactiveFormsModule &#125; from '@angular/forms';
+import &#123; Book, BorrowerInfo &#125; from '../../../../shared/models/library.models';
+
+@Component(&#123;
+  selector: 'app-loan-form',
+  imports: [ReactiveFormsModule],
+  templateUrl: './loan-form.html',
+  styleUrl: './loan-form.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+&#125;)
+export class LoanFormComponent &#123;
+  private fb = new FormBuilder().nonNullable;
+
+  // Inputs
+  book = input.required&lt;Book&gt;();
+  disabled = input(false);
+
+  // State
+  isSubmitting = signal(false);
+  submitSuccess = signal(false);
+
+  // Outputs
+  loanSubmit = output&lt;BorrowerInfo&gt;();
+  cancel = output&lt;void&gt;();
+
+  // Form
+  loanForm: FormGroup = this.fb.group(&#123;
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    email: ['', [Validators.required, Validators.email]],
+    phone: [''],
+  &#125;);
+
+  onSubmit(): void &#123;
+    if (this.loanForm.valid && !this.isSubmitting()) &#123;
+      this.isSubmitting.set(true);
+
+      const borrowerInfo: BorrowerInfo = &#123;
+        name: this.loanForm.value.name,
+        email: this.loanForm.value.email,
+        phone: this.loanForm.value.phone || undefined,
+      &#125;;
+
+      setTimeout(() =&gt; &#123;
+        this.loanSubmit.emit(borrowerInfo);
+        this.submitSuccess.set(true);
+        this.isSubmitting.set(false);
+
+        setTimeout(() =&gt; &#123;
+          this.loanForm.reset();
+          this.submitSuccess.set(false);
+        &#125;, 2000);
+      &#125;, 500);
+    &#125; else &#123;
+      Object.keys(this.loanForm.controls).forEach(key =&gt; &#123;
+        this.loanForm.controls[key].markAsTouched();
+      &#125;);
+    &#125;
+  &#125;
+
+  getErrorMessage(fieldName: string): string &#123;
+    const control = this.loanForm.get(fieldName);
+    if (control?.hasError('required')) &#123;
+      return 'שדה חובה';
+    &#125;
+    if (control?.hasError('email')) &#123;
+      return 'כתובת אימייל לא תקינה';
+    &#125;
+    if (control?.hasError('minlength')) &#123;
+      return `מינימום $&#123;control.errors?.['minlength'].requiredLength&#125; תווים`;
+    &#125;
+    return '';
+  &#125;
+&#125;</code></pre>
+
+            <h5>loan-form.html</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="loan-form-container"&gt;
+  &lt;div class="form-header"&gt;
+    &lt;h2 class="form-title"&gt;השאלת ספר&lt;/h2&gt;
+    &lt;div class="book-info"&gt;
+      &lt;span class="book-icon"&gt;📖&lt;/span&gt;
+      &lt;div class="book-details"&gt;
+        &lt;p class="book-title"&gt;&#123;&#123; book().title &#125;&#125;&lt;/p&gt;
+        &lt;p class="book-author"&gt;&#123;&#123; book().author &#125;&#125;&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &commat;if (submitSuccess()) &#123;
+    &lt;div class="success-message"&gt;
+      &lt;span class="success-icon"&gt;✓&lt;/span&gt;
+      &lt;p&gt;הספר נשלח להשאלה בהצלחה!&lt;/p&gt;
+    &lt;/div&gt;
+  &#125; &commat;else &#123;
+    &lt;form [formGroup]="loanForm" (ngSubmit)="onSubmit()" class="loan-form"&gt;
+      &lt;!-- Name Field --&gt;
+      &lt;div class="form-group"&gt;
+        &lt;label for="name" class="form-label"&gt;
+          שם מלא &lt;span class="required"&gt;*&lt;/span&gt;
+        &lt;/label&gt;
+        &lt;input
+          id="name"
+          type="text"
+          formControlName="name"
+          class="form-input"
+          [class.invalid]="isFieldInvalid('name')"
+          [disabled]="disabled()"
+          placeholder="הזן שם מלא"
+          aria-label="שם מלא"
+          [attr.aria-invalid]="isFieldInvalid('name')"
+        /&gt;
+        &commat;if (isFieldInvalid('name')) &#123;
+          &lt;span class="error-message" role="alert"&gt;
+            &#123;&#123; getErrorMessage('name') &#125;&#125;
+          &lt;/span&gt;
+        &#125;
+      &lt;/div&gt;
+
+      &lt;!-- Email Field --&gt;
+      &lt;div class="form-group"&gt;
+        &lt;label for="email" class="form-label"&gt;
+          אימייל &lt;span class="required"&gt;*&lt;/span&gt;
+        &lt;/label&gt;
+        &lt;input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-input"
+          [class.invalid]="isFieldInvalid('email')"
+          [disabled]="disabled()"
+          placeholder="example@email.com"
+          aria-label="אימייל"
+          [attr.aria-invalid]="isFieldInvalid('email')"
+        /&gt;
+        &commat;if (isFieldInvalid('email')) &#123;
+          &lt;span class="error-message" role="alert"&gt;
+            &#123;&#123; getErrorMessage('email') &#125;&#125;
+          &lt;/span&gt;
+        &#125;
+      &lt;/div&gt;
+
+      &lt;!-- Phone Field (Optional) --&gt;
+      &lt;div class="form-group"&gt;
+        &lt;label for="phone" class="form-label"&gt;
+          טלפון &lt;span class="optional"&gt;(אופציונלי)&lt;/span&gt;
+        &lt;/label&gt;
+        &lt;input
+          id="phone"
+          type="tel"
+          formControlName="phone"
+          class="form-input"
+          [disabled]="disabled()"
+          placeholder="050-1234567"
+          aria-label="טלפון"
+        /&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Form Actions --&gt;
+      &lt;div class="form-actions"&gt;
+        &lt;button
+          type="submit"
+          class="submit-btn"
+          [disabled]="disabled() || isSubmitting()"
+          aria-label="השאל את הספר"&gt;
+          &commat;if (isSubmitting()) &#123;
+            &lt;span class="spinner"&gt;&lt;/span&gt;
+            שולח...
+          &#125; &commat;else &#123;
+            השאל ספר
+          &#125;
+        &lt;/button&gt;
+        &lt;button
+          type="button"
+          class="cancel-btn"
+          [disabled]="disabled() || isSubmitting()"
+          (click)="onCancel()"
+          aria-label="ביטול"&gt;
+          ביטול
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      &commat;if (!loanForm.valid && (loanForm.dirty || loanForm.touched)) &#123;
+        &lt;div class="form-hint warning"&gt;
+          &lt;span class="hint-icon"&gt;⚠️&lt;/span&gt;
+          &lt;span&gt;אנא מלא את כל השדות הנדרשים&lt;/span&gt;
+        &lt;/div&gt;
+      &#125;
+    &lt;/form&gt;
+  &#125;
+&lt;/div&gt;</code></pre>
+
+            <h5>loan-form.scss</h5>
+            <pre ngNonBindable><code class="language-css">.loan-form-container &#123;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 500px;
+&#125;
+
+.form-header &#123;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 1.5rem;
+&#125;
+
+.form-title &#123;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 1rem 0;
+&#125;
+
+.book-info &#123;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #f7fafc;
+  padding: 1rem;
+  border-radius: 8px;
+&#125;
+
+.book-icon &#123;
+  font-size: 2rem;
+  flex-shrink: 0;
+&#125;
+
+.book-details &#123;
+  flex: 1;
+&#125;
+
+.book-title &#123;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+&#125;
+
+.book-author &#123;
+  color: #718096;
+  margin: 0;
+  font-size: 0.875rem;
+&#125;
+
+.loan-form &#123;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+&#125;
+
+.form-group &#123;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+&#125;
+
+.form-label &#123;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+&#125;
+
+.required &#123;
+  color: #ef4444;
+&#125;
+
+.optional &#123;
+  color: #a0aec0;
+  font-weight: 400;
+&#125;
+
+.form-input &#123;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #2d3748;
+  transition: all 0.2s ease;
+
+  &:focus &#123;
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  &#125;
+
+  &:disabled &#123;
+    background: #f7fafc;
+    color: #a0aec0;
+    cursor: not-allowed;
+  &#125;
+
+  &.invalid &#123;
+    border-color: #ef4444;
+
+    &:focus &#123;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    &#125;
+  &#125;
+
+  &::placeholder &#123;
+    color: #a0aec0;
+  &#125;
+&#125;
+
+.error-message &#123;
+  font-size: 0.75rem;
+  color: #ef4444;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &::before &#123;
+    content: '⚠';
+    font-size: 0.875rem;
+  &#125;
+&#125;
+
+.form-actions &#123;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.5rem;
+&#125;
+
+.submit-btn,
+.cancel-btn &#123;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &:disabled &#123;
+    cursor: not-allowed;
+    opacity: 0.6;
+  &#125;
+&#125;
+
+.submit-btn &#123;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+
+  &:hover:not(:disabled) &#123;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  &#125;
+
+  &:active:not(:disabled) &#123;
+    transform: translateY(0);
+  &#125;
+&#125;
+
+.cancel-btn &#123;
+  background: #e2e8f0;
+  color: #4a5568;
+
+  &:hover:not(:disabled) &#123;
+    background: #cbd5e0;
+  &#125;
+&#125;
+
+.spinner &#123;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+&#125;
+
+@keyframes spin &#123;
+  to &#123;
+    transform: rotate(360deg);
+  &#125;
+&#125;
+
+.form-hint &#123;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &.warning &#123;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fbbf24;
+  &#125;
+&#125;
+
+.hint-icon &#123;
+  font-size: 1rem;
+&#125;
+
+.success-message &#123;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+
+  .success-icon &#123;
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+  &#125;
+
+  p &#123;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  &#125;
+&#125;
+
+@keyframes fadeIn &#123;
+  from &#123;
+    opacity: 0;
+    transform: scale(0.9);
+  &#125;
+  to &#123;
+    opacity: 1;
+    transform: scale(1);
+  &#125;
+&#125;
+
+// Responsive
+@media (max-width: 640px) &#123;
+  .loan-form-container &#123;
+    padding: 1.5rem;
+  &#125;
+
+  .form-actions &#123;
+    grid-template-columns: 1fr;
+  &#125;
+&#125;</code></pre>
+            <p><strong>💡 הקוד המלא כולל play functions לבדיקות אינטראקציה!</strong> ראו ב-<code>demo/components/loan-form/</code></p>
+          </div>
+        }
+
+        <div class="tip-box">
+          <p><strong>💡 טיפים:</strong></p>
+          <ul>
+            <li>השתמשו ב-<code>play function</code> לסימולציה של אינטראקציות</li>
+            <li>ראו את הפתרון ב-<code>demo/components/loan-form/loan-form.stories.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- BookList Component -->
+      <div class="component-card">
+        <h3>4. BookListComponent</h3>
+        <p>רשימת ספרים עם תמיכה בתצוגת grid/list.</p>
+
+        <h4>Stories שצריך לכתוב:</h4>
+        <ul>
+          <li>✓ <strong>GridLayout</strong> - תצוגת רשת</li>
+          <li>✓ <strong>ListLayout</strong> - תצוגת רשימה</li>
+          <li>✓ <strong>LoadingState</strong> - מצב טעינה</li>
+          <li>✓ <strong>EmptyState</strong> - ללא ספרים</li>
+          <li>✓ <strong>SingleBook</strong> - ספר אחד</li>
+          <li>✓ <strong>ManyBooks</strong> - 20 ספרים</li>
+        </ul>
+
+        <button class="collapse-toggle" (click)="toggleBookListCode()">
+          <span class="arrow" [class.expanded]="showBookListCode()">▼</span>
+          הצג/הסתר קוד הקומפוננטה
+        </button>
+
+        @if (showBookListCode()) {
+          <div class="solution-code">
+            <h5>book-list.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, output, ChangeDetectionStrategy &#125; from '@angular/core';
+import &#123; Book &#125; from '../../../../shared/models/library.models';
+import &#123; BookCardComponent &#125; from '../book-card/book-card';
+
+@Component(&#123;
+  selector: 'app-book-list',
+  imports: [BookCardComponent],
+  templateUrl: './book-list.html',
+  styleUrl: './book-list.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+&#125;)
+export class BookListComponent &#123;
+  // Inputs
+  books = input.required&lt;Book[]&gt;();
+  layout = input&lt;'grid' | 'list'&gt;('grid');
+  loading = input(false);
+
+  // Outputs
+  bookSelected = output&lt;Book&gt;();
+  loanRequested = output&lt;Book&gt;();
+
+  onBookSelected(book: Book): void &#123;
+    this.bookSelected.emit(book);
+  &#125;
+
+  onLoanRequested(book: Book): void &#123;
+    this.loanRequested.emit(book);
+  &#125;
+
+  get isEmpty(): boolean &#123;
+    return this.books().length === 0;
+  &#125;
+&#125;</code></pre>
+
+            <h5>book-list.html</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="book-list-container"&gt;
+  &commat;if (loading()) &#123;
+    &lt;!-- Loading skeleton --&gt;
+    &lt;div class="loading-skeleton" [class.grid]="layout() === 'grid'"&gt;
+      &commat;for (i of [1, 2, 3, 4, 5, 6]; track i) &#123;
+        &lt;div class="skeleton-card"&gt;
+          &lt;div class="skeleton-cover"&gt;&lt;/div&gt;
+          &lt;div class="skeleton-info"&gt;
+            &lt;div class="skeleton-line title"&gt;&lt;/div&gt;
+            &lt;div class="skeleton-line author"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &#125;
+    &lt;/div&gt;
+  &#125; &commat;else if (isEmpty) &#123;
+    &lt;!-- Empty state --&gt;
+    &lt;div class="empty-state"&gt;
+      &lt;div class="empty-icon"&gt;📚&lt;/div&gt;
+      &lt;h3 class="empty-title"&gt;אין ספרים להצגה&lt;/h3&gt;
+      &lt;p class="empty-message"&gt;נסה לשנות את הסינונים&lt;/p&gt;
+    &lt;/div&gt;
+  &#125; &commat;else &#123;
+    &lt;!-- Books grid/list --&gt;
+    &lt;div class="book-list" [class.grid]="layout() === 'grid'" [class.list]="layout() === 'list'"&gt;
+      &commat;for (book of books(); track book.id) &#123;
+        &lt;div class="book-item" (click)="onBookSelected(book)"&gt;
+          &lt;app-book-card
+            [book]="book"
+            [compact]="layout() === 'list'"
+            (loanRequested)="onLoanRequested($event)"&gt;
+          &lt;/app-book-card&gt;
+        &lt;/div&gt;
+      &#125;
+    &lt;/div&gt;
+  &#125;
+&lt;/div&gt;</code></pre>
+
+            <h5>book-list.scss</h5>
+            <pre ngNonBindable><code class="language-css">.book-list-container &#123;
+  min-height: 300px;
+&#125;
+
+.book-list &#123;
+  &.grid &#123;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  &#125;
+
+  &.list &#123;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+  &#125;
+&#125;
+
+.book-item &#123;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover &#123;
+    transform: translateY(-2px);
+  &#125;
+&#125;
+
+// Loading skeleton
+.loading-skeleton &#123;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &.grid &#123;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  &#125;
+&#125;
+
+.skeleton-card &#123;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+&#125;
+
+.skeleton-cover &#123;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+&#125;
+
+.skeleton-info &#123;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+&#125;
+
+.skeleton-line &#123;
+  height: 16px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+
+  &.title &#123;
+    width: 80%;
+    height: 20px;
+  &#125;
+
+  &.author &#123;
+    width: 60%;
+  &#125;
+
+  &.meta &#123;
+    width: 40%;
+  &#125;
+&#125;
+
+@keyframes shimmer &#123;
+  0% &#123;
+    background-position: 200% 0;
+  &#125;
+  100% &#123;
+    background-position: -200% 0;
+  &#125;
+&#125;
+
+// Empty state
+.empty-state &#123;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  min-height: 400px;
+&#125;
+
+.empty-icon &#123;
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+&#125;
+
+.empty-title &#123;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 0.75rem 0;
+&#125;
+
+.empty-message &#123;
+  font-size: 1rem;
+  color: #718096;
+  margin: 0;
+  max-width: 400px;
+&#125;
+
+// Responsive
+@media (max-width: 768px) &#123;
+  .book-list.grid &#123;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  &#125;
+
+  .loading-skeleton.grid &#123;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  &#125;
+&#125;
+
+@media (max-width: 480px) &#123;
+  .book-list.grid &#123;
+    grid-template-columns: 1fr;
+  &#125;
+
+  .loading-skeleton.grid &#123;
+    grid-template-columns: 1fr;
+  &#125;
+&#125;</code></pre>
+          </div>
+        }
+
+        <div class="tip-box">
+          <p><strong>💡 טיפים:</strong></p>
+          <ul>
+            <li>צרו מקרים שונים למצבי טעינה ו-empty state</li>
+            <li>ראו את הפתרון ב-<code>demo/components/book-list/book-list.stories.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- LoanStats Component -->
+      <div class="component-card">
+        <h3>5. LoanStatsComponent</h3>
+        <p>פאנל סטטיסטיקות השאלות.</p>
+
+        <h4>Stories שצריך לכתוב:</h4>
+        <ul>
+          <li>✓ <strong>NormalStats</strong> - סטטיסטיקות רגילות</li>
+          <li>✓ <strong>ZeroStats</strong> - אין נתונים</li>
+          <li>✓ <strong>HighOverdue</strong> - הרבה איחורים (warning)</li>
+          <li>✓ <strong>WithoutPopularBooks</strong> - ללא רשימת ספרים</li>
+        </ul>
+
+        <button class="collapse-toggle" (click)="toggleLoanStatsCode()">
+          <span class="arrow" [class.expanded]="showLoanStatsCode()">▼</span>
+          הצג/הסתר קוד הקומפוננטה
+        </button>
+
+        @if (showLoanStatsCode()) {
+          <div class="solution-code">
+            <h5>loan-stats.ts</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, computed, ChangeDetectionStrategy &#125; from '@angular/core';
+import &#123; LoanStats &#125; from '../../../../shared/models/library.models';
+
+@Component(&#123;
+  selector: 'app-loan-stats',
+  templateUrl: './loan-stats.html',
+  styleUrl: './loan-stats.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+&#125;)
+export class LoanStatsComponent &#123;
+  // Inputs
+  stats = input.required&lt;LoanStats&gt;();
+  showPopularBooks = input(true);
+
+  // Computed
+  completionPercentage = computed(() =&gt; &#123;
+    const total = this.stats().totalLoans;
+    if (total === 0) return 0;
+    return Math.round((this.stats().returnedLoans / total) * 100);
+  &#125;);
+
+  overduePercentage = computed(() =&gt; &#123;
+    const active = this.stats().activeLoans;
+    if (active === 0) return 0;
+    return Math.round((this.stats().overdueLoans / active) * 100);
+  &#125;);
+
+  isOverdueWarning = computed(() =&gt; &#123;
+    return this.overduePercentage() &gt; 20;
+  &#125;);
+
+  isEmpty = computed(() =&gt; &#123;
+    return this.stats().totalLoans === 0;
+  &#125;);
+&#125;</code></pre>
+
+            <h5>loan-stats.html</h5>
+            <pre ngNonBindable><code class="language-html">&lt;div class="loan-stats-container" [class.warning]="isOverdueWarning()"&gt;
+  &lt;div class="stats-header"&gt;
+    &lt;h3 class="stats-title"&gt;סטטיסטיקות השאלות&lt;/h3&gt;
+    &commat;if (isOverdueWarning()) &#123;
+      &lt;span class="warning-badge"&gt;אזהרה&lt;/span&gt;
+    &#125;
+  &lt;/div&gt;
+
+  &commat;if (isEmpty()) &#123;
+    &lt;div class="empty-stats"&gt;
+      &lt;span class="empty-icon"&gt;📊&lt;/span&gt;
+      &lt;p&gt;אין נתוני השאלות זמינים&lt;/p&gt;
+    &lt;/div&gt;
+  &#125; &commat;else &#123;
+    &lt;!-- Main stats grid --&gt;
+    &lt;div class="stats-grid"&gt;
+      &lt;div class="stat-card total"&gt;
+        &lt;div class="stat-icon"&gt;📚&lt;/div&gt;
+        &lt;div class="stat-content"&gt;
+          &lt;div class="stat-value"&gt;&#123;&#123; stats().totalLoans &#125;&#125;&lt;/div&gt;
+          &lt;div class="stat-label"&gt;סה"כ השאלות&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class="stat-card active"&gt;
+        &lt;div class="stat-icon"&gt;📖&lt;/div&gt;
+        &lt;div class="stat-content"&gt;
+          &lt;div class="stat-value"&gt;&#123;&#123; stats().activeLoans &#125;&#125;&lt;/div&gt;
+          &lt;div class="stat-label"&gt;פעילות&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class="stat-card returned"&gt;
+        &lt;div class="stat-icon"&gt;✓&lt;/div&gt;
+        &lt;div class="stat-content"&gt;
+          &lt;div class="stat-value"&gt;&#123;&#123; stats().returnedLoans &#125;&#125;&lt;/div&gt;
+          &lt;div class="stat-label"&gt;הוחזרו&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class="stat-card overdue" [class.warning]="isOverdueWarning()"&gt;
+        &lt;div class="stat-icon"&gt;⚠️&lt;/div&gt;
+        &lt;div class="stat-content"&gt;
+          &lt;div class="stat-value"&gt;&#123;&#123; stats().overdueLoans &#125;&#125;&lt;/div&gt;
+          &lt;div class="stat-label"&gt;באיחור&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Progress bar --&gt;
+    &lt;div class="progress-section"&gt;
+      &lt;div class="progress-label"&gt;
+        &lt;span&gt;אחוז החזרה&lt;/span&gt;
+        &lt;span class="percentage"&gt;&#123;&#123; completionPercentage() &#125;&#125;%&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="progress-bar"&gt;
+        &lt;div
+          class="progress-fill"
+          [style.width.%]="completionPercentage()"
+          [attr.aria-valuenow]="completionPercentage()"
+          [attr.aria-valuemin]="0"
+          [attr.aria-valuemax]="100"
+          role="progressbar"&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Popular books list --&gt;
+    &commat;if (showPopularBooks() && stats().popularBooks.length &gt; 0) &#123;
+      &lt;div class="popular-books"&gt;
+        &lt;h4 class="popular-title"&gt;ספרים פופולריים&lt;/h4&gt;
+        &lt;div class="books-list"&gt;
+          &commat;for (book of stats().popularBooks; track book.id) &#123;
+            &lt;div class="popular-book"&gt;
+              &lt;span class="book-icon"&gt;📕&lt;/span&gt;
+              &lt;div class="book-info"&gt;
+                &lt;div class="book-title"&gt;&#123;&#123; book.title &#125;&#125;&lt;/div&gt;
+                &lt;div class="book-author"&gt;&#123;&#123; book.author &#125;&#125;&lt;/div&gt;
+              &lt;/div&gt;
+              &commat;if (book.rating) &#123;
+                &lt;div class="book-rating"&gt;
+                  &lt;span class="star"&gt;★&lt;/span&gt;
+                  &lt;span class="rating-value"&gt;&#123;&#123; book.rating.toFixed(1) &#125;&#125;&lt;/span&gt;
+                &lt;/div&gt;
+              &#125;
+            &lt;/div&gt;
+          &#125;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &#125;
+  &#125;
+&lt;/div&gt;</code></pre>
+
+            <h5>loan-stats.scss</h5>
+            <pre ngNonBindable><code class="language-css">.loan-stats-container &#123;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+
+  &.warning &#123;
+    border: 2px solid #ef4444;
+  &#125;
+&#125;
+
+.stats-header &#123;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+&#125;
+
+.stats-title &#123;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+&#125;
+
+.warning-badge &#123;
+  background: #ef4444;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+&#125;
+
+.stats-grid &#123;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+&#125;
+
+.stat-card &#123;
+  background: #f7fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: transform 0.2s ease;
+
+  &:hover &#123;
+    transform: translateY(-2px);
+  &#125;
+
+  &.total &#123;
+    background: linear-gradient(135deg, #edf2f7 0%, #e2e8f0 100%);
+  &#125;
+
+  &.active &#123;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  &#125;
+
+  &.returned &#123;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  &#125;
+
+  &.overdue &#123;
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+
+    &.warning &#123;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+
+      .stat-value,
+      .stat-label,
+      .stat-icon &#123;
+        color: white;
+      &#125;
+    &#125;
+  &#125;
+&#125;
+
+.stat-icon &#123;
+  font-size: 2rem;
+  flex-shrink: 0;
+&#125;
+
+.stat-content &#123;
+  flex: 1;
+&#125;
+
+.stat-value &#123;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2d3748;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+&#125;
+
+.stat-label &#123;
+  font-size: 0.75rem;
+  color: #718096;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+&#125;
+
+.progress-section &#123;
+  margin-bottom: 1.5rem;
+&#125;
+
+.progress-label &#123;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4a5568;
+&#125;
+
+.percentage &#123;
+  font-size: 1.125rem;
+  color: #10b981;
+  font-weight: 700;
+&#125;
+
+.progress-bar &#123;
+  height: 12px;
+  background: #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+&#125;
+
+.progress-fill &#123;
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  border-radius: 6px;
+  transition: width 0.5s ease;
+&#125;
+
+.popular-books &#123;
+  border-top: 2px solid #e2e8f0;
+  padding-top: 1.5rem;
+&#125;
+
+.popular-title &#123;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 1rem 0;
+&#125;
+
+.books-list &#123;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+&#125;
+
+.popular-book &#123;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #f7fafc;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover &#123;
+    background: #edf2f7;
+    transform: translateX(-4px);
+  &#125;
+&#125;
+
+.book-icon &#123;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+&#125;
+
+.book-info &#123;
+  flex: 1;
+  min-width: 0;
+&#125;
+
+.book-title &#123;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+&#125;
+
+.book-author &#123;
+  color: #718096;
+  font-size: 0.75rem;
+  margin-top: 0.125rem;
+&#125;
+
+.book-rating &#123;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+&#125;
+
+.star &#123;
+  color: #f59e0b;
+  font-size: 1rem;
+&#125;
+
+.rating-value &#123;
+  font-weight: 700;
+  color: #2d3748;
+  font-size: 0.875rem;
+&#125;
+
+.empty-stats &#123;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+&#125;
+
+.empty-icon &#123;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+&#125;
+
+.empty-stats p &#123;
+  color: #718096;
+  margin: 0;
+  font-size: 0.9rem;
+&#125;
+
+// Responsive
+@media (max-width: 640px) &#123;
+  .stats-grid &#123;
+    grid-template-columns: repeat(2, 1fr);
+  &#125;
+
+  .stat-value &#123;
+    font-size: 1.5rem;
+  &#125;
+&#125;</code></pre>
+          </div>
+        }
+
+        <div class="tip-box">
+          <p><strong>💡 טיפים:</strong></p>
+          <ul>
+            <li>השתמשו ב-computed signals לחישובים</li>
+            <li>ראו את הפתרון ב-<code>demo/components/loan-stats/loan-stats.stories.ts</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part C: Advanced Features -->
+    <section class="section">
+      <h2>חלק ג': תכונות מתקדמות ⭐⭐⭐</h2>
+
+      <!-- Play Functions -->
+      <div class="component-card">
+        <h3>6. Play Functions - בדיקות אוטומטיות</h3>
+        <p>צרו story שמבצעת אינטראקציה אוטומטית עם הטופס.</p>
+
+        <div class="tip-box">
+          <p><strong>💡 מה זה עושה?</strong></p>
+          <ul>
+            <li><code>within</code> - מאתר אלמנטים בקומפוננטה</li>
+            <li><code>userEvent</code> - מדמה פעולות משתמש</li>
+            <li><code>expect</code> - assertions (אופציונלי)</li>
+            <li>דוגמאות מלאות ב-<code>demo/components/loan-form/loan-form.stories.ts</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Component Composition -->
+      <div class="component-card">
+        <h3>7. Component Composition - הרכבת קומפוננטות</h3>
+        <p>צרו story שמשלב מספר קומפוננטות יחד.</p>
+
+        <div class="tip-box">
+          <p><strong>💡 טיפים:</strong></p>
+          <ul>
+            <li>השתמשו ב-<code>render</code> function</li>
+            <li>ראו דוגמאות בתיקייה <code>demo/</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Checklist -->
+    <section class="section">
+      <h2>✅ Checklist סופי</h2>
+
+      <div class="checklist">
+        <h4>Stories בסיסיות:</h4>
+        <ul>
+          <li>⬜ BookCardComponent - 5 stories</li>
+          <li>⬜ BookFilterComponent - 4 stories</li>
+        </ul>
+
+        <h4>Stories מתקדמות:</h4>
+        <ul>
+          <li>⬜ LoanFormComponent - 4 stories</li>
+          <li>⬜ BookListComponent - 6 stories</li>
+          <li>⬜ LoanStatsComponent - 4 stories</li>
+        </ul>
+
+        <h4>תכונות מתקדמות (בונוס):</h4>
+        <ul>
+          <li>⬜ Play function אחד לפחות</li>
+          <li>⬜ בדיקת נגישות</li>
+          <li>⬜ Story composition</li>
+        </ul>
+
+        <h4>כללי:</h4>
+        <ul>
+          <li>⬜ כל story עם שם תיאורי</li>
+          <li>⬜ Actions לכל outputs</li>
+          <li>⬜ ArgTypes עם controls</li>
+          <li>⬜ תיעוד autodocs</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="section">
+      <h2>📚 משאבים נוספים</h2>
+      <ul>
+        <li><a href="https://storybook.js.org/docs" target="_blank">Storybook Official Docs</a></li>
+        <li><a href="https://storybook.js.org/docs/angular" target="_blank">Angular & Storybook</a></li>
+        <li><a href="https://storybook.js.org/blog/component-story-format-3-0/" target="_blank">CSF 3.0 Guide</a></li>
+        <li><a href="https://storybook.js.org/docs/angular/writing-stories/play-function" target="_blank">Play Functions</a></li>
+      </ul>
+    </section>
+
+    <!-- Footer -->
+    <div class="success-message">
+      <h3>🚀 בהצלחה!</h3>
+      <p>
+        הקומפוננטות והפתרונות המלאים נמצאים ב-<code>/demo/components</code>
+      </p>
+      <p>
+        הריצו <code>npm run storybook</code> כדי לראות את התוצאות ב-<code>http://localhost:6006</code>
+      </p>
+    </div>
+  </div>
+</div>

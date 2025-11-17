@@ -1,0 +1,92 @@
+<div class="loan-stats-container" [class.warning]="isOverdueWarning()">
+  <div class="stats-header">
+    <h3 class="stats-title">סטטיסטיקות השאלות</h3>
+    @if (isOverdueWarning()) {
+      <span class="warning-badge">אזהרה</span>
+    }
+  </div>
+
+  @if (isEmpty()) {
+    <div class="empty-stats">
+      <span class="empty-icon">📊</span>
+      <p>אין נתוני השאלות זמינים</p>
+    </div>
+  } @else {
+    <!-- Main stats grid -->
+    <div class="stats-grid">
+      <div class="stat-card total">
+        <div class="stat-icon">📚</div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats().totalLoans }}</div>
+          <div class="stat-label">סה"כ השאלות</div>
+        </div>
+      </div>
+
+      <div class="stat-card active">
+        <div class="stat-icon">📖</div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats().activeLoans }}</div>
+          <div class="stat-label">פעילות</div>
+        </div>
+      </div>
+
+      <div class="stat-card returned">
+        <div class="stat-icon">✓</div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats().returnedLoans }}</div>
+          <div class="stat-label">הוחזרו</div>
+        </div>
+      </div>
+
+      <div class="stat-card overdue" [class.warning]="isOverdueWarning()">
+        <div class="stat-icon">⚠️</div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats().overdueLoans }}</div>
+          <div class="stat-label">באיחור</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>אחוז החזרה</span>
+        <span class="percentage">{{ completionPercentage() }}%</span>
+      </div>
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          [style.width.%]="completionPercentage()"
+          [attr.aria-valuenow]="completionPercentage()"
+          [attr.aria-valuemin]="0"
+          [attr.aria-valuemax]="100"
+          role="progressbar">
+        </div>
+      </div>
+    </div>
+
+    <!-- Popular books list -->
+    @if (showPopularBooks() && stats().popularBooks.length > 0) {
+      <div class="popular-books">
+        <h4 class="popular-title">ספרים פופולריים</h4>
+        <div class="books-list">
+          @for (book of stats().popularBooks; track book.id) {
+            <div class="popular-book">
+              <span class="book-icon">📕</span>
+              <div class="book-info">
+                <div class="book-title">{{ book.title }}</div>
+                <div class="book-author">{{ book.author }}</div>
+              </div>
+              @if (book.rating) {
+                <div class="book-rating">
+                  <span class="star">★</span>
+                  <span class="rating-value">{{ book.rating.toFixed(1) }}</span>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,651 @@
+<div class="instructions-container" appCopyCode>
+  <div class="header">
+    <h1>📚 Storybook ב-Angular 20</h1>
+    <p class="subtitle">בניית ספריית קומפוננטות מתועדת</p>
+  </div>
+
+  <div class="readme-content">
+    <!-- Introduction Section -->
+    <section class="section">
+      <h2>💡 מה זה Storybook?</h2>
+      <p>
+        <strong>Storybook</strong> הוא סביבת פיתוח UI המאפשרת לפתח ולתעד קומפוננטות בבידוד,
+        ללא צורך להריץ את כל האפליקציה. זהו הכלי המוביל בתעשייה לבניית Design Systems.
+      </p>
+
+      <div class="info-card">
+        <h4>🎯 למה Storybook?</h4>
+        <ul>
+          <li>🧱 פיתוח מהיר - אין צורך בניווט באפליקציה</li>
+          <li>📖 תיעוד חי - תמיד מעודכן</li>
+          <li>🧪 בדיקות ויזואליות - כל המצבים במקום אחד</li>
+          <li>♿ נגישות - בדיקות אוטומטיות עם a11y addon</li>
+          <li>🎨 Design System - בסיס לספריית קומפוננטות</li>
+          <li>👥 שיתוף פעולה - שפה משותפת לצוות</li>
+        </ul>
+      </div>
+
+      <div class="info-card success">
+        <h4>🏢 מי משתמש ב-Storybook?</h4>
+        <p>GitHub, Airbnb, Slack, Microsoft, IBM ועוד אלפי חברות בעולם</p>
+      </div>
+    </section>
+
+    <!-- Learning Goals -->
+    <section class="section">
+      <h2>🎯 מה תלמדו</h2>
+      <ul>
+        <li>✅ כתיבת <strong>stories</strong> עם CSF 3.0</li>
+        <li>✅ שימוש ב-<strong>args</strong> ו-<strong>argTypes</strong></li>
+        <li>✅ יצירת <strong>interactive controls</strong></li>
+        <li>✅ שימוש ב-<strong>actions addon</strong></li>
+        <li>✅ כתיבת <strong>play functions</strong></li>
+        <li>✅ <strong>composition</strong> של קומפוננטות</li>
+        <li>✅ בדיקת <strong>נגישות</strong></li>
+      </ul>
+    </section>
+
+    <!-- CSF 3.0 Basics -->
+    <section class="section">
+      <h2>📘 CSF 3.0 - Component Story Format</h2>
+      <p>
+        <strong>CSF</strong> הוא הפורמט הסטנדרטי לכתיבת stories ב-Storybook.
+        גרסה 3.0 מביאה type safety משופר וסינטקס פשוט יותר.
+      </p>
+
+      <h4>מבנה בסיסי:</h4>
+      <pre ngNonBindable><code class="language-typescript">import type &#123; Meta, StoryObj &#125; from '@storybook/angular';
+import &#123; MyComponent &#125; from './my-component';
+
+// Meta - הגדרות כלליות
+const meta: Meta&lt;MyComponent&gt; = &#123;
+  title: 'Components/MyComponent',
+  component: MyComponent,
+  tags: ['autodocs'],
+&#125;;
+
+export default meta;
+type Story = StoryObj&lt;MyComponent&gt;;
+
+// Story - מצב ספציפי
+export const Default: Story = &#123;
+  args: &#123;
+    title: 'כותרת',
+    enabled: true,
+  &#125;
+&#125;;</code></pre>
+    </section>
+
+    <!-- Exercise Overview -->
+    <section class="section">
+      <h2>🏗️ מבנה התרגיל</h2>
+      <p>התרגיל כולל <strong>5 קומפוננטות מוכנות</strong> עבור מערכת השאלת ספרים:</p>
+
+      <div class="components-grid">
+        <div class="component-card">
+          <h4>1️⃣ BookCardComponent</h4>
+          <p>הצגת כרטיס ספר בודד</p>
+        </div>
+        <div class="component-card">
+          <h4>2️⃣ BookFilterComponent</h4>
+          <p>סינון לפי קטגוריה וחיפוש</p>
+        </div>
+        <div class="component-card">
+          <h4>3️⃣ LoanFormComponent</h4>
+          <p>טופס השאלת ספר</p>
+        </div>
+        <div class="component-card">
+          <h4>4️⃣ BookListComponent</h4>
+          <p>רשימת ספרים</p>
+        </div>
+        <div class="component-card">
+          <h4>5️⃣ LoanStatsComponent</h4>
+          <p>סטטיסטיקות השאלות</p>
+        </div>
+      </div>
+
+      <div class="info-card warning">
+        <p><strong>המשימה שלכם:</strong> לכתוב קבצי <code>.stories.ts</code> בלבד!</p>
+        <p>הקומפוננטות עצמן כבר מוכנות - אתם רק מתעדים אותן.</p>
+      </div>
+    </section>
+
+    <!-- Part A: Basic Stories -->
+    <section class="section">
+      <h2>חלק א': Stories בסיסיות ⭐</h2>
+
+      <!-- BookCard Component -->
+      <div class="component-card">
+        <h3>1. BookCardComponent</h3>
+        <p>קומפוננטה המציגה כרטיס ספר בודד עם פרטים, תמונת כיסוי, ודירוג.</p>
+
+        <h4>API של הקומפוננטה:</h4>
+        <ul>
+          <li><strong>Input:</strong> <code>book</code> (חובה) - אובייקט Book</li>
+          <li><strong>Input:</strong> <code>showActions</code> (ברירת מחדל: true) - הצגת כפתורים</li>
+          <li><strong>Input:</strong> <code>compact</code> (ברירת מחדל: false) - תצוגה קומפקטית</li>
+          <li><strong>Output:</strong> <code>loanRequested</code> - נשלח כשלוחצים "השאל"</li>
+        </ul>
+
+        <button class="collapse-toggle" (click)="toggleBookCardCode()">
+          <span class="arrow" [class.expanded]="showBookCardCode()">▼</span>
+          הצג/הסתר קוד פתרון
+        </button>
+
+        @if (showBookCardCode()) {
+          <div class="solution-code">
+            <h5>book-card.stories.ts</h5>
+            <pre><code class="language-typescript">import type &#123; Meta, StoryObj &#125; from '@storybook/angular';
+import &#123; BookCardComponent &#125; from './book-card';
+import &#123; Book &#125; from '../../../../shared/models/library.models';
+
+const meta: Meta&lt;BookCardComponent&gt; = &#123;
+  title: 'Library/BookCard',
+  component: BookCardComponent,
+  tags: ['autodocs'],
+  argTypes: &#123;
+    book: &#123;
+      control: 'object',
+      description: 'The book object to display',
+    &#125;,
+    showActions: &#123;
+      control: 'boolean',
+      description: 'Show or hide action buttons',
+    &#125;,
+    compact: &#123;
+      control: 'boolean',
+      description: 'Use compact layout',
+    &#125;,
+    loanRequested: &#123;
+      action: 'loan requested',
+      description: 'Emitted when loan button clicked',
+    &#125;,
+  &#125;,
+  decorators: [
+    (story) => (&#123;
+      template: `&lt;div style="max-width: 300px; margin: 2rem;"&gt;\$&#123;story&#125;&lt;/div&gt;`,
+    &#125;),
+  ],
+&#125;;
+
+export default meta;
+type Story = StoryObj&lt;BookCardComponent&gt;;
+
+const mockBook: Book = &#123;
+  id: 1,
+  title: 'הארי פוטר ואבן החכמים',
+  author: 'ג.ק. רולינג',
+  isbn: '9789655521234',
+  category: 'פנטזיה',
+  publishYear: 1997,
+  pages: 309,
+  available: true,
+  rating: 4.8,
+&#125;;
+
+export const Default: Story = &#123;
+  args: &#123;
+    book: mockBook,
+    showActions: true,
+    compact: false,
+  &#125;,
+&#125;;
+
+export const Unavailable: Story = &#123;
+  args: &#123;
+    book: &#123; ...mockBook, available: false &#125;,
+    showActions: true,
+    compact: false,
+  &#125;,
+&#125;;
+
+export const Compact: Story = &#123;
+  args: &#123;
+    book: mockBook,
+    showActions: true,
+    compact: true,
+  &#125;,
+&#125;;
+
+export const WithoutActions: Story = &#123;
+  args: &#123;
+    book: mockBook,
+    showActions: false,
+    compact: false,
+  &#125;,
+&#125;;
+
+export const HighRating: Story = &#123;
+  args: &#123;
+    book: &#123; ...mockBook, rating: 5.0 &#125;,
+    showActions: true,
+    compact: false,
+  &#125;,
+&#125;;</code></pre>
+          </div>
+        }
+
+        <h4>Stories שצריך לכתוב:</h4>
+        <ul>
+          <li>✓ <strong>Default</strong> - ספר זמין רגיל</li>
+          <li>✓ <strong>Unavailable</strong> - ספר לא זמין</li>
+          <li>✓ <strong>Compact</strong> - תצוגה קומפקטית</li>
+          <li>✓ <strong>WithoutActions</strong> - ללא כפתורים</li>
+          <li>✓ <strong>HighRating</strong> - דירוג מושלם (5.0)</li>
+        </ul>
+
+        <div class="tip-box">
+          <p><strong>💡 טיפים:</strong></p>
+          <ul>
+            <li>השתמשו ב-<code>argTypes</code> כדי להפוך props לניתנים לשינוי</li>
+            <li>הוסיפו <code>action</code> ל-<code>loanRequested</code></li>
+            <li>השתמשו ב-<code>decorator</code> להגבלת רוחב</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- BookFilter Component -->
+      <div class="component-card">
+        <h3>2. BookFilterComponent</h3>
+        <p>קומפוננטה לסינון ספרים לפי קטגוריה וטקסט חיפוש.</p>
+
+        <h4>API של הקומפוננטה:</h4>
+        <ul>
+          <li><strong>Input:</strong> <code>categories</code> (חובה) - רשימת קטגוריות</li>
+          <li><strong>Model:</strong> <code>selectedCategory</code> - two-way binding</li>
+          <li><strong>Model:</strong> <code>searchQuery</code> - two-way binding</li>
+          <li><strong>Output:</strong> <code>filterChange</code> - נשלח כשהסינון משתנה</li>
+        </ul>
+
+        <button class="collapse-toggle" (click)="toggleBookFilterCode()">
+          <span class="arrow" [class.expanded]="showBookFilterCode()">▼</span>
+          הצג/הסתר קוד פתרון
+        </button>
+
+        @if (showBookFilterCode()) &#123;
+          <div class="solution-code">
+            <h5>book-filter.stories.ts (דוגמה חלקית)</h5>
+            <pre ngNonBindable><code class="language-typescript">const CATEGORIES = [
+  'מדע בדיוני',
+  'מתח',
+  'רומנטיקה',
+  'ביוגרפיה',
+  'היסטוריה',
+  'פנטזיה',
+  'מדע',
+];
+
+export const Default: Story = &#123;
+  args: &#123;
+    categories: CATEGORIES,
+    selectedCategory: '',
+    searchQuery: '',
+  &#125;,
+&#125;;
+
+export const WithSelectedCategory: Story = &#123;
+  args: &#123;
+    categories: CATEGORIES,
+    selectedCategory: 'פנטזיה',
+    searchQuery: '',
+  &#125;,
+&#125;;
+
+export const WithSearchQuery: Story = &#123;
+  args: &#123;
+    categories: CATEGORIES,
+    selectedCategory: '',
+    searchQuery: 'הארי פוטר',
+  &#125;,
+&#125;;</code></pre>
+          </div>
+        }
+
+        <h4>Stories שצריך לכתוב:</h4>
+        <ul>
+          <li>✓ <strong>Default</strong> - מצב ריק</li>
+          <li>✓ <strong>WithSelectedCategory</strong> - עם קטגוריה</li>
+          <li>✓ <strong>WithSearchQuery</strong> - עם חיפוש</li>
+          <li>✓ <strong>AllFiltersActive</strong> - שני הסינונים</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Part B: Advanced Stories -->
+    <section class="section">
+      <h2>חלק ב': Stories מתקדמות ⭐⭐</h2>
+
+      <!-- LoanForm Component -->
+      <div class="component-card">
+        <h3>3. LoanFormComponent</h3>
+        <p>טופס השאלת ספר עם שדות ולידציה.</p>
+
+        <h4>API של הקומפוננטה:</h4>
+        <ul>
+          <li><strong>Input:</strong> <code>book</code> (חובה) - הספר להשאלה</li>
+          <li><strong>Input:</strong> <code>disabled</code> - האם הטופס מבוטל</li>
+          <li><strong>Output:</strong> <code>loanSubmit</code> - שליחת הטופס</li>
+          <li><strong>Output:</strong> <code>cancel</code> - ביטול</li>
+        </ul>
+
+        <button class="collapse-toggle" (click)="toggleLoanFormCode()">
+          <span class="arrow" [class.expanded]="showLoanFormCode()">▼</span>
+          הצג/הסתר קוד פתרון
+        </button>
+
+        @if (showLoanFormCode()) &#123;
+          <div class="solution-code">
+            <h5>loan-form.stories.ts (דוגמה)</h5>
+            <pre ngNonBindable><code class="language-typescript">export const EmptyForm: Story = &#123;
+  args: &#123;
+    book: mockBook,
+    disabled: false,
+  &#125;,
+&#125;;
+
+export const DisabledState: Story = &#123;
+  args: &#123;
+    book: mockBook,
+    disabled: true,
+  &#125;,
+&#125;;</code></pre>
+          </div>
+        }
+
+        <h4>Stories שצריך לכתוב:</h4>
+        <ul>
+          <li>✓ <strong>EmptyForm</strong> - טופס ריק</li>
+          <li>✓ <strong>FilledForm</strong> - טופס מלא</li>
+          <li>✓ <strong>WithValidationErrors</strong> - עם שגיאות</li>
+          <li>✓ <strong>DisabledState</strong> - מבוטל</li>
+        </ul>
+      </div>
+
+      <!-- BookList Component -->
+      <div class="component-card">
+        <h3>4. BookListComponent</h3>
+        <p>רשימת ספרים עם תמיכה בתצוגת grid/list.</p>
+
+        <h4>Stories שצריך לכתוב:</h4>
+        <ul>
+          <li>✓ <strong>GridLayout</strong> - תצוגת רשת</li>
+          <li>✓ <strong>ListLayout</strong> - תצוגת רשימה</li>
+          <li>✓ <strong>LoadingState</strong> - מצב טעינה</li>
+          <li>✓ <strong>EmptyState</strong> - ללא ספרים</li>
+          <li>✓ <strong>SingleBook</strong> - ספר אחד</li>
+          <li>✓ <strong>ManyBooks</strong> - 20 ספרים</li>
+        </ul>
+      </div>
+
+      <!-- LoanStats Component -->
+      <div class="component-card">
+        <h3>5. LoanStatsComponent</h3>
+        <p>פאנל סטטיסטיקות השאלות.</p>
+
+        <button class="collapse-toggle" (click)="toggleLoanStatsCode()">
+          <span class="arrow" [class.expanded]="showLoanStatsCode()">▼</span>
+          הצג/הסתר קוד פתרון
+        </button>
+
+        @if (showLoanStatsCode()) &#123;
+          <div class="solution-code">
+            <h5>loan-stats.stories.ts (דוגמה)</h5>
+            <pre ngNonBindable><code class="language-typescript">export const NormalStats: Story = &#123;
+  args: &#123;
+    stats: &#123;
+      totalLoans: 150,
+      activeLoans: 23,
+      overdueLoans: 3,
+      returnedLoans: 124,
+      popularBooks: MOCK_BOOKS.slice(0, 3),
+    &#125;,
+    showPopularBooks: true,
+  &#125;,
+&#125;;
+
+export const HighOverdue: Story = &#123;
+  args: &#123;
+    stats: &#123;
+      totalLoans: 100,
+      activeLoans: 30,
+      overdueLoans: 15, // אזהרה!
+      returnedLoans: 55,
+      popularBooks: [],
+    &#125;,
+    showPopularBooks: false,
+  &#125;,
+&#125;;</code></pre>
+          </div>
+        }
+
+        <h4>Stories שצריך לכתוב:</h4>
+        <ul>
+          <li>✓ <strong>NormalStats</strong> - סטטיסטיקות רגילות</li>
+          <li>✓ <strong>ZeroStats</strong> - אין נתונים</li>
+          <li>✓ <strong>HighOverdue</strong> - הרבה איחורים (warning)</li>
+          <li>✓ <strong>WithoutPopularBooks</strong> - ללא רשימת ספרים</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Part C: Advanced Features -->
+    <section class="section">
+      <h2>חלק ג': תכונות מתקדמות ⭐⭐⭐</h2>
+
+      <!-- Play Functions -->
+      <div class="component-card">
+        <h3>6. Play Functions - בדיקות אוטומטיות</h3>
+        <p>צרו story שמבצעת אינטראקציה אוטומטית עם הטופס.</p>
+
+        <button class="collapse-toggle" (click)="togglePlayFunctionCode()">
+          <span class="arrow" [class.expanded]="showPlayFunctionCode()">▼</span>
+          הצג/הסתר קוד פתרון
+        </button>
+
+        @if (showPlayFunctionCode()) &#123;
+          <div class="solution-code">
+            <h5>Play Function Example</h5>
+            <pre ngNonBindable><code class="language-typescript">import &#123; within, userEvent, expect &#125; from '@storybook/test';
+
+export const InteractiveLoanFlow: Story = &#123;
+  args: &#123;
+    book: mockBook,
+  &#125;,
+  play: async (&#123; canvasElement &#125;) => &#123;
+    const canvas = within(canvasElement);
+
+    // מלא שם
+    const nameInput = canvas.getByLabelText('שם מלא');
+    await userEvent.type(nameInput, 'יוסי כהן');
+
+    // מלא אימייל
+    const emailInput = canvas.getByLabelText('אימייל');
+    await userEvent.type(emailInput, 'yossi@example.com');
+
+    // שלח טופס
+    const submitBtn = canvas.getByRole('button', &#123; name: /השאל/i &#125;);
+    await userEvent.click(submitBtn);
+
+    // ה-action יופיע ב-Actions panel
+  &#125;,
+&#125;;</code></pre>
+          </div>
+        }
+
+        <div class="tip-box">
+          <p><strong>💡 מה זה עושה?</strong></p>
+          <ul>
+            <li><code>within</code> - מאתר אלמנטים בקומפוננטה</li>
+            <li><code>userEvent</code> - מדמה פעולות משתמש</li>
+            <li><code>expect</code> - assertions (אופציונלי)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Component Composition -->
+      <div class="component-card">
+        <h3>7. Component Composition - הרכבת קומפוננטות</h3>
+        <p>צרו story שמשלב מספר קומפוננטות יחד.</p>
+
+        <button class="collapse-toggle" (click)="toggleCompositionCode()">
+          <span class="arrow" [class.expanded]="showCompositionCode()">▼</span>
+          הצג/הסתר קוד פתרון
+        </button>
+
+        @if (showCompositionCode()) &#123;
+          <div class="solution-code">
+            <h5>Composition Example</h5>
+            <pre ngNonBindable><code class="language-typescript">export const CompleteLibraryView: Story = &#123;
+  render: () => (&#123;
+    template: `
+      &lt;div style="display: grid; grid-template-columns: 1fr 300px; gap: 20px;"&gt;
+        &lt;div&gt;
+          &lt;app-book-filter [categories]="categories"&gt;&lt;/app-book-filter&gt;
+          &lt;app-book-list [books]="books" layout="grid"&gt;&lt;/app-book-list&gt;
+        &lt;/div&gt;
+        &lt;app-loan-stats [stats]="stats"&gt;&lt;/app-loan-stats&gt;
+      &lt;/div&gt;
+    `,
+    props: &#123;
+      categories: MOCK_CATEGORIES,
+      books: MOCK_BOOKS,
+      stats: MOCK_STATS,
+    &#125;,
+  &#125;),
+&#125;;</code></pre>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Addons -->
+    <section class="section">
+      <h2>🎨 Addons חשובים</h2>
+
+      <div class="addons-grid">
+        <div class="addon-card">
+          <h4>📊 Controls</h4>
+          <p>שינוי props בזמן אמת</p>
+          <pre ngNonBindable><code class="language-typescript">argTypes: &#123;
+  size: &#123;
+    control: 'select',
+    options: ['small', 'medium', 'large'],
+  &#125;,
+&#125;</code></pre>
+        </div>
+
+        <div class="addon-card">
+          <h4>🎬 Actions</h4>
+          <p>מעקב אחר events</p>
+          <pre ngNonBindable><code class="language-typescript">argTypes: &#123;
+  onClick: &#123;
+    action: 'clicked',
+  &#125;,
+&#125;</code></pre>
+        </div>
+
+        <div class="addon-card">
+          <h4>📖 Docs</h4>
+          <p>תיעוד אוטומטי</p>
+          <pre ngNonBindable><code class="language-typescript">const meta: Meta = &#123;
+  tags: ['autodocs'],
+&#125;;</code></pre>
+        </div>
+
+        <div class="addon-card">
+          <h4>♿ A11y</h4>
+          <p>בדיקת נגישות</p>
+          <p class="small">פותחים את ה-Accessibility tab</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="section">
+      <h2>🧪 Best Practices</h2>
+
+      <div class="comparison-grid">
+        <div class="comparison-card good">
+          <h4>✅ טוב</h4>
+          <pre ngNonBindable><code class="language-typescript">// שם תיאורי
+export const UnavailableBook: Story = &#123;
+  args: &#123; available: false &#125;
+&#125;;
+
+// args ברור
+export const Loading: Story = &#123;
+  args: &#123; loading: true &#125;
+&#125;;</code></pre>
+        </div>
+
+        <div class="comparison-card bad">
+          <h4>❌ לא טוב</h4>
+          <pre ngNonBindable><code class="language-typescript">// שם כללי
+export const Story1: Story = &#123;&#125;;
+
+// לוגיקה בתבנית
+export const Test: Story = &#123;
+  render: () => (&#123; /* ... */ &#125;)
+&#125;;</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Checklist -->
+    <section class="section">
+      <h2>✅ Checklist סופי</h2>
+
+      <div class="checklist">
+        <h4>Stories בסיסיות:</h4>
+        <ul>
+          <li>⬜ BookCardComponent - 5 stories</li>
+          <li>⬜ BookFilterComponent - 4 stories</li>
+        </ul>
+
+        <h4>Stories מתקדמות:</h4>
+        <ul>
+          <li>⬜ LoanFormComponent - 4 stories</li>
+          <li>⬜ BookListComponent - 6 stories</li>
+          <li>⬜ LoanStatsComponent - 4 stories</li>
+        </ul>
+
+        <h4>תכונות מתקדמות (בונוס):</h4>
+        <ul>
+          <li>⬜ Play function אחד לפחות</li>
+          <li>⬜ בדיקת נגישות</li>
+          <li>⬜ Story composition</li>
+        </ul>
+
+        <h4>כללי:</h4>
+        <ul>
+          <li>⬜ כל story עם שם תיאורי</li>
+          <li>⬜ Actions לכל outputs</li>
+          <li>⬜ ArgTypes עם controls</li>
+          <li>⬜ תיעוד autodocs</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="section">
+      <h2>📚 משאבים נוספים</h2>
+      <ul>
+        <li><a href="https://storybook.js.org/docs" target="_blank">Storybook Official Docs</a></li>
+        <li><a href="https://storybook.js.org/docs/angular" target="_blank">Angular & Storybook</a></li>
+        <li><a href="https://storybook.js.org/blog/component-story-format-3-0/" target="_blank">CSF 3.0 Guide</a></li>
+        <li><a href="https://storybook.js.org/docs/angular/writing-stories/play-function" target="_blank">Play Functions</a></li>
+      </ul>
+    </section>
+
+    <!-- Footer -->
+    <div class="success-message">
+      <h3>🚀 בהצלחה!</h3>
+      <p>
+        הקומפוננטות מוכנות ב-<code>/demo/components</code> - פשוט צרו את ה-stories!
+      </p>
+      <p>
+        הריצו <code>npm run storybook</code> כדי לראות את התוצאות ב-<code>http://localhost:6006</code>
+      </p>
+    </div>
+  </div>
+</div>

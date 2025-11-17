@@ -1,0 +1,114 @@
+<div class="loan-form-container">
+  <div class="form-header">
+    <h2 class="form-title">השאלת ספר</h2>
+    <div class="book-info">
+      <span class="book-icon">📖</span>
+      <div class="book-details">
+        <p class="book-title">{{ book().title }}</p>
+        <p class="book-author">{{ book().author }}</p>
+      </div>
+    </div>
+  </div>
+
+  @if (submitSuccess()) {
+    <div class="success-message">
+      <span class="success-icon">✓</span>
+      <p>הספר נשלח להשאלה בהצלחה!</p>
+    </div>
+  } @else {
+    <form [formGroup]="loanForm" (ngSubmit)="onSubmit()" class="loan-form">
+      <!-- Name Field -->
+      <div class="form-group">
+        <label for="name" class="form-label">
+          שם מלא <span class="required">*</span>
+        </label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          class="form-input"
+          [class.invalid]="isFieldInvalid('name')"
+          [disabled]="disabled()"
+          placeholder="הזן שם מלא"
+          aria-label="שם מלא"
+          [attr.aria-invalid]="isFieldInvalid('name')"
+        />
+        @if (isFieldInvalid('name')) {
+          <span class="error-message" role="alert">
+            {{ getErrorMessage('name') }}
+          </span>
+        }
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email" class="form-label">
+          אימייל <span class="required">*</span>
+        </label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-input"
+          [class.invalid]="isFieldInvalid('email')"
+          [disabled]="disabled()"
+          placeholder="example@email.com"
+          aria-label="אימייל"
+          [attr.aria-invalid]="isFieldInvalid('email')"
+        />
+        @if (isFieldInvalid('email')) {
+          <span class="error-message" role="alert">
+            {{ getErrorMessage('email') }}
+          </span>
+        }
+      </div>
+
+      <!-- Phone Field (Optional) -->
+      <div class="form-group">
+        <label for="phone" class="form-label">
+          טלפון <span class="optional">(אופציונלי)</span>
+        </label>
+        <input
+          id="phone"
+          type="tel"
+          formControlName="phone"
+          class="form-input"
+          [disabled]="disabled()"
+          placeholder="050-1234567"
+          aria-label="טלפון"
+        />
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="disabled() || isSubmitting()"
+          aria-label="השאל את הספר">
+          @if (isSubmitting()) {
+            <span class="spinner"></span>
+            שולח...
+          } @else {
+            השאל ספר
+          }
+        </button>
+        <button
+          type="button"
+          class="cancel-btn"
+          [disabled]="disabled() || isSubmitting()"
+          (click)="onCancel()"
+          aria-label="ביטול">
+          ביטול
+        </button>
+      </div>
+
+      @if (!loanForm.valid && (loanForm.dirty || loanForm.touched)) {
+        <div class="form-hint warning">
+          <span class="hint-icon">⚠️</span>
+          <span>אנא מלא את כל השדות הנדרשים</span>
+        </div>
+      }
+    </form>
+  }
+</div>

@@ -11,6 +11,9 @@ import { TodoAppBonusComponent } from './01-signals/bonus/todo-app-bonus/todo-ap
 import { TestingInstructionsComponent } from './04-testing/instructions/testing-instructions';
 import { TestingDemoComponent } from './04-testing/demo/testing-demo';
 import { BonusTestingComponent } from './04-testing/bonus/bonus-testing';
+import { StorybookInstructionsComponent } from './05-storybook/instructions/storybook-instructions';
+import { StorybookDemoComponent } from './05-storybook/demo/storybook-demo';
+import { BonusStorybookComponent } from './05-storybook/bonus/bonus-storybook';
 
 export const routes: Routes = [
   {
@@ -64,5 +67,17 @@ export const routes: Routes = [
   {
     path: 'testing-bonus',
     component: BonusTestingComponent
+  },
+  {
+    path: 'storybook-instructions',
+    component: StorybookInstructionsComponent
+  },
+  {
+    path: 'storybook-demo',
+    component: StorybookDemoComponent
+  },
+  {
+    path: 'storybook-bonus',
+    component: BonusStorybookComponent
   }
 ];

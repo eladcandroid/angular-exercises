@@ -1,0 +1,97 @@
+<div class="demo-container">
+  <div class="demo-header">
+    <h1>📚 Storybook Demo - מערכת השאלת ספרים</h1>
+    <p class="subtitle">דוגמה ל-5 קומפוננטות עובדות ביחד</p>
+  </div>
+
+  <div class="demo-content">
+    <!-- Left column: Filters and Books -->
+    <div class="main-column">
+      <!-- Filters -->
+      <div class="section">
+        <div class="section-header">
+          <h2>סינון ספרים</h2>
+          <button
+            class="layout-toggle"
+            (click)="toggleLayout()"
+            type="button"
+            [attr.aria-label]="'החלף ל-' + (layout() === 'grid' ? 'list' : 'grid')">
+            @if (layout() === 'grid') {
+              📋 תצוגת רשימה
+            } @else {
+              ⊞ תצוגת רשת
+            }
+          </button>
+        </div>
+        <app-book-filter
+          [categories]="categories()"
+          [(selectedCategory)]="selectedCategory"
+          [(searchQuery)]="searchQuery">
+        </app-book-filter>
+      </div>
+
+      <!-- Book List -->
+      <div class="section">
+        <h2>ספרים זמינים ({{ filteredBooks().length }})</h2>
+        <app-book-list
+          [books]="filteredBooks()"
+          [layout]="layout()"
+          (bookSelected)="onBookSelected($event)"
+          (loanRequested)="onLoanRequested($event)">
+        </app-book-list>
+      </div>
+    </div>
+
+    <!-- Right column: Stats -->
+    <div class="sidebar-column">
+      <div class="section sticky">
+        <h2>סטטיסטיקות</h2>
+        <app-loan-stats
+          [stats]="stats()"
+          [showPopularBooks]="true">
+        </app-loan-stats>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loan Form Modal -->
+  @if (showLoanForm() && selectedBook()) {
+    <div class="modal-backdrop" (click)="onLoanCancel()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button
+          class="modal-close"
+          (click)="onLoanCancel()"
+          type="button"
+          aria-label="סגור">
+          ×
+        </button>
+        <app-loan-form
+          [book]="selectedBook()!"
+          (loanSubmit)="onLoanSubmit($event)"
+          (cancel)="onLoanCancel()">
+        </app-loan-form>
+      </div>
+    </div>
+  }
+
+  <!-- Info Footer -->
+  <div class="demo-footer">
+    <div class="info-card">
+      <h3>💡 על הדמו</h3>
+      <p>
+        דמו זה משלב את כל 5 הקומפוננטות שלמדתם:
+      </p>
+      <ul>
+        <li><strong>BookCardComponent</strong> - כרטיס ספר בודד</li>
+        <li><strong>BookFilterComponent</strong> - סינון ספרים</li>
+        <li><strong>LoanFormComponent</strong> - טופס השאלה</li>
+        <li><strong>BookListComponent</strong> - רשימת ספרים</li>
+        <li><strong>LoanStatsComponent</strong> - סטטיסטיקות</li>
+      </ul>
+      <p>
+        כל קומפוננטה נבנתה עם Storybook ומתועדת במלואה.
+        לחצו על ספר כדי לראות את טופס ההשאלה!
+      </p>
+    </div>
+  </div>
+</div>

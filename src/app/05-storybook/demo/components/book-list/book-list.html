@@ -1,0 +1,41 @@
+<div class="book-list-container">
+  @if (loading()) {
+    <!-- Loading skeleton -->
+    <div class="loading-skeleton" [class.grid]="layout() === 'grid'">
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <div class="skeleton-card">
+          <div class="skeleton-cover"></div>
+          <div class="skeleton-info">
+            <div class="skeleton-line title"></div>
+            <div class="skeleton-line author"></div>
+            <div class="skeleton-line meta"></div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (isEmpty) {
+    <!-- Empty state -->
+    <div class="empty-state">
+      <div class="empty-icon">📚</div>
+      <h3 class="empty-title">אין ספרים להצגה</h3>
+      <p class="empty-message">נסה לשנות את הסינונים או לחפש משהו אחר</p>
+    </div>
+  } @else {
+    <!-- Books list/grid -->
+    <div class="book-list" [class.grid]="layout() === 'grid'" [class.list]="layout() === 'list'">
+      @for (book of books(); track book.id) {
+        <div
+          class="book-item"
+          (click)="onBookSelected(book)"
+          [attr.data-book-id]="book.id">
+          <app-book-card
+            [book]="book"
+            [showActions]="true"
+            [compact]="layout() === 'list'"
+            (loanRequested)="onLoanRequested($event)">
+          </app-book-card>
+        </div>
+      }
+    </div>
+  }
+</div>

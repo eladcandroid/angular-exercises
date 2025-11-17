@@ -1,0 +1,82 @@
+<div class="book-filter">
+  <div class="filter-header">
+    <h3 class="filter-title">סינון ספרים</h3>
+    @if (hasActiveFilters()) {
+      <button
+        type="button"
+        class="clear-btn"
+        (click)="clearFilters()"
+        aria-label="נקה סינונים">
+        נקה הכל
+      </button>
+    }
+  </div>
+
+  <div class="filter-controls">
+    <!-- Category Filter -->
+    <div class="filter-group">
+      <label for="category-select" class="filter-label">
+        <span class="label-icon">📚</span>
+        קטגוריה
+      </label>
+      <select
+        id="category-select"
+        class="filter-select"
+        [(ngModel)]="selectedCategory"
+        (ngModelChange)="onCategoryChange()"
+        aria-label="בחר קטגוריה">
+        <option value="">כל הקטגוריות</option>
+        @for (category of categories(); track category) {
+          <option [value]="category">{{ category }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Search Filter -->
+    <div class="filter-group">
+      <label for="search-input" class="filter-label">
+        <span class="label-icon">🔍</span>
+        חיפוש
+      </label>
+      <input
+        id="search-input"
+        type="text"
+        class="filter-input"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchChange()"
+        placeholder="חפש ספר או מחבר..."
+        aria-label="חפש ספר או מחבר"
+      />
+    </div>
+  </div>
+
+  @if (hasActiveFilters()) {
+    <div class="active-filters">
+      <span class="active-filters-label">סינונים פעילים:</span>
+      @if (selectedCategory()) {
+        <span class="filter-tag">
+          {{ selectedCategory() }}
+          <button
+            type="button"
+            class="remove-tag"
+            (click)="selectedCategory.set(''); onCategoryChange()"
+            aria-label="הסר סינון קטגוריה">
+            ×
+          </button>
+        </span>
+      }
+      @if (searchQuery()) {
+        <span class="filter-tag">
+          "{{ searchQuery() }}"
+          <button
+            type="button"
+            class="remove-tag"
+            (click)="searchQuery.set(''); onSearchChange()"
+            aria-label="הסר חיפוש">
+            ×
+          </button>
+        </span>
+      }
+    </div>
+  }
+</div>

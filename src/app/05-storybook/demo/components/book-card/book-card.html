@@ -1,0 +1,63 @@
+<div class="book-card" [class.compact]="compact()" [class.unavailable]="!book().available">
+  <div class="book-cover">
+    @if (book().coverUrl) {
+      <img [src]="book().coverUrl" [alt]="'כריכת ' + book().title" />
+    } @else {
+      <div class="placeholder-cover">
+        <span class="book-icon">📚</span>
+        @if (!compact()) {
+          <div class="category-badge">{{ book().category }}</div>
+        }
+      </div>
+    }
+    @if (!book().available) {
+      <div class="unavailable-badge">לא זמין</div>
+    }
+  </div>
+
+  <div class="book-info">
+    <h3 class="book-title">{{ book().title }}</h3>
+    <p class="book-author">{{ book().author }}</p>
+
+    @if (!compact()) {
+      <div class="book-meta">
+        <span class="meta-item">
+          <span class="meta-label">שנה:</span>
+          <span class="meta-value">{{ book().publishYear }}</span>
+        </span>
+        <span class="meta-item">
+          <span class="meta-label">עמודים:</span>
+          <span class="meta-value">{{ book().pages }}</span>
+        </span>
+      </div>
+
+      @if (book().description) {
+        <p class="book-description">{{ book().description }}</p>
+      }
+
+      @if (book().rating) {
+        <div class="book-rating">
+          <span class="stars">{{ getRatingStars() }}</span>
+          <span class="rating-value">{{ book().rating?.toFixed(1) }}</span>
+        </div>
+      }
+    }
+  </div>
+
+  @if (showActions()) {
+    <div class="book-actions">
+      <button
+        type="button"
+        class="loan-btn"
+        [disabled]="!book().available"
+        (click)="onLoanClick()"
+        [attr.aria-label]="'השאל את הספר ' + book().title">
+        @if (book().available) {
+          השאל ספר
+        } @else {
+          לא זמין
+        }
+      </button>
+    </div>
+  }
+</div>
