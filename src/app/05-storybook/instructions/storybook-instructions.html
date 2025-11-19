@@ -80,6 +80,67 @@
       </div>
     </section>
 
+    <!-- File Structure Section -->
+    <section class="section">
+      <h2>📁 מבנה הקבצים</h2>
+      <p>כל הקומפוננטות והמודלים נמצאים בתיקיית <code>demo/</code>:</p>
+
+      <div class="solution-code">
+        <pre ngNonBindable><code class="language-text">05-storybook/demo/
+├── components/
+│   ├── book-card/
+│   │   ├── book-card.ts              # קומפוננטת כרטיס ספר
+│   │   ├── book-card.html
+│   │   ├── book-card.scss
+│   │   └── book-card.stories.ts      # ✨ הפתרון - stories לכרטיס
+│   │
+│   ├── book-filter/
+│   │   ├── book-filter.ts            # קומפוננטת סינון
+│   │   ├── book-filter.html
+│   │   ├── book-filter.scss
+│   │   └── book-filter.stories.ts    # ✨ הפתרון - stories לסינון
+│   │
+│   ├── loan-form/
+│   │   ├── loan-form.ts              # טופס השאלה
+│   │   ├── loan-form.html
+│   │   ├── loan-form.scss
+│   │   └── loan-form.stories.ts      # ✨ הפתרון - stories לטופס
+│   │
+│   ├── book-list/
+│   │   ├── book-list.ts              # רשימת ספרים
+│   │   ├── book-list.html
+│   │   ├── book-list.scss
+│   │   └── book-list.stories.ts      # ✨ הפתרון - stories לרשימה
+│   │
+│   ├── loan-stats/
+│   │   ├── loan-stats.ts             # סטטיסטיקות
+│   │   ├── loan-stats.html
+│   │   ├── loan-stats.scss
+│   │   └── loan-stats.stories.ts     # ✨ הפתרון - stories לסטטיסטיקות
+│   │
+│   ├── library-system.stories.ts     # ✨ הפתרון - composition story
+│   └── mock-data.ts                  # נתוני דמה לכל ה-stories
+│
+├── models/
+│   └── library.models.ts             # מודלים משותפים (Book, LoanStats, וכו')
+│
+└── storybook-demo.ts                 # דוגמה מלאה של האפליקציה</code></pre>
+      </div>
+
+      <div class="info-card">
+        <h4>💡 היכן לכתוב את ה-stories?</h4>
+        <p>צרו קובץ <code>.stories.ts</code> חדש ליד כל קומפוננטה:</p>
+        <ul>
+          <li>📝 <code>components/book-card/book-card.stories.ts</code></li>
+          <li>📝 <code>components/book-filter/book-filter.stories.ts</code></li>
+          <li>📝 <code>components/loan-form/loan-form.stories.ts</code></li>
+          <li>📝 <code>components/book-list/book-list.stories.ts</code></li>
+          <li>📝 <code>components/loan-stats/loan-stats.stories.ts</code></li>
+        </ul>
+        <p>הקבצים המסומנים ב-✨ הם הפתרונות המלאים שכבר קיימים ב-<code>demo/</code></p>
+      </div>
+    </section>
+
     <!-- Shared Models Section -->
     <section class="section">
       <h2>📦 מודלים משותפים</h2>
