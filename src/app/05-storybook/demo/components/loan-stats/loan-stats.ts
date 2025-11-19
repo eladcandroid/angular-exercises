@@ -1,5 +1,5 @@
 import { Component, input, computed, ChangeDetectionStrategy } from '@angular/core';
-import { LoanStats } from '../../../../shared/models/library.models';
+import { LoanStats } from '../../models/library.models';
 
 @Component({
   selector: 'app-loan-stats',

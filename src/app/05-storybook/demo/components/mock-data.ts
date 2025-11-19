@@ -3,7 +3,7 @@
  * Sample books, categories, and loan statistics
  */
 
-import { Book, BookCategory, LoanStats } from '../../../shared/models/library.models';
+import { Book, BookCategory, LoanStats } from '../models/library.models';
 
 export const MOCK_CATEGORIES: BookCategory[] = [
   'מדע בדיוני',

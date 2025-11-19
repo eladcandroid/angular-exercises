@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
-import { Book, BookCategory, LoanStats, BorrowerInfo } from '../../shared/models/library.models';
+import { Book, BookCategory, LoanStats, BorrowerInfo } from './models/library.models';
 import { BookCardComponent } from './components/book-card/book-card';
 import { BookFilterComponent } from './components/book-filter/book-filter';
 import { LoanFormComponent } from './components/loan-form/loan-form';

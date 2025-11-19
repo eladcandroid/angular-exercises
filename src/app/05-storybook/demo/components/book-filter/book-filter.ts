@@ -1,6 +1,6 @@
 import { Component, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BookCategory } from '../../../../shared/models/library.models';
+import { BookCategory } from '../../models/library.models';
 
 @Component({
   selector: 'app-book-filter',

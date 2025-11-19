@@ -1,6 +1,6 @@
 import { Component, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Book, BorrowerInfo } from '../../../../shared/models/library.models';
+import { Book, BorrowerInfo } from '../../models/library.models';
 
 @Component({
   selector: 'app-loan-form',

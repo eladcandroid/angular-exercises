@@ -83,7 +83,7 @@
     <!-- Shared Models Section -->
     <section class="section">
       <h2>📦 מודלים משותפים</h2>
-      <p>כל הקומפוננטות משתמשות במודלים המוגדרים ב-<code>shared/models/library.models.ts</code></p>
+      <p>כל הקומפוננטות משתמשות במודלים המוגדרים ב-<code>demo/models/library.models.ts</code></p>
 
       <button class="collapse-toggle" (click)="toggleBookModelsCode()">
         <span class="arrow" [class.expanded]="showBookModelsCode()">▼</span>
@@ -92,7 +92,7 @@
 
       @if (showBookModelsCode()) {
         <div class="solution-code">
-          <h5>shared/models/library.models.ts</h5>
+          <h5>demo/models/library.models.ts</h5>
           <pre ngNonBindable><code class="language-typescript">/**
  * Library app models for Storybook exercise module
  * Models for books, loans, and library statistics
@@ -153,8 +153,8 @@ export interface BorrowerInfo &#123;
 
       <div class="info-card">
         <h4>💡 כיצד להשתמש במודלים ב-Stories</h4>
-        <p>ייבאו את המודלים מ-<code>shared/models/library.models.ts</code> וצרו נתוני דמה:</p>
-        <pre ngNonBindable><code class="language-typescript">import &#123; Book &#125; from '../../../../shared/models/library.models';
+        <p>ייבאו את המודלים מ-<code>../models/library.models</code> וצרו נתוני דמה:</p>
+        <pre ngNonBindable><code class="language-typescript">import &#123; Book &#125; from '../models/library.models';
 
 const sampleBook: Book = &#123;
   id: 1,
@@ -205,7 +205,7 @@ const sampleBook: Book = &#123;
           <div class="solution-code">
             <h5>book-card.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, output, ChangeDetectionStrategy &#125; from '@angular/core';
-import &#123; Book &#125; from '../../../../shared/models/library.models';
+import &#123; Book &#125; from '../../models/library.models';
 
 @Component(&#123;
   selector: 'app-book-card',
@@ -567,7 +567,7 @@ export class BookCardComponent &#123;
             <h5>book-filter.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, model, output, ChangeDetectionStrategy &#125; from '@angular/core';
 import &#123; FormsModule &#125; from '@angular/forms';
-import &#123; BookCategory &#125; from '../../../../shared/models/library.models';
+import &#123; BookCategory &#125; from '../../models/library.models';
 
 @Component(&#123;
   selector: 'app-book-filter',
@@ -904,7 +904,7 @@ export class BookFilterComponent &#123;
             <h5>loan-form.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, output, signal, ChangeDetectionStrategy &#125; from '@angular/core';
 import &#123; FormBuilder, FormGroup, Validators, ReactiveFormsModule &#125; from '@angular/forms';
-import &#123; Book, BorrowerInfo &#125; from '../../../../shared/models/library.models';
+import &#123; Book, BorrowerInfo &#125; from '../../models/library.models';
 
 @Component(&#123;
   selector: 'app-loan-form',
@@ -1384,7 +1384,7 @@ export class LoanFormComponent &#123;
           <div class="solution-code">
             <h5>book-list.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, output, ChangeDetectionStrategy &#125; from '@angular/core';
-import &#123; Book &#125; from '../../../../shared/models/library.models';
+import &#123; Book &#125; from '../../models/library.models';
 import &#123; BookCardComponent &#125; from '../book-card/book-card';
 
 @Component(&#123;
@@ -1634,7 +1634,7 @@ export class BookListComponent &#123;
           <div class="solution-code">
             <h5>loan-stats.ts</h5>
             <pre ngNonBindable><code class="language-typescript">import &#123; Component, input, computed, ChangeDetectionStrategy &#125; from '@angular/core';
-import &#123; LoanStats &#125; from '../../../../shared/models/library.models';
+import &#123; LoanStats &#125; from '../../models/library.models';
 
 @Component(&#123;
   selector: 'app-loan-stats',
