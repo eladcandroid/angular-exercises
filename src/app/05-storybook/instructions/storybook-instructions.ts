@@ -12,6 +12,7 @@ declare const Prism: any;
 })
 export class StorybookInstructionsComponent implements AfterViewInit {
   // Signals for collapsible code sections
+  protected showBookModelsCode = signal(false);
   protected showBookCardCode = signal(false);
   protected showBookFilterCode = signal(false);
   protected showLoanFormCode = signal(false);
@@ -19,6 +20,15 @@ export class StorybookInstructionsComponent implements AfterViewInit {
   protected showLoanStatsCode = signal(false);
 
   // Toggle functions
+  protected toggleBookModelsCode(): void {
+    this.showBookModelsCode.update(v => !v);
+    setTimeout(() => {
+      if (typeof Prism !== 'undefined') {
+        Prism.highlightAll();
+      }
+    }, 0);
+  }
+
   protected toggleBookCardCode(): void {
     this.showBookCardCode.update(v => !v);
     setTimeout(() => {

@@ -80,6 +80,96 @@
       </div>
     </section>
 
+    <!-- Shared Models Section -->
+    <section class="section">
+      <h2>📦 מודלים משותפים</h2>
+      <p>כל הקומפוננטות משתמשות במודלים המוגדרים ב-<code>shared/models/library.models.ts</code></p>
+
+      <button class="collapse-toggle" (click)="toggleBookModelsCode()">
+        <span class="arrow" [class.expanded]="showBookModelsCode()">▼</span>
+        הצג/הסתר קוד המודלים
+      </button>
+
+      @if (showBookModelsCode()) {
+        <div class="solution-code">
+          <h5>shared/models/library.models.ts</h5>
+          <pre ngNonBindable><code class="language-typescript">/**
+ * Library app models for Storybook exercise module
+ * Models for books, loans, and library statistics
+ */
+
+export interface Book &#123;
+  id: number;
+  title: string;
+  author: string;
+  isbn: string;
+  category: BookCategory;
+  publishYear: number;
+  coverUrl?: string;
+  description?: string;
+  pages: number;
+  available: boolean;
+  rating?: number;
+&#125;
+
+export type BookCategory =
+  | 'מדע בדיוני'
+  | 'מתח'
+  | 'רומנטיקה'
+  | 'ביוגרפיה'
+  | 'היסטוריה'
+  | 'פנטזיה'
+  | 'מדע';
+
+export interface Loan &#123;
+  id: number;
+  book: Book;
+  borrower: string;
+  borrowerEmail: string;
+  borrowerPhone?: string;
+  borrowDate: Date;
+  dueDate: Date;
+  returnDate?: Date;
+  status: LoanStatus;
+&#125;
+
+export type LoanStatus = 'active' | 'overdue' | 'returned';
+
+export interface LoanStats &#123;
+  totalLoans: number;
+  activeLoans: number;
+  overdueLoans: number;
+  returnedLoans: number;
+  popularBooks: Book[];
+&#125;
+
+export interface BorrowerInfo &#123;
+  name: string;
+  email: string;
+  phone?: string;
+&#125;</code></pre>
+        </div>
+      }
+
+      <div class="info-card">
+        <h4>💡 כיצד להשתמש במודלים ב-Stories</h4>
+        <p>ייבאו את המודלים מ-<code>shared/models/library.models.ts</code> וצרו נתוני דמה:</p>
+        <pre ngNonBindable><code class="language-typescript">import &#123; Book &#125; from '../../../../shared/models/library.models';
+
+const sampleBook: Book = &#123;
+  id: 1,
+  title: 'הארי פוטר ואבן החכמים',
+  author: 'ג.ק. רולינג',
+  isbn: '978-0439708180',
+  category: 'פנטזיה',
+  publishYear: 1997,
+  pages: 309,
+  available: true,
+  rating: 4.8
+&#125;;</code></pre>
+      </div>
+    </section>
+
     <!-- Part A: Basic Stories -->
     <section class="section">
       <h2>חלק א': Stories בסיסיות ⭐</h2>
