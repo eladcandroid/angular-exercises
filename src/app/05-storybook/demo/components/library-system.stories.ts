@@ -37,7 +37,7 @@ export const CompleteLibrarySystem: Story = {
       onLoanRequested: fn(),
     },
     template: `
-      <div style="padding: 2rem; background: #f7fafc; min-height: 100vh;">
+      <div dir="rtl" style="padding: 2rem; background: #f7fafc; min-height: 100vh;">
         <h1 style="text-align: center; color: #2d3748; margin-bottom: 2rem;">
           📚 מערכת ניהול ספרייה
         </h1>
@@ -84,7 +84,7 @@ export const WithFiltersApplied: Story = {
       onLoanRequested: fn(),
     },
     template: `
-      <div style="padding: 2rem; background: #f7fafc; min-height: 100vh;">
+      <div dir="rtl" style="padding: 2rem; background: #f7fafc; min-height: 100vh;">
         <h1 style="text-align: center; color: #2d3748; margin-bottom: 2rem;">
           📚 מערכת ניהול ספרייה - סינון פעיל
         </h1>
@@ -134,7 +134,7 @@ export const EmptyLibraryState: Story = {
       onLoanRequested: fn(),
     },
     template: `
-      <div style="padding: 2rem; background: #f7fafc; min-height: 100vh;">
+      <div dir="rtl" style="padding: 2rem; background: #f7fafc; min-height: 100vh;">
         <h1 style="text-align: center; color: #2d3748; margin-bottom: 2rem;">
           📚 מערכת ניהול ספרייה - ריקה
         </h1>

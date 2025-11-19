@@ -9,6 +9,15 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (story) => {
+      const storyResult = story();
+      return {
+        ...storyResult,
+        template: `<div dir="rtl" style="padding: 1rem;">${storyResult.template || ''}</div>`,
+      };
+    },
+  ],
 };
 
 export default preview;
